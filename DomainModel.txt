@@ -1,0 +1,37 @@
+@startuml
+
+class sentences
+
+class responsabilities
+class scoopes
+class creations
+
+class action
+class object
+class objectName
+class verb
+class visibility
+
+class translation
+class plantUML
+
+sentences --> responsabilities
+sentences --> scoopes
+sentences --> creations
+
+creations --> action
+creations --> object
+creations --> objectName
+creations --> visibility
+
+responsabilities --> objectName
+responsabilities --> verb
+
+scoopes --> objectName
+scoopes --> verb
+scoopes --> visibility
+
+sentences --> translation
+translation --> plantUML
+
+@enduml
