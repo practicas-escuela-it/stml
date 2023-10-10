@@ -1,0 +1,28 @@
+class Car inherits Vehicle
+  attribute isStarted bool, sinTipo, conTipo tipo
+  method start (timer int, p2 string),
+         stop () : bool
+  composition Engine, Wheels
+  use Gas
+
+
+<diagram> ::= <class>*
+<class> ::= "class" <identifier> ["inherits" <identifier>] [<attributes>] [<methods>] [<compositions>] [<uses>]
+<identifier> ::= [a-z]+
+<attributes> ::= "attribute" <identifier> <identifier>
+<methods> ::= "method" <identifier> "(" [<identifier> <type> ["," <identifier> <type>]*] ")"
+<compositions> ::= "composition" <identifier> ["," <identifier>]*
+<uses> ::= "use" <identifier> ["," <identifier>]*
+<asociations> ::= "asociation" <identifier> ["," <identifier>]*
+
+type: "int" | "decimal" | "string" | "date" | "bool"
+identifier: [a-zA-Z_]+
+attribute: <identifier> <type>
+attributes: attribute <attribute> [, <attribute>]*
+parameter: <identifier>, <type>
+method: <identifier> "(" <parameter> ["," <parameter>]* ")"
+composition: "composition" <identifier> ["," <identifier>]*
+uses ::= "use" <identifier> ["," <identifier>]*
+asociations ::= "asociation" <identifier> ["," <identifier>]*
+class: "class" <identifier> ["inherits" <identifier>] [<attributes>] [<methods>] [<compositions>] [<uses>]
+diagram ::= <class>*

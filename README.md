@@ -16,7 +16,7 @@
 - Car is Vehicle (aplica herencia)
 - Car implements Startable (aplica implementación por interface)
 - Car has Seats (relación por agregación)
-- Car is asociated with Wheels 
+- Car is asociated with Wheels
 - Car uses MusicSource (relación por uso, por ej Pendrive, CD)
 - Car is composed of Engine (relación por composición)
   
