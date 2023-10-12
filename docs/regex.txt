@@ -9,7 +9,7 @@ class Car inherits Vehicle
 <diagram> ::= <class>*
 <class> ::= "class" <identifier> ["inherits" <identifier>] [<attributes>] [<methods>] [<compositions>] [<uses>]
 <identifier> ::= [a-z]+
-<attributes> ::= "attribute" <identifier> <identifier>
+<attributes> ::= "attribute" <identifier> <type> [ "," <identifier> <type>]*
 <methods> ::= "method" <identifier> "(" [<identifier> <type> ["," <identifier> <type>]*] ")"
 <compositions> ::= "composition" <identifier> ["," <identifier>]*
 <uses> ::= "use" <identifier> ["," <identifier>]*
