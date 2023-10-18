@@ -15,14 +15,14 @@ class Car inherits Vehicle
 <uses> ::= "use" <identifier> ["," <identifier>]*
 <asociations> ::= "asociation" <identifier> ["," <identifier>]*
 
-type: "int" | "decimal" | "string" | "date" | "bool"
-identifier: [a-zA-Z_]+
-attribute: <identifier> <type>
-attributes: attribute <attribute> [, <attribute>]*
-parameter: <identifier>, <type>
-method: <identifier> "(" <parameter> ["," <parameter>]* ")"
-composition: "composition" <identifier> ["," <identifier>]*
-uses ::= "use" <identifier> ["," <identifier>]*
-asociations ::= "asociation" <identifier> ["," <identifier>]*
-class: "class" <identifier> ["inherits" <identifier>] [<attributes>] [<methods>] [<compositions>] [<uses>]
-diagram ::= <class>*
+<diagram> ::= <class>*
+<class>: "class" <identifier> ["inherits" <identifier> {, <identifier>}*] [<attributes>] [<methods>] [<compositions>] [<uses>] [<asociations>]
+<attributes>: "attribute" <attribute> {, <attribute>}*
+<attribute>: <identifier> [<type>]
+<method>: <identifier> "(" [<parameter> {"," <parameter>}* ]")"
+<parameter>: <identifier> [<type>]
+<composition>: "composition" <identifier> {"," <identifier>}*
+<uses> ::= "use" <identifier> {"," <identifier>}*
+<asociations> ::= "asociation" <identifier> {"," <identifier>}*
+<type> ::= <identifier>
+<identifier> ::= [a-zA-Z_]+

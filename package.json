@@ -1,0 +1,26 @@
+{
+  "name": "stml",
+  "version": "1.0.0",
+  "description": "[# Referencia] https://es.wikipedia.org/wiki/Notaci%C3%B3n_de_Backus-Naur",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/practicas-escuela-it/stml.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/practicas-escuela-it/stml/issues"
+  },
+  "homepage": "https://github.com/practicas-escuela-it/stml#readme"
+}
