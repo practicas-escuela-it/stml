@@ -1,14 +1,30 @@
 class Analizer {
+
+    private attribute: Attribute;
+
+    constructor() {
+        this.attribute = new Attribute();
+    }
+    
     getAttribute(input: string) {
         let words = input.trim().split(' ');
-        return words.length == 2
-            && isIdentifier(words[0])
-            && isIdentifier(words[1]);
+       if  (words.length == 2
+            && this.isIdentifier(words[0])
+            && this.isIdentifier(words[1])) {
+
+          this.attribute.set(this.getIdentifier(words[0]), this.getIdentifier(words[1]));
+        }
     }
 
-    getIdentifier(identifier: string) {
-        isIdentifier = /^[a-zA-Z_]+\s*/.test(identifier.trim());
+    private isIdentifier(identifier: string) {
+       return /^[a-zA-Z_]+\s*/.test(identifier.trim());
+    }
 
-        return /^[a-zA-Z_]+\s*/.test(identifier.trim());
+    private getIdentifier(identifier: string): string  {        
+        let matches = /^[a-zA-Z_]+\s*/.exec(identifier.trim());        
+        if (matches != null) {
+            return matches[0];
+        }
+        return "";
     }
 }
