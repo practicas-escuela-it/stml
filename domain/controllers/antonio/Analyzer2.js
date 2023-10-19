@@ -2,36 +2,53 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Analyzer2 = void 0;
 var Attribute_1 = require("../../entities/Attribute");
+var Class_1 = require("../../entities/Class");
 var Analyzer2 = /** @class */ (function () {
     function Analyzer2(input) {
-        this.attributes = [];
+        this.classes = [];
         this.input = input;
         this.inputPointer = 0;
         this.clearSpaces();
     }
     Analyzer2.prototype.clearSpaces = function () {
         this.input = this.input.replace(/\s+/g, " ");
-        this.input = this.input.replace(/\s*,\s*/, ", ");
+        this.input = this.input.replace(/\s*,\s*/, ",");
     };
-    Analyzer2.prototype.analyzeAttributes = function () {
-        if (this.matchedAttributeWord()) {
-            do {
-                var attribute = new Attribute_1.Attribute();
-                attribute.set(this.matchIdentifier(), this.matchType());
-                this.attributes.push(attribute);
-            } while (this.hasMoreAttributes());
+    Analyzer2.prototype.getClasses = function () {
+        return this.classes;
+    };
+    Analyzer2.prototype.analyze = function () {
+        while (this.matchClassReservedWord()) {
+            this.analyzeClass();
         }
     };
-    Analyzer2.prototype.getAttributesNode = function () {
-        return this.attributes;
+    Analyzer2.prototype.analyzeClass = function () {
+        var _class = new Class_1.Class(this.getMatchedIdentifier());
+        this.classes.push(_class);
+        this.analyzeAttributes(_class);
     };
-    Analyzer2.prototype.matchedAttributeWord = function () {
-        var matchedWord = /^attribute\s+/.exec(this.input.substring(this.inputPointer));
+    Analyzer2.prototype.matchClassReservedWord = function () {
+        return this.matchWord(/\s*class\s+/);
+    };
+    Analyzer2.prototype.matchWord = function (expReg) {
+        var matchedWord = expReg.exec(this.input.substring(this.inputPointer));
         if (matchedWord != null)
             this.inputPointer += matchedWord[0].length;
         return matchedWord != null && matchedWord[0].length > 0;
     };
-    Analyzer2.prototype.matchIdentifier = function () {
+    Analyzer2.prototype.analyzeAttributes = function (_class) {
+        if (this.matchedAttributeReservedWord()) {
+            do {
+                var attribute = new Attribute_1.Attribute();
+                attribute.set(this.getMatchedIdentifier(), this.getMatchedType());
+                _class.addAttribute(attribute);
+            } while (this.hasMoreAttributes());
+        }
+    };
+    Analyzer2.prototype.matchedAttributeReservedWord = function () {
+        return this.matchWord(/attribute\s+/);
+    };
+    Analyzer2.prototype.getMatchedIdentifier = function () {
         var identifier = "";
         if (this.isIdentifier(this.input.substring(this.inputPointer))) {
             identifier = this.getIdentifier(this.input.substring(this.inputPointer));
@@ -39,8 +56,8 @@ var Analyzer2 = /** @class */ (function () {
         }
         return identifier;
     };
-    Analyzer2.prototype.matchType = function () {
-        return this.matchIdentifier();
+    Analyzer2.prototype.getMatchedType = function () {
+        return this.getMatchedIdentifier();
     };
     Analyzer2.prototype.isIdentifier = function (identifier) {
         return /^[a-zA-Z_]+\s*/.test(identifier.trim());
@@ -56,7 +73,7 @@ var Analyzer2 = /** @class */ (function () {
         this.inputPointer += _substring.length;
     };
     Analyzer2.prototype.hasMoreAttributes = function () {
-        var regExpComma = /,\s/;
+        var regExpComma = /^,/;
         var hasMoreAttr = regExpComma.test(this.input.substring(this.inputPointer));
         var matchedWord = regExpComma.exec(this.input.substring(this.inputPointer));
         if (hasMoreAttr && matchedWord != null)
@@ -66,8 +83,9 @@ var Analyzer2 = /** @class */ (function () {
     return Analyzer2;
 }());
 exports.Analyzer2 = Analyzer2;
-var analyzer = new Analyzer2("attribute wheel decimal ,    door \
-   int,  brake int ");
+var analyzer = new Analyzer2(" class Car attribute isStarted bool,    \
+             sinTipo , conTipo tipo     class Engine \
+                 attribute piece, bujia  ");
 //let analyzer: Analyzer2 = new Analyzer2("attribute wheel decimal ,    ,brake int ");
-analyzer.analyzeAttributes();
-console.log(analyzer.getAttributesNode());
+analyzer.analyze();
+console.log(JSON.stringify(analyzer.getClasses()));

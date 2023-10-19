@@ -4,7 +4,7 @@ import { Composition } from "./Composition";
 import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 
-export class Class {
+export class Class {   
     private _identifier: Identifier;
     private _inherists: Identifier[];
     private _attributes: Attribute[];
@@ -33,5 +33,9 @@ export class Class {
 
     get getAttributes(): Attribute[] {
         return this._attributes;
+    }
+
+    addAttribute(attribute: Attribute) {
+        this._attributes.push(attribute);
     }
 }

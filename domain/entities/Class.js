@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Class = void 0;
-const Identifier_1 = require("./Identifier");
-class Class {
-    constructor(name) {
+var Identifier_1 = require("./Identifier");
+var Class = /** @class */ (function () {
+    function Class(name) {
         this._identifier = new Identifier_1.Identifier(name);
         this._inherists = [];
         this._attributes = [];
@@ -12,14 +12,30 @@ class Class {
         this._uses = [];
         this._asociations = [];
     }
-    get getIdentifier() {
-        return this._identifier;
-    }
-    get getInherits() {
-        return this._inherists;
-    }
-    get getAttributes() {
-        return this._attributes;
-    }
-}
+    Object.defineProperty(Class.prototype, "getIdentifier", {
+        get: function () {
+            return this._identifier;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Class.prototype, "getInherits", {
+        get: function () {
+            return this._inherists;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Class.prototype, "getAttributes", {
+        get: function () {
+            return this._attributes;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Class.prototype.addAttribute = function (attribute) {
+        this._attributes.push(attribute);
+    };
+    return Class;
+}());
 exports.Class = Class;
