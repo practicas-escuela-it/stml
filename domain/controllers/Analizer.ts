@@ -1,3 +1,5 @@
+import { Attribute } from "../entities/Attribute";
+
 class Analizer {
 
     private attributes: Attribute[];    
