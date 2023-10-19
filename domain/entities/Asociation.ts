@@ -1,4 +1,6 @@
-class Asociation {
+import { Identifier } from "./Identifier";
+
+export class Asociation {
     private _identifiers: Identifier[];
 
     constructor() {

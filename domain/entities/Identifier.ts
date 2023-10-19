@@ -1,4 +1,4 @@
-class Identifier {
+export class Identifier {
     private _value: string;
 
     constructor(value: string) {

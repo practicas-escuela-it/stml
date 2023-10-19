@@ -1,4 +1,10 @@
-class Class {
+import { Asociation } from "./Asociation";
+import { Attribute } from "./Attribute";
+import { Composition } from "./Composition";
+import { Identifier } from "./Identifier";
+import { Method } from "./Method";
+
+export class Class {
     private _identifier: Identifier;
     private _inherists: Identifier[];
     private _attributes: Attribute[];

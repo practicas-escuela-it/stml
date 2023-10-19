@@ -1,4 +1,6 @@
-class Attribute {
+import { Identifier } from "./Identifier";
+
+export class Attribute {
     private _identifier: Identifier;
     private _type: Identifier;
 

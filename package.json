@@ -11,6 +11,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
+    "start-antonio": "tsc domain/controllers/antonio/Analyzer2.ts & node domain/controllers/antonio/Analyzer2.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
