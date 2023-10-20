@@ -13,6 +13,7 @@ var Analyzer2 = /** @class */ (function () {
     Analyzer2.prototype.clearSpaces = function () {
         this.input = this.input.replace(/\s+/g, " ");
         this.input = this.input.replace(/\s*,\s*/, ",");
+        console.log(this.input);
     };
     Analyzer2.prototype.getClasses = function () {
         return this.classes;
@@ -59,6 +60,15 @@ var Analyzer2 = /** @class */ (function () {
     Analyzer2.prototype.getMatchedType = function () {
         return this.getMatchedIdentifier();
     };
+    Analyzer2.prototype.isReservedWord = function () {
+        return this.isClassReservedWord() || this.isAttributeReservedWord();
+    };
+    Analyzer2.prototype.isClassReservedWord = function () {
+        return /\s*class\s+/.test(this.input.substring(this.inputPointer));
+    };
+    Analyzer2.prototype.isAttributeReservedWord = function () {
+        return /attribute\s+/.test(this.input.substring(this.inputPointer));
+    };
     Analyzer2.prototype.isIdentifier = function (identifier) {
         return /^[a-zA-Z_]+\s*/.test(identifier.trim());
     };
@@ -84,8 +94,12 @@ var Analyzer2 = /** @class */ (function () {
 }());
 exports.Analyzer2 = Analyzer2;
 var analyzer = new Analyzer2(" class Car attribute isStarted bool,    \
-             sinTipo , conTipo tipo     class Engine \
-                 attribute piece, bujia  ");
+             tipo int,    conTipo real   \
+             class Engine \
+                 attribute piece real, bujia int \
+             class Gas  \
+                  attribute price real, amount real \
+                  ");
 //let analyzer: Analyzer2 = new Analyzer2("attribute wheel decimal ,    ,brake int ");
 analyzer.analyze();
 console.log(JSON.stringify(analyzer.getClasses()));

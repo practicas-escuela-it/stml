@@ -17,6 +17,7 @@ export class Analyzer2 {
     private clearSpaces() {
         this.input = this.input.replace(/\s+/g, " ");
         this.input = this.input.replace(/\s*,\s*/, ",");
+        console.log(this.input);
     }
 
     getClasses(): Class[] {
@@ -70,8 +71,21 @@ export class Analyzer2 {
     }
 
     private getMatchedType(): string {
-        return this.getMatchedIdentifier();
+      
+        return this.getMatchedIdentifier();       
     }
+
+    private isReservedWord(): boolean {
+        return this.isClassReservedWord() || this.isAttributeReservedWord();
+    }
+
+    private isClassReservedWord(): boolean {
+        return /\s*class\s+/.test(this.input.substring(this.inputPointer));
+    }
+
+    private isAttributeReservedWord(): boolean {
+        return /attribute\s+/.test(this.input.substring(this.inputPointer));
+    }   
 
     private isIdentifier(identifier: string): boolean {
         return /^[a-zA-Z_]+\s*/.test(identifier.trim());
@@ -100,8 +114,12 @@ export class Analyzer2 {
 }
 
 let analyzer: Analyzer2 = new Analyzer2(" class Car attribute isStarted bool,    \
-             sinTipo , conTipo tipo     class Engine \
-                 attribute piece, bujia  ");
+             tipo int,    conTipo real   \
+             class Engine \
+                 attribute piece real, bujia int \
+             class Gas  \
+                  attribute price real, amount real \
+                  ");
 
 //let analyzer: Analyzer2 = new Analyzer2("attribute wheel decimal ,    ,brake int ");
 
