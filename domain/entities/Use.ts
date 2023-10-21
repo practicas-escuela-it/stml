@@ -1,4 +1,6 @@
-class Use {
+import { Identifier } from "./Identifier";
+
+export class Use {
     private _identifiers: Identifier[];
 
     constructor() {

@@ -3,8 +3,10 @@ import { Attribute } from "./Attribute";
 import { Composition } from "./Composition";
 import { Identifier } from "./Identifier";
 import { Method } from "./Method";
+import { Use } from "./Use";
 
-export class Class {   
+export class Class {
+    
     private _identifier: Identifier;
     private _inherists: Identifier[];
     private _attributes: Attribute[];
@@ -38,4 +40,8 @@ export class Class {
     addAttribute(attribute: Attribute) {
         this._attributes.push(attribute);
     }
+
+    addIdentifierInherit(identifer: Identifier) {
+       this._inherists.push(identifer);
+    }  
 }

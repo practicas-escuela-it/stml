@@ -36,6 +36,9 @@ var Class = /** @class */ (function () {
     Class.prototype.addAttribute = function (attribute) {
         this._attributes.push(attribute);
     };
+    Class.prototype.addIdentifierInherit = function (identifer) {
+        this._inherists.push(identifer);
+    };
     return Class;
 }());
 exports.Class = Class;

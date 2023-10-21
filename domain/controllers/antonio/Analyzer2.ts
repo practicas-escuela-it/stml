@@ -1,5 +1,6 @@
 import { Attribute } from "../../entities/Attribute";
 import { Class } from "../../entities/Class";
+import { Identifier } from "../../entities/Identifier";
 
 export class Analyzer2 {
 
@@ -33,6 +34,7 @@ export class Analyzer2 {
     private analyzeClass(): void {
         let _class = new Class(this.getMatchedIdentifier());
         this.classes.push(_class);
+        this.analyzeInherit(_class);
         this.analyzeAttributes(_class);
     }
 
@@ -47,13 +49,26 @@ export class Analyzer2 {
         return matchedWord != null && matchedWord[0].length > 0;
     }
 
+    private analyzeInherit(_class: Class) {
+        if (this.matchInheritReservedWord()) {
+           do {
+            let identifier: Identifier = new Identifier(this.getMatchedIdentifier());
+            _class.addIdentifierInherit(identifier);
+           } while (this.hasMoreIdentifiers())
+        }
+    }
+    
+    private matchInheritReservedWord(): boolean {
+       return this.matchWord(/inherit\s+/);
+    }
+
     private analyzeAttributes(_class: Class) {
         if (this.matchedAttributeReservedWord()) {
             do {
                 let attribute: Attribute = new Attribute();
                 attribute.set(this.getMatchedIdentifier(), this.getMatchedType());
                 _class.addAttribute(attribute);
-            } while (this.hasMoreAttributes());
+            } while (this.hasMoreIdentifiers());
         }
     }
 
@@ -70,8 +85,7 @@ export class Analyzer2 {
         return identifier;
     }
 
-    private getMatchedType(): string {
-      
+    private getMatchedType(): string {      
         return this.getMatchedIdentifier();       
     }
 
@@ -103,7 +117,7 @@ export class Analyzer2 {
         this.inputPointer += _substring.length;
     }
 
-    private hasMoreAttributes(): boolean {
+    private hasMoreIdentifiers(): boolean {
         let regExpComma = /^,/;
         let hasMoreAttr = regExpComma.test(this.input.substring(this.inputPointer));
         let matchedWord = regExpComma.exec(this.input.substring(this.inputPointer));        

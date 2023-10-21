@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Analyzer2 = void 0;
 var Attribute_1 = require("../../entities/Attribute");
 var Class_1 = require("../../entities/Class");
+var Identifier_1 = require("../../entities/Identifier");
 var Analyzer2 = /** @class */ (function () {
     function Analyzer2(input) {
         this.classes = [];
@@ -26,6 +27,7 @@ var Analyzer2 = /** @class */ (function () {
     Analyzer2.prototype.analyzeClass = function () {
         var _class = new Class_1.Class(this.getMatchedIdentifier());
         this.classes.push(_class);
+        this.analyzeInherit(_class);
         this.analyzeAttributes(_class);
     };
     Analyzer2.prototype.matchClassReservedWord = function () {
@@ -37,13 +39,24 @@ var Analyzer2 = /** @class */ (function () {
             this.inputPointer += matchedWord[0].length;
         return matchedWord != null && matchedWord[0].length > 0;
     };
+    Analyzer2.prototype.analyzeInherit = function (_class) {
+        if (this.matchInheritReservedWord()) {
+            do {
+                var identifier = new Identifier_1.Identifier(this.getMatchedIdentifier());
+                _class.addIdentifierInherit(identifier);
+            } while (this.hasMoreIdentifiers());
+        }
+    };
+    Analyzer2.prototype.matchInheritReservedWord = function () {
+        return this.matchWord(/inherit\s+/);
+    };
     Analyzer2.prototype.analyzeAttributes = function (_class) {
         if (this.matchedAttributeReservedWord()) {
             do {
                 var attribute = new Attribute_1.Attribute();
                 attribute.set(this.getMatchedIdentifier(), this.getMatchedType());
                 _class.addAttribute(attribute);
-            } while (this.hasMoreAttributes());
+            } while (this.hasMoreIdentifiers());
         }
     };
     Analyzer2.prototype.matchedAttributeReservedWord = function () {
@@ -82,7 +95,7 @@ var Analyzer2 = /** @class */ (function () {
     Analyzer2.prototype.advanceInputPointer = function (_substring) {
         this.inputPointer += _substring.length;
     };
-    Analyzer2.prototype.hasMoreAttributes = function () {
+    Analyzer2.prototype.hasMoreIdentifiers = function () {
         var regExpComma = /^,/;
         var hasMoreAttr = regExpComma.test(this.input.substring(this.inputPointer));
         var matchedWord = regExpComma.exec(this.input.substring(this.inputPointer));
