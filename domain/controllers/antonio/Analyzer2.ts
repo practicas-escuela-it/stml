@@ -1,6 +1,9 @@
 import { Attribute } from "../../entities/Attribute";
 import { Class } from "../../entities/Class";
+import { Composition } from "../../entities/Composition";
 import { Identifier } from "../../entities/Identifier";
+import { Method } from "../../entities/Method";
+import { Parameter } from "../../entities/Parameter";
 
 export class Analyzer2 {
 
@@ -16,8 +19,10 @@ export class Analyzer2 {
     }
 
     private clearSpaces() {
-        this.input = this.input.replace(/\s+/g, " ");
-        this.input = this.input.replace(/\s*,\s*/, ",");
+        this.input = this.input.replace(/\s+/g, " ");        
+        this.input = this.input.replace(/\s*\(\s*/g, "(");
+        this.input = this.input.replace(/\s*\)\s*/g, ") ");
+        this.input = this.input.replace(/\s*,\s*/g, ",");
         console.log(this.input);
     }
 
@@ -36,6 +41,7 @@ export class Analyzer2 {
         this.classes.push(_class);
         this.analyzeInherit(_class);
         this.analyzeAttributes(_class);
+        this.analyzeMethods(_class);
     }
 
     private matchClassReservedWord(): boolean {
@@ -125,10 +131,49 @@ export class Analyzer2 {
             this.inputPointer += matchedWord[0].length;        
         return hasMoreAttr;
     }
+
+    private analyzeMethods(_class: Class) {
+        while (this.matchedMethodReservedWord()) {
+            do {
+                let method: Method = new Method();
+                method.setIdentifier(this.getMatchedIdentifier());
+                this.getMethodParams(method);
+                _class.addMethod(method);
+            } while (this.hasMoreIdentifiers());
+        }
+    }
+
+    private matchedMethodReservedWord(): boolean {
+        return this.matchWord(/method\s+/);
+    }
+
+    getMethodParams(method: Method) {
+       this.matchWord(/\(\s*/);
+       do {                       
+          method.addParameter(this.getMatchedIdentifier(), this.getMatchedType());                       
+       } while (this.hasMoreIdentifiers());       
+       this.matchWord(/\s*\)\s+/);
+    }
+
+    private analyzeCompositions(_class: Class) {
+        while (this.matchedCompositionReservedWord()) {
+            let composition: Composition = new Composition();
+            do {              
+               composition.addIdentifier(this.getMatchedIdentifier());
+            } while (this.hasMoreIdentifiers());
+            _class.addComposition(composition);
+        }
+    }
+    
+    private matchedCompositionReservedWord(): boolean {
+        return this.matchWord(/composition\s+/);
+    }
 }
 
 let analyzer: Analyzer2 = new Analyzer2(" class Car inherits Vehicle attribute isStarted bool,    \
              tipo int,    conTipo real   \
+             method run (velocity real, aceleration ) \
+             method stop() \
              class Engine \
                  attribute piece real, bujia int \
              class Gas  \

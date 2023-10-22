@@ -7,6 +7,10 @@ var Parameter = /** @class */ (function () {
         this._identifier = new Identifier_1.Identifier("");
         this._type = new Identifier_1.Identifier("");
     }
+    Parameter.prototype.set = function (identifier, type) {
+        this._identifier = new Identifier_1.Identifier(identifier);
+        this._type = new Identifier_1.Identifier(type);
+    };
     return Parameter;
 }());
 exports.Parameter = Parameter;

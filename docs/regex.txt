@@ -19,7 +19,7 @@ class Car inherits Vehicle
 <class>: "class" <identifier> ["inherits" <identifier> {, <identifier>}*] [<attributes>] [<methods>] [<compositions>] [<uses>] [<asociations>]
 <attributes>: "attribute" <attribute> {, <attribute>}*
 <attribute>: <identifier> [<type>]
-<method>: <identifier> "(" [<parameter> {"," <parameter>}* ]")"
+<method>: "method" <identifier> "(" [<parameter> {"," <parameter>}* ]")"
 <parameter>: <identifier> [<type>]
 <composition>: "composition" <identifier> {"," <identifier>}*
 <uses> ::= "use" <identifier> {"," <identifier>}*

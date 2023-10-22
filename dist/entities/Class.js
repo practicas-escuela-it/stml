@@ -39,6 +39,9 @@ var Class = /** @class */ (function () {
     Class.prototype.addIdentifierInherit = function (identifer) {
         this._inherists.push(identifer);
     };
+    Class.prototype.addMethod = function (method) {
+        this._methods.push(method);
+    };
     return Class;
 }());
 exports.Class = Class;

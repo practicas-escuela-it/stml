@@ -4,6 +4,7 @@ exports.Analyzer2 = void 0;
 var Attribute_1 = require("../../entities/Attribute");
 var Class_1 = require("../../entities/Class");
 var Identifier_1 = require("../../entities/Identifier");
+var Method_1 = require("../../entities/Method");
 var Analyzer2 = /** @class */ (function () {
     function Analyzer2(input) {
         this.classes = [];
@@ -13,7 +14,9 @@ var Analyzer2 = /** @class */ (function () {
     }
     Analyzer2.prototype.clearSpaces = function () {
         this.input = this.input.replace(/\s+/g, " ");
-        this.input = this.input.replace(/\s*,\s*/, ",");
+        this.input = this.input.replace(/\s*\(\s*/g, "(");
+        this.input = this.input.replace(/\s*\)\s*/g, ") ");
+        this.input = this.input.replace(/\s*,\s*/g, ",");
         console.log(this.input);
     };
     Analyzer2.prototype.getClasses = function () {
@@ -29,6 +32,7 @@ var Analyzer2 = /** @class */ (function () {
         this.classes.push(_class);
         this.analyzeInherit(_class);
         this.analyzeAttributes(_class);
+        this.analyzeMethods(_class);
     };
     Analyzer2.prototype.matchClassReservedWord = function () {
         return this.matchWord(/\s*class\s+/);
@@ -103,11 +107,33 @@ var Analyzer2 = /** @class */ (function () {
             this.inputPointer += matchedWord[0].length;
         return hasMoreAttr;
     };
+    Analyzer2.prototype.analyzeMethods = function (_class) {
+        while (this.matchedMethodReservedWord()) {
+            do {
+                var method = new Method_1.Method();
+                method.setIdentifier(this.getMatchedIdentifier());
+                this.getMethodParams(method);
+                _class.addMethod(method);
+            } while (this.hasMoreIdentifiers());
+        }
+    };
+    Analyzer2.prototype.matchedMethodReservedWord = function () {
+        return this.matchWord(/method\s+/);
+    };
+    Analyzer2.prototype.getMethodParams = function (method) {
+        this.matchWord(/\(\s*/);
+        do {
+            method.addParameter(this.getMatchedIdentifier(), this.getMatchedType());
+        } while (this.hasMoreIdentifiers());
+        this.matchWord(/\s*\)\s+/);
+    };
     return Analyzer2;
 }());
 exports.Analyzer2 = Analyzer2;
 var analyzer = new Analyzer2(" class Car inherits Vehicle attribute isStarted bool,    \
              tipo int,    conTipo real   \
+             method run (velocity real, aceleration ) \
+             method stop() \
              class Engine \
                  attribute piece real, bujia int \
              class Gas  \

@@ -5,7 +5,7 @@ import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
 
-export class Class {
+export class Class {       
     
     private _identifier: Identifier;
     private _inherists: Identifier[];
@@ -44,4 +44,12 @@ export class Class {
     addIdentifierInherit(identifer: Identifier) {
        this._inherists.push(identifer);
     }  
+
+    addMethod(method: Method) {
+        this._methods.push(method);
+    }
+
+    addComposition(composition: Composition) {
+        this._compositions.push(composition);
+    }
 }
