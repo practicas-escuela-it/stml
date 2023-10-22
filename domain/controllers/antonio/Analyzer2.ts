@@ -59,7 +59,7 @@ export class Analyzer2 {
     }
     
     private matchInheritReservedWord(): boolean {
-       return this.matchWord(/inherit\s+/);
+       return this.matchWord(/inherits\s+/);
     }
 
     private analyzeAttributes(_class: Class) {
@@ -127,7 +127,7 @@ export class Analyzer2 {
     }
 }
 
-let analyzer: Analyzer2 = new Analyzer2(" class Car attribute isStarted bool,    \
+let analyzer: Analyzer2 = new Analyzer2(" class Car inherits Vehicle attribute isStarted bool,    \
              tipo int,    conTipo real   \
              class Engine \
                  attribute piece real, bujia int \

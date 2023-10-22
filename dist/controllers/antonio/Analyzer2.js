@@ -48,7 +48,7 @@ var Analyzer2 = /** @class */ (function () {
         }
     };
     Analyzer2.prototype.matchInheritReservedWord = function () {
-        return this.matchWord(/inherit\s+/);
+        return this.matchWord(/inherits\s+/);
     };
     Analyzer2.prototype.analyzeAttributes = function (_class) {
         if (this.matchedAttributeReservedWord()) {
@@ -106,7 +106,7 @@ var Analyzer2 = /** @class */ (function () {
     return Analyzer2;
 }());
 exports.Analyzer2 = Analyzer2;
-var analyzer = new Analyzer2(" class Car attribute isStarted bool,    \
+var analyzer = new Analyzer2(" class Car inherits Vehicle attribute isStarted bool,    \
              tipo int,    conTipo real   \
              class Engine \
                  attribute piece real, bujia int \
