@@ -1,11 +1,11 @@
-import { Association } from "../../entities/Asociation";
-import { Attribute } from "../../entities/Attribute";
-import { Class } from "../../entities/Class";
-import { Composition } from "../../entities/Composition";
-import { Identifier } from "../../entities/Identifier";
-import { Method } from "../../entities/Method";
-import { Parameter } from "../../entities/Parameter";
-import { Use } from "../../entities/Use";
+import  *  as fs from "fs";
+import { Association } from "./Asociation";
+import { Attribute } from "./Attribute";
+import { Class } from "./Class";
+import { Composition } from "./Composition";
+import { Identifier } from "./Identifier";
+import { Method } from "./Method";
+import { Use } from "./Use";
 
 export class Analyzer2 {
 
@@ -202,25 +202,3 @@ export class Analyzer2 {
         return this.matchWord(/^association\s+/)
     }
 }
-
-let analyzer: Analyzer2 = new Analyzer2(" class Car inherits Vehicle attribute isStarted bool,    \
-             tipo int,    conTipo real   \
-             method run (velocity real, aceleration ) \
-             method stop() \
-             composition Door, Roof \
-             use Cylinder, Injector \
-             association Batery, Panel \
-             class Engine \
-                 attribute piece real, bujia int \
-                 composition DistributionRun, OilFilter \
-                 use Piston \
-                 association Batery \
-             class Gas  \
-                  attribute price real, amount real \
-                  ");
-
-//let analyzer: Analyzer2 = new Analyzer2("attribute wheel decimal ,    ,brake int ");
-
-analyzer.analyze();
-console.log(JSON.stringify(analyzer.getClasses()));
-

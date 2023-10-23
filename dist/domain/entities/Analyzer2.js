@@ -1,14 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Analyzer2 = void 0;
-var fs = require("fs");
-var Asociation_1 = require("../../entities/Asociation");
-var Attribute_1 = require("../../entities/Attribute");
-var Class_1 = require("../../entities/Class");
-var Composition_1 = require("../../entities/Composition");
-var Identifier_1 = require("../../entities/Identifier");
-var Method_1 = require("../../entities/Method");
-var Use_1 = require("../../entities/Use");
+var Asociation_1 = require("./Asociation");
+var Attribute_1 = require("./Attribute");
+var Class_1 = require("./Class");
+var Composition_1 = require("./Composition");
+var Identifier_1 = require("./Identifier");
+var Method_1 = require("./Method");
+var Use_1 = require("./Use");
 var Analyzer2 = /** @class */ (function () {
     function Analyzer2(input) {
         this.classes = [];
@@ -173,9 +172,3 @@ var Analyzer2 = /** @class */ (function () {
     return Analyzer2;
 }());
 exports.Analyzer2 = Analyzer2;
-var fileContent = fs.readFileSync("domain/controllers/antonio/ejem1.txt", "utf8");
-console.log(fileContent);
-var analyzer = new Analyzer2(fileContent);
-analyzer.analyze();
-console.log(JSON.stringify(analyzer.getClasses()));
-fs.writeFileSync("domain/controllers/antonio/ejem1_output.txt", JSON.stringify(analyzer.getClasses()));

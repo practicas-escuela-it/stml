@@ -6,12 +6,12 @@
   "directories": {
     "doc": "docs"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^20.8.7",
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "start-antonio": "tsc domain/controllers/antonio/Analyzer2.ts --outDir dist & node dist/controllers/antonio/Analyzer2.js",
+    "start-antonio": "tsc index.ts --outDir dist & node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
