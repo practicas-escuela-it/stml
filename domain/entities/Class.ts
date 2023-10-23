@@ -1,11 +1,11 @@
-import { Asociation } from "./Asociation";
+import { Association } from "./Asociation";
 import { Attribute } from "./Attribute";
 import { Composition } from "./Composition";
 import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
 
-export class Class {       
+export class Class {             
     
     private _identifier: Identifier;
     private _inherists: Identifier[];
@@ -13,7 +13,7 @@ export class Class {
     private _methods: Method[];
     private _compositions: Composition[];
     private _uses: Use[];
-    private _asociations: Asociation[];
+    private _associations: Association[];
 
     constructor(name: string) {
         this._identifier = new Identifier(name);
@@ -22,7 +22,7 @@ export class Class {
         this._methods = [];
         this._compositions = [];
         this._uses = [];
-        this._asociations = [];
+        this._associations = [];
     }
 
     get getIdentifier(): Identifier {
@@ -52,4 +52,12 @@ export class Class {
     addComposition(composition: Composition) {
         this._compositions.push(composition);
     }
+
+    addUse(use: Use) {
+       this._uses.push(use);
+    } 
+
+    addAsociation(association: Association) {
+        this._associations.push(association);
+    } 
 }

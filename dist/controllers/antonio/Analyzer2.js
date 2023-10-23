@@ -1,10 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Analyzer2 = void 0;
+var Asociation_1 = require("../../entities/Asociation");
 var Attribute_1 = require("../../entities/Attribute");
 var Class_1 = require("../../entities/Class");
+var Composition_1 = require("../../entities/Composition");
 var Identifier_1 = require("../../entities/Identifier");
 var Method_1 = require("../../entities/Method");
+var Use_1 = require("../../entities/Use");
 var Analyzer2 = /** @class */ (function () {
     function Analyzer2(input) {
         this.classes = [];
@@ -33,6 +36,9 @@ var Analyzer2 = /** @class */ (function () {
         this.analyzeInherit(_class);
         this.analyzeAttributes(_class);
         this.analyzeMethods(_class);
+        this.analyzeCompositions(_class);
+        this.analyzeUses(_class);
+        this.analyzeAssociations(_class);
     };
     Analyzer2.prototype.matchClassReservedWord = function () {
         return this.matchWord(/\s*class\s+/);
@@ -118,7 +124,7 @@ var Analyzer2 = /** @class */ (function () {
         }
     };
     Analyzer2.prototype.matchedMethodReservedWord = function () {
-        return this.matchWord(/method\s+/);
+        return this.matchWord(/^method\s+/);
     };
     Analyzer2.prototype.getMethodParams = function (method) {
         this.matchWord(/\(\s*/);
@@ -127,6 +133,42 @@ var Analyzer2 = /** @class */ (function () {
         } while (this.hasMoreIdentifiers());
         this.matchWord(/\s*\)\s+/);
     };
+    Analyzer2.prototype.analyzeCompositions = function (_class) {
+        if (this.matchedCompositionReservedWord()) {
+            var composition = new Composition_1.Composition();
+            do {
+                composition.addIdentifier(this.getMatchedIdentifier());
+            } while (this.hasMoreIdentifiers());
+            _class.addComposition(composition);
+        }
+    };
+    Analyzer2.prototype.matchedCompositionReservedWord = function () {
+        return this.matchWord(/^composition\s+/);
+    };
+    Analyzer2.prototype.analyzeUses = function (_class) {
+        if (this.matchedUseReservedWord()) {
+            var use = new Use_1.Use();
+            do {
+                use.addIdentifier(this.getMatchedIdentifier());
+            } while (this.hasMoreIdentifiers());
+            _class.addUse(use);
+        }
+    };
+    Analyzer2.prototype.matchedUseReservedWord = function () {
+        return this.matchWord(/^use\s+/);
+    };
+    Analyzer2.prototype.analyzeAssociations = function (_class) {
+        if (this.matchedAssociationsReservedWord()) {
+            var asociation = new Asociation_1.Association();
+            do {
+                asociation.addIdentifier(this.getMatchedIdentifier());
+            } while (this.hasMoreIdentifiers());
+            _class.addAsociation(asociation);
+        }
+    };
+    Analyzer2.prototype.matchedAssociationsReservedWord = function () {
+        return this.matchWord(/^association\s+/);
+    };
     return Analyzer2;
 }());
 exports.Analyzer2 = Analyzer2;
@@ -134,8 +176,14 @@ var analyzer = new Analyzer2(" class Car inherits Vehicle attribute isStarted bo
              tipo int,    conTipo real   \
              method run (velocity real, aceleration ) \
              method stop() \
+             composition Door, Roof \
+             use Cylinder, Injector \
+             association Batery, Panel \
              class Engine \
                  attribute piece real, bujia int \
+                 composition DistributionRun, OilFilter \
+                 use Piston \
+                 association Batery \
              class Gas  \
                   attribute price real, amount real \
                   ");

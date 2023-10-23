@@ -10,7 +10,7 @@ var Class = /** @class */ (function () {
         this._methods = [];
         this._compositions = [];
         this._uses = [];
-        this._asociations = [];
+        this._associations = [];
     }
     Object.defineProperty(Class.prototype, "getIdentifier", {
         get: function () {
@@ -41,6 +41,15 @@ var Class = /** @class */ (function () {
     };
     Class.prototype.addMethod = function (method) {
         this._methods.push(method);
+    };
+    Class.prototype.addComposition = function (composition) {
+        this._compositions.push(composition);
+    };
+    Class.prototype.addUse = function (use) {
+        this._uses.push(use);
+    };
+    Class.prototype.addAsociation = function (association) {
+        this._associations.push(association);
     };
     return Class;
 }());

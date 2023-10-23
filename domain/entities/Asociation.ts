@@ -1,9 +1,14 @@
 import { Identifier } from "./Identifier";
 
-export class Asociation {
+export class Association {
+   
     private _identifiers: Identifier[];
 
     constructor() {
         this._identifiers = [];
+    }
+
+    addIdentifier(identifier: string) {
+        this._identifiers.push(new Identifier(identifier));
     }
 }

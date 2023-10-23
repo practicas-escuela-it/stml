@@ -1,9 +1,11 @@
+import { Association } from "../../entities/Asociation";
 import { Attribute } from "../../entities/Attribute";
 import { Class } from "../../entities/Class";
 import { Composition } from "../../entities/Composition";
 import { Identifier } from "../../entities/Identifier";
 import { Method } from "../../entities/Method";
 import { Parameter } from "../../entities/Parameter";
+import { Use } from "../../entities/Use";
 
 export class Analyzer2 {
 
@@ -19,7 +21,7 @@ export class Analyzer2 {
     }
 
     private clearSpaces() {
-        this.input = this.input.replace(/\s+/g, " ");        
+        this.input = this.input.replace(/\s+/g, " ");
         this.input = this.input.replace(/\s*\(\s*/g, "(");
         this.input = this.input.replace(/\s*\)\s*/g, ") ");
         this.input = this.input.replace(/\s*,\s*/g, ",");
@@ -42,6 +44,9 @@ export class Analyzer2 {
         this.analyzeInherit(_class);
         this.analyzeAttributes(_class);
         this.analyzeMethods(_class);
+        this.analyzeCompositions(_class);
+        this.analyzeUses(_class);
+        this.analyzeAssociations(_class);
     }
 
     private matchClassReservedWord(): boolean {
@@ -57,15 +62,15 @@ export class Analyzer2 {
 
     private analyzeInherit(_class: Class) {
         if (this.matchInheritReservedWord()) {
-           do {
-            let identifier: Identifier = new Identifier(this.getMatchedIdentifier());
-            _class.addIdentifierInherit(identifier);
-           } while (this.hasMoreIdentifiers())
+            do {
+                let identifier: Identifier = new Identifier(this.getMatchedIdentifier());
+                _class.addIdentifierInherit(identifier);
+            } while (this.hasMoreIdentifiers())
         }
     }
-    
+
     private matchInheritReservedWord(): boolean {
-       return this.matchWord(/inherits\s+/);
+        return this.matchWord(/inherits\s+/);
     }
 
     private analyzeAttributes(_class: Class) {
@@ -91,8 +96,8 @@ export class Analyzer2 {
         return identifier;
     }
 
-    private getMatchedType(): string {      
-        return this.getMatchedIdentifier();       
+    private getMatchedType(): string {
+        return this.getMatchedIdentifier();
     }
 
     private isReservedWord(): boolean {
@@ -105,7 +110,7 @@ export class Analyzer2 {
 
     private isAttributeReservedWord(): boolean {
         return /attribute\s+/.test(this.input.substring(this.inputPointer));
-    }   
+    }
 
     private isIdentifier(identifier: string): boolean {
         return /^[a-zA-Z_]+\s*/.test(identifier.trim());
@@ -126,9 +131,9 @@ export class Analyzer2 {
     private hasMoreIdentifiers(): boolean {
         let regExpComma = /^,/;
         let hasMoreAttr = regExpComma.test(this.input.substring(this.inputPointer));
-        let matchedWord = regExpComma.exec(this.input.substring(this.inputPointer));        
+        let matchedWord = regExpComma.exec(this.input.substring(this.inputPointer));
         if (hasMoreAttr && matchedWord != null)
-            this.inputPointer += matchedWord[0].length;        
+            this.inputPointer += matchedWord[0].length;
         return hasMoreAttr;
     }
 
@@ -144,29 +149,57 @@ export class Analyzer2 {
     }
 
     private matchedMethodReservedWord(): boolean {
-        return this.matchWord(/method\s+/);
+        return this.matchWord(/^method\s+/);
     }
 
     getMethodParams(method: Method) {
-       this.matchWord(/\(\s*/);
-       do {                       
-          method.addParameter(this.getMatchedIdentifier(), this.getMatchedType());                       
-       } while (this.hasMoreIdentifiers());       
-       this.matchWord(/\s*\)\s+/);
+        this.matchWord(/\(\s*/);
+        do {
+            method.addParameter(this.getMatchedIdentifier(), this.getMatchedType());
+        } while (this.hasMoreIdentifiers());
+        this.matchWord(/\s*\)\s+/);
     }
 
     private analyzeCompositions(_class: Class) {
-        while (this.matchedCompositionReservedWord()) {
+        if (this.matchedCompositionReservedWord()) {
             let composition: Composition = new Composition();
-            do {              
-               composition.addIdentifier(this.getMatchedIdentifier());
+            do {
+                composition.addIdentifier(this.getMatchedIdentifier());
             } while (this.hasMoreIdentifiers());
             _class.addComposition(composition);
         }
     }
-    
+
     private matchedCompositionReservedWord(): boolean {
-        return this.matchWord(/composition\s+/);
+        return this.matchWord(/^composition\s+/);
+    }
+
+    private analyzeUses(_class: Class) {
+        if (this.matchedUseReservedWord()) {
+            let use: Use = new Use();
+            do {
+                use.addIdentifier(this.getMatchedIdentifier());
+            } while (this.hasMoreIdentifiers());
+            _class.addUse(use);
+        }
+    }
+
+    private matchedUseReservedWord(): boolean {
+        return this.matchWord(/^use\s+/);
+    }
+
+    private analyzeAssociations(_class: Class) {
+        if (this.matchedAssociationsReservedWord()) {
+            let asociation: Association = new Association();
+            do {
+               asociation.addIdentifier(this.getMatchedIdentifier());
+            } while (this.hasMoreIdentifiers());
+            _class.addAsociation(asociation);
+        }
+    }
+
+    matchedAssociationsReservedWord(): boolean {
+        return this.matchWord(/^association\s+/)
     }
 }
 
@@ -174,8 +207,14 @@ let analyzer: Analyzer2 = new Analyzer2(" class Car inherits Vehicle attribute i
              tipo int,    conTipo real   \
              method run (velocity real, aceleration ) \
              method stop() \
+             composition Door, Roof \
+             use Cylinder, Injector \
+             association Batery, Panel \
              class Engine \
                  attribute piece real, bujia int \
+                 composition DistributionRun, OilFilter \
+                 use Piston \
+                 association Batery \
              class Gas  \
                   attribute price real, amount real \
                   ");

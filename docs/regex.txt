@@ -16,13 +16,13 @@ class Car inherits Vehicle
 <asociations> ::= "asociation" <identifier> ["," <identifier>]*
 
 <diagram> ::= <class>*
-<class>: "class" <identifier> ["inherits" <identifier> {, <identifier>}*] [<attributes>] [<methods>] [<compositions>] [<uses>] [<asociations>]
+<class>: "class" <identifier> ["inherits" <identifier> {, <identifier>}*] [<attributes>] [<methods>] [<compositions>] [<uses>] [<associations>]
 <attributes>: "attribute" <attribute> {, <attribute>}*
 <attribute>: <identifier> [<type>]
 <method>: "method" <identifier> "(" [<parameter> {"," <parameter>}* ]")"
 <parameter>: <identifier> [<type>]
 <composition>: "composition" <identifier> {"," <identifier>}*
 <uses> ::= "use" <identifier> {"," <identifier>}*
-<asociations> ::= "asociation" <identifier> {"," <identifier>}*
+<associations> ::= "association" <identifier> {"," <identifier>}*
 <type> ::= <identifier>
 <identifier> ::= [a-zA-Z_]+
