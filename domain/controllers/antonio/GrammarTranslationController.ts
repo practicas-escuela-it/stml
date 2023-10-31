@@ -12,8 +12,8 @@ export class DiagramTranslationController {
 
     process(fileName: string) {
         let fileContent: string = fs.readFileSync(fileName, "utf8");        
-        let grammarBuilder: ModelBuilder = new ModelBuilder(fileContent);
-        let diagram: Diagram = grammarBuilder.build();
+        let modelBuilder: ModelBuilder = new ModelBuilder(fileContent);
+        let diagram: Diagram = modelBuilder.build();
         console.log(JSON.stringify(diagram));
         fs.writeFileSync("dist/domain/controllers/antonio/output.txt", JSON.stringify(diagram));        
         this.outputBuilder.build(diagram);

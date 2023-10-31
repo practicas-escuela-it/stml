@@ -9,8 +9,8 @@ var DiagramTranslationController = /** @class */ (function () {
     }
     DiagramTranslationController.prototype.process = function (fileName) {
         var fileContent = fs.readFileSync(fileName, "utf8");
-        var grammarBuilder = new ModelBuilder_1.ModelBuilder(fileContent);
-        var diagram = grammarBuilder.build();
+        var modelBuilder = new ModelBuilder_1.ModelBuilder(fileContent);
+        var diagram = modelBuilder.build();
         console.log(JSON.stringify(diagram));
         fs.writeFileSync("dist/domain/controllers/antonio/output.txt", JSON.stringify(diagram));
         this.outputBuilder.build(diagram);
