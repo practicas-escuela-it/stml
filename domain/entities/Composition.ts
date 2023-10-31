@@ -17,4 +17,8 @@ export class Composition implements IDiagramObject {
     addIdentifier(name: string) {
         this._identifiers.push(new Identifier(name));
     }
+
+    getIdentifiers(): Identifier[] {
+        return this._identifiers;
+    }
 }

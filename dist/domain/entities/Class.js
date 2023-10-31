@@ -42,6 +42,18 @@ var Class = /** @class */ (function () {
     Class.prototype.getInherits = function () {
         return this._inherists;
     };
+    Class.prototype.getMethods = function () {
+        return this._methods;
+    };
+    Class.prototype.getCompositions = function () {
+        return this._compositions;
+    };
+    Class.prototype.getUses = function () {
+        return this._uses;
+    };
+    Class.prototype.getAssociations = function () {
+        return this._associations;
+    };
     Class.prototype.addAttribute = function (attribute) {
         this._attributes.push(attribute);
     };

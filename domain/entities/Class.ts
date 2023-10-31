@@ -53,6 +53,22 @@ export class Class implements IDiagramObject {
         return this._inherists;
     } 
 
+    getMethods(): Method[] {
+        return this._methods;
+    }
+
+    getCompositions(): Composition[] {
+        return this._compositions;
+    }
+
+    getUses(): Use[] {
+        return this._uses;
+    }
+
+    getAssociations(): Association[] {
+        return this._associations;
+    }
+
     addAttribute(attribute: Attribute) {
         this._attributes.push(attribute);
     }

@@ -12,6 +12,9 @@ var Composition = /** @class */ (function () {
     Composition.prototype.addIdentifier = function (name) {
         this._identifiers.push(new Identifier_1.Identifier(name));
     };
+    Composition.prototype.getIdentifiers = function () {
+        return this._identifiers;
+    };
     return Composition;
 }());
 exports.Composition = Composition;
