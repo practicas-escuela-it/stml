@@ -6,6 +6,9 @@ var Use = /** @class */ (function () {
     function Use() {
         this._identifiers = [];
     }
+    Use.prototype.accept = function (visitor) {
+        visitor.visitUse(this);
+    };
     Use.prototype.addIdentifier = function (identifier) {
         this._identifiers.push(new Identifier_1.Identifier(identifier));
     };

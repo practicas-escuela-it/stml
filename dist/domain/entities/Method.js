@@ -8,6 +8,9 @@ var Method = /** @class */ (function () {
         this._identifier = new Identifier_1.Identifier("");
         this._parameters = [];
     }
+    Method.prototype.accept = function (visitor) {
+        visitor.visitMethod(this);
+    };
     Method.prototype.setIdentifier = function (identifier) {
         this._identifier = new Identifier_1.Identifier(identifier);
     };

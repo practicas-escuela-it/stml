@@ -1,11 +1,13 @@
 import { Association } from "./Asociation";
 import { Attribute } from "./Attribute";
 import { Composition } from "./Composition";
+import { IDiagramObject } from "./IDiagramObject";
+import { IVisitor } from "./IVisitor";
 import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
 
-export class Class {             
+export class Class implements IDiagramObject {                
     
     private _identifier: Identifier;
     // private _inherists: Identifier[];
@@ -26,17 +28,30 @@ export class Class {
         this._associations = [];
     }
 
+    get name(): string {
+        return this._identifier.value;
+    }
+
+    accept(visitor: IVisitor): void {
+        visitor.visitClass(this);
+    }
+
     get getIdentifier(): Identifier {
         return this._identifier;
     }
-
-   /* get getInherits(): Identifier[] {
-        return this._inherists;
-    } */
+    
 
     get getAttributes(): Attribute[] {
         return this._attributes;
     }
+
+    hasInherit(): boolean {
+        return this._inherists != null && this._inherists.length > 0;
+    } 
+
+    getInherits(): Class[] {
+        return this._inherists;
+    } 
 
     addAttribute(attribute: Attribute) {
         this._attributes.push(attribute);

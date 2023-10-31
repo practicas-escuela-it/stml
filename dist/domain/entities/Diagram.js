@@ -5,6 +5,12 @@ var Diagram = /** @class */ (function () {
     function Diagram() {
         this._classes = [];
     }
+    Diagram.prototype.getClasses = function () {
+        return this._classes;
+    };
+    Diagram.prototype.accept = function (visitor) {
+        visitor.visitDiagram(this);
+    };
     Diagram.prototype.addClass = function (_class) {
         this._classes.push(_class);
     };

@@ -12,6 +12,16 @@ var Class = /** @class */ (function () {
         this._uses = [];
         this._associations = [];
     }
+    Object.defineProperty(Class.prototype, "name", {
+        get: function () {
+            return this._identifier.value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Class.prototype.accept = function (visitor) {
+        visitor.visitClass(this);
+    };
     Object.defineProperty(Class.prototype, "getIdentifier", {
         get: function () {
             return this._identifier;
@@ -20,15 +30,18 @@ var Class = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(Class.prototype, "getAttributes", {
-        /* get getInherits(): Identifier[] {
-             return this._inherists;
-         } */
         get: function () {
             return this._attributes;
         },
         enumerable: false,
         configurable: true
     });
+    Class.prototype.hasInherit = function () {
+        return this._inherists != null && this._inherists.length > 0;
+    };
+    Class.prototype.getInherits = function () {
+        return this._inherists;
+    };
     Class.prototype.addAttribute = function (attribute) {
         this._attributes.push(attribute);
     };

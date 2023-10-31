@@ -1,13 +1,18 @@
+import { IDiagramObject } from "./IDiagramObject";
+import { IVisitor } from "./IVisitor";
 import { Identifier } from "./Identifier";
 import { Parameter } from './Parameter';
 
-export class Method {    
+export class Method implements IDiagramObject {    
     private _identifier: Identifier;
     private _parameters: Parameter[];
 
     constructor() {
         this._identifier = new Identifier("");
         this._parameters = [];
+    }
+    accept(visitor: IVisitor): void {
+        visitor.visitMethod(this);
     }
 
     setIdentifier(identifier: string) {

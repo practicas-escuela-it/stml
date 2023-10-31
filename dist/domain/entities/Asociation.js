@@ -6,6 +6,9 @@ var Association = /** @class */ (function () {
     function Association() {
         this._identifiers = [];
     }
+    Association.prototype.accept = function (visitor) {
+        visitor.visitAssociation(this);
+    };
     Association.prototype.addIdentifier = function (identifier) {
         this._identifiers.push(new Identifier_1.Identifier(identifier));
     };
