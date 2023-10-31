@@ -8,7 +8,8 @@ import { Use } from "./Use";
 export class Class {             
     
     private _identifier: Identifier;
-    private _inherists: Identifier[];
+    // private _inherists: Identifier[];
+    private _inherists: Class[];
     private _attributes: Attribute[];
     private _methods: Method[];
     private _compositions: Composition[];
@@ -29,9 +30,9 @@ export class Class {
         return this._identifier;
     }
 
-    get getInherits(): Identifier[] {
+   /* get getInherits(): Identifier[] {
         return this._inherists;
-    }
+    } */
 
     get getAttributes(): Attribute[] {
         return this._attributes;
@@ -41,9 +42,13 @@ export class Class {
         this._attributes.push(attribute);
     }
 
-    addIdentifierInherit(identifer: Identifier) {
+  /*  addInherit(identifer: Identifier) {
        this._inherists.push(identifer);
-    }  
+    }   */
+
+    addInherit(_class: Class) {
+       this._inherists.push(_class);
+    }
 
     addMethod(method: Method) {
         this._methods.push(method);

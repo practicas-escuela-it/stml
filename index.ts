@@ -1,4 +1,5 @@
-import { GrammarTranslationController } from "./domain/controllers/antonio/GrammarTranslationController";
+import { DiagramTranslationController } from "./domain/controllers/antonio/GrammarTranslationController";
+import { OutputBuilderPlantUml } from "./outputViews/OutputBuilderPlantUml";
 
-let grammarTranslationController: GrammarTranslationController = new GrammarTranslationController();
-grammarTranslationController.process("dist/domain/controllers/antonio/ejem1.txt");
+let grammarTranslationController: DiagramTranslationController = new DiagramTranslationController(new OutputBuilderPlantUml());
+grammarTranslationController.process("dist/domain/controllers/antonio/input.txt");

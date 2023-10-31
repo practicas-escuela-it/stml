@@ -1,19 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GrammarTranslationController = void 0;
+exports.DiagramTranslationController = void 0;
 var fs = require("fs");
-var Analyzer2_1 = require("../../entities/Analyzer2");
-var GrammarTranslationController = /** @class */ (function () {
-    function GrammarTranslationController() {
+var DiagramBuilder_1 = require("../../entities/DiagramBuilder");
+var DiagramTranslationController = /** @class */ (function () {
+    function DiagramTranslationController(outputBuilder) {
+        this.outputBuilder = outputBuilder;
     }
-    GrammarTranslationController.prototype.process = function (fileName) {
+    DiagramTranslationController.prototype.process = function (fileName) {
         var fileContent = fs.readFileSync(fileName, "utf8");
-        console.log(fileContent);
-        var analyzer = new Analyzer2_1.Analyzer2(fileContent);
-        analyzer.analyze();
-        console.log(JSON.stringify(analyzer.getClasses()));
-        fs.writeFileSync("dist/domain/controllers/antonio/ejem1_output.txt", JSON.stringify(analyzer.getClasses()));
+        var grammarBuilder = new DiagramBuilder_1.DiagramBuilder(fileContent);
+        var classes = grammarBuilder.build();
+        console.log(JSON.stringify(classes));
+        fs.writeFileSync("dist/domain/controllers/antonio/output.txt", JSON.stringify(classes));
+        this.outputBuilder.build(classes);
     };
-    return GrammarTranslationController;
+    return DiagramTranslationController;
 }());
-exports.GrammarTranslationController = GrammarTranslationController;
+exports.DiagramTranslationController = DiagramTranslationController;
+// Crear una factoría de construcción de clases.

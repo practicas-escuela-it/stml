@@ -15,3 +15,7 @@ class Engine
 class Gas 
        attribute price real, amount real
        
+
+class Vehicle 
+   attribute color, cylinders
+   

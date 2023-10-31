@@ -1,4 +1,4 @@
-import  *  as fs from "fs";
+import *  as fs from "fs";
 import { Association } from "./Asociation";
 import { Attribute } from "./Attribute";
 import { Class } from "./Class";
@@ -6,15 +6,16 @@ import { Composition } from "./Composition";
 import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
+import { ClassBuilder } from "./ClassBuilder";
 
-export class Analyzer2 {
+export class DiagramBuilder {
 
-    private classes: Class[];
+    // private classes: Class[];
     private input: string;
     private inputPointer: number;
 
     constructor(input: string) {
-        this.classes = [];
+        // this.classes = [];
         this.input = input;
         this.inputPointer = 0;
         this.clearSpaces();
@@ -25,28 +26,32 @@ export class Analyzer2 {
         this.input = this.input.replace(/\s*\(\s*/g, "(");
         this.input = this.input.replace(/\s*\)\s*/g, ") ");
         this.input = this.input.replace(/\s*,\s*/g, ",");
-        console.log(this.input);
     }
 
-    getClasses(): Class[] {
-        return this.classes;
-    }
+     getClasses(): Class[] {
+         // return this.classes;
+         return ClassBuilder.getInstance().getAllClasses();
+     } 
 
-    analyze(): void {
+    build(): Class[] {
         while (this.matchClassReservedWord()) {
             this.analyzeClass();
         }
+        return ClassBuilder.getInstance().getAllClasses();
     }
 
     private analyzeClass(): void {
-        let _class = new Class(this.getMatchedIdentifier());
-        this.classes.push(_class);
-        this.analyzeInherit(_class);
-        this.analyzeAttributes(_class);
-        this.analyzeMethods(_class);
-        this.analyzeCompositions(_class);
-        this.analyzeUses(_class);
-        this.analyzeAssociations(_class);
+        // let _class = new Class(this.getMatchedIdentifier());
+        // this.classes.push(_class);
+        let _class: Class | undefined = ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
+        if (_class != null) {
+            this.analyzeInherit(_class);
+            this.analyzeAttributes(_class);
+            this.analyzeMethods(_class);
+            this.analyzeCompositions(_class);
+            this.analyzeUses(_class);
+            this.analyzeAssociations(_class);
+        }
     }
 
     private matchClassReservedWord(): boolean {
@@ -57,14 +62,17 @@ export class Analyzer2 {
         let matchedWord = expReg.exec(this.input.substring(this.inputPointer));
         if (matchedWord != null)
             this.inputPointer += matchedWord[0].length;
-        return matchedWord != null && matchedWord[0].length > 0;
+        return matchedWord != null;  //&& matchedWord[0].length > 0;
     }
 
     private analyzeInherit(_class: Class) {
         if (this.matchInheritReservedWord()) {
             do {
-                let identifier: Identifier = new Identifier(this.getMatchedIdentifier());
-                _class.addIdentifierInherit(identifier);
+                let _classInherit: Class | undefined = ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
+              //  let identifier: Identifier = new Identifier(this.getMatchedIdentifier());
+              if (_classInherit != null) {
+                _class.addInherit(_classInherit);
+              }
             } while (this.hasMoreIdentifiers())
         }
     }
@@ -192,7 +200,7 @@ export class Analyzer2 {
         if (this.matchedAssociationsReservedWord()) {
             let asociation: Association = new Association();
             do {
-               asociation.addIdentifier(this.getMatchedIdentifier());
+                asociation.addIdentifier(this.getMatchedIdentifier());
             } while (this.hasMoreIdentifiers());
             _class.addAsociation(asociation);
         }

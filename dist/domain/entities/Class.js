@@ -19,14 +19,10 @@ var Class = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Object.defineProperty(Class.prototype, "getInherits", {
-        get: function () {
-            return this._inherists;
-        },
-        enumerable: false,
-        configurable: true
-    });
     Object.defineProperty(Class.prototype, "getAttributes", {
+        /* get getInherits(): Identifier[] {
+             return this._inherists;
+         } */
         get: function () {
             return this._attributes;
         },
@@ -36,8 +32,11 @@ var Class = /** @class */ (function () {
     Class.prototype.addAttribute = function (attribute) {
         this._attributes.push(attribute);
     };
-    Class.prototype.addIdentifierInherit = function (identifer) {
-        this._inherists.push(identifer);
+    /*  addInherit(identifer: Identifier) {
+         this._inherists.push(identifer);
+      }   */
+    Class.prototype.addInherit = function (_class) {
+        this._inherists.push(_class);
     };
     Class.prototype.addMethod = function (method) {
         this._methods.push(method);

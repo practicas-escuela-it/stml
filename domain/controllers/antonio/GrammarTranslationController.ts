@@ -1,18 +1,22 @@
 import  *  as fs from "fs";
-import { Analyzer2 } from "../../entities/Analyzer2";
+import { DiagramBuilder } from "../../entities/DiagramBuilder";
+import { OutputBuilder } from "../../../outputViews/OutputBuilder";
+import { Class } from "../../entities/Class";
 
-export class GrammarTranslationController {
+export class DiagramTranslationController {
     
-    constructor() {
+    constructor(private outputBuilder: OutputBuilder) {
 
     }
 
     process(fileName: string) {
-        let fileContent: string = fs.readFileSync(fileName, "utf8");
-        console.log(fileContent);
-        let analyzer: Analyzer2 = new Analyzer2(fileContent);
-        analyzer.analyze();
-        console.log(JSON.stringify(analyzer.getClasses()));
-        fs.writeFileSync("dist/domain/controllers/antonio/ejem1_output.txt", JSON.stringify(analyzer.getClasses()));        
+        let fileContent: string = fs.readFileSync(fileName, "utf8");        
+        let grammarBuilder: DiagramBuilder = new DiagramBuilder(fileContent);
+        let classes: Class[] = grammarBuilder.build();
+        console.log(JSON.stringify(classes));
+        fs.writeFileSync("dist/domain/controllers/antonio/output.txt", JSON.stringify(classes));        
+        this.outputBuilder.build(classes);
     }
 }
+
+// Crear una factoría de construcción de clases.
