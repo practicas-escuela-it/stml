@@ -1,7 +1,8 @@
 import  *  as fs from "fs";
-import { DiagramBuilder } from "../../entities/DiagramBuilder";
+import { ModelBuilder } from "../../entities/ModelBuilder";
 import { OutputBuilder } from "../../../outputViews/OutputBuilder";
 import { Class } from "../../entities/Class";
+import { Diagram } from "../../entities/Diagram";
 
 export class DiagramTranslationController {
     
@@ -11,11 +12,11 @@ export class DiagramTranslationController {
 
     process(fileName: string) {
         let fileContent: string = fs.readFileSync(fileName, "utf8");        
-        let grammarBuilder: DiagramBuilder = new DiagramBuilder(fileContent);
-        let classes: Class[] = grammarBuilder.build();
-        console.log(JSON.stringify(classes));
-        fs.writeFileSync("dist/domain/controllers/antonio/output.txt", JSON.stringify(classes));        
-        this.outputBuilder.build(classes);
+        let grammarBuilder: ModelBuilder = new ModelBuilder(fileContent);
+        let diagram: Diagram = grammarBuilder.build();
+        console.log(JSON.stringify(diagram));
+        fs.writeFileSync("dist/domain/controllers/antonio/output.txt", JSON.stringify(diagram));        
+        this.outputBuilder.build(diagram);
     }
 }
 

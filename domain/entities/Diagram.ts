@@ -1,8 +1,13 @@
 import { Class } from "./Class";
 
-class Diagram {
-    private classes: Class[];
+export class Diagram {
+    private _classes: Class[];
+
     constructor() {
-        this.classes = [];
+        this._classes = [];
+    }
+
+    addClass(_class: Class): void {
+        this._classes.push(_class);
     }
 }

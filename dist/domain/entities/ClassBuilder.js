@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClassBuilder = void 0;
 var Class_1 = require("./Class");
+var Diagram_1 = require("./Diagram");
 var ClassBuilder = /** @class */ (function () {
     function ClassBuilder() {
         this._classes = new Map();
@@ -19,11 +20,12 @@ var ClassBuilder = /** @class */ (function () {
         return this._classes.get(identifier);
     };
     ClassBuilder.prototype.getAllClasses = function () {
-        var _classes = [];
+        var _diagram = new Diagram_1.Diagram();
+        var classes = [];
         this._classes.forEach(function (_class) {
-            _classes.push(_class);
+            _diagram.addClass(_class);
         });
-        return _classes;
+        return _diagram;
     };
     return ClassBuilder;
 }());

@@ -7,8 +7,9 @@ import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
 import { ClassBuilder } from "./ClassBuilder";
+import { Diagram } from "./Diagram";
 
-export class DiagramBuilder {
+export class ModelBuilder {
 
     // private classes: Class[];
     private input: string;
@@ -28,12 +29,12 @@ export class DiagramBuilder {
         this.input = this.input.replace(/\s*,\s*/g, ",");
     }
 
-     getClasses(): Class[] {
+     getClasses(): Diagram {
          // return this.classes;
          return ClassBuilder.getInstance().getAllClasses();
      } 
 
-    build(): Class[] {
+    build(): Diagram {
         while (this.matchClassReservedWord()) {
             this.analyzeClass();
         }

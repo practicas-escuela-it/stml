@@ -1,4 +1,5 @@
 import { Class } from "./Class";
+import { Diagram } from "./Diagram";
 
 export class ClassBuilder {
    
@@ -23,13 +24,14 @@ export class ClassBuilder {
       return this._classes.get(identifier);
    }
 
-   getAllClasses(): Class[] {
-     let _classes: Class[] = [];
+   getAllClasses(): Diagram {
+     let _diagram = new Diagram();
+     let classes: Class[] = [];
      this._classes.forEach(
         (_class: Class) => {
-           _classes.push(_class);
+           _diagram.addClass(_class);
         }
-     )
-     return _classes;
+     );     
+     return _diagram;
    }
 }

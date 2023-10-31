@@ -4,7 +4,7 @@ exports.OutputBuilderPlantUml = void 0;
 var OutputBuilderPlantUml = /** @class */ (function () {
     function OutputBuilderPlantUml() {
     }
-    OutputBuilderPlantUml.prototype.build = function (classes) {
+    OutputBuilderPlantUml.prototype.build = function (diagram) {
     };
     return OutputBuilderPlantUml;
 }());
