@@ -1,5 +1,5 @@
 import { DiagramTranslationController } from "./domain/controllers/antonio/GrammarTranslationController";
-import { OutputBuilderPlantUml } from "./outputViews/OutputBuilderPlantUml";
+import { PlantUmlOutputFormatter } from "./outputViews/PlantUmlOutputFormatter";
 
-let grammarTranslationController: DiagramTranslationController = new DiagramTranslationController(new OutputBuilderPlantUml());
-grammarTranslationController.process("dist/domain/controllers/antonio/input.txt");
+let grammarTranslationController: DiagramTranslationController = new DiagramTranslationController();
+grammarTranslationController.process("domain/controllers/antonio/input.txt");

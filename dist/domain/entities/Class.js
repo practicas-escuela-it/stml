@@ -19,9 +19,6 @@ var Class = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Class.prototype.accept = function (visitor) {
-        visitor.visitClass(this);
-    };
     Object.defineProperty(Class.prototype, "getIdentifier", {
         get: function () {
             return this._identifier;

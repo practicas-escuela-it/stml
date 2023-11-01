@@ -7,7 +7,7 @@ import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
 
-export class Class implements IDiagramObject {                
+export class Class {                
     
     private _identifier: Identifier;
     // private _inherists: Identifier[];
@@ -30,11 +30,7 @@ export class Class implements IDiagramObject {
 
     get name(): string {
         return this._identifier.value;
-    }
-
-    accept(visitor: IVisitor): void {
-        visitor.visitClass(this);
-    }
+    }   
 
     get getIdentifier(): Identifier {
         return this._identifier;

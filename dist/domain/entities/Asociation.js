@@ -6,9 +6,13 @@ var Association = /** @class */ (function () {
     function Association() {
         this._identifiers = [];
     }
-    Association.prototype.accept = function (visitor) {
-        visitor.visitAssociation(this);
-    };
+    Object.defineProperty(Association.prototype, "identifiers", {
+        get: function () {
+            return this._identifiers;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Association.prototype.addIdentifier = function (identifier) {
         this._identifiers.push(new Identifier_1.Identifier(identifier));
     };

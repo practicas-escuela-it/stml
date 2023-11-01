@@ -7,6 +7,23 @@ var Parameter = /** @class */ (function () {
         this._identifier = new Identifier_1.Identifier("");
         this._type = new Identifier_1.Identifier("");
     }
+    Object.defineProperty(Parameter.prototype, "identifier", {
+        get: function () {
+            return this._identifier;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Parameter.prototype, "type", {
+        get: function () {
+            return this._type;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Parameter.prototype.isEmpty = function () {
+        return this._identifier.value == "";
+    };
     Parameter.prototype.set = function (identifier, type) {
         this._identifier = new Identifier_1.Identifier(identifier);
         this._type = new Identifier_1.Identifier(type);

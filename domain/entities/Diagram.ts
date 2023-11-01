@@ -2,7 +2,7 @@ import { Class } from "./Class";
 import { IDiagramObject } from "./IDiagramObject";
 import { IVisitor } from "./IVisitor";
 
-export class Diagram implements IDiagramObject {
+export class Diagram {
     private _classes: Class[];
 
     constructor() {        
@@ -12,11 +12,7 @@ export class Diagram implements IDiagramObject {
     getClasses(): Class[] {
         return this._classes;
     }
-
-    accept(visitor: IVisitor): void {
-        visitor.visitDiagram(this);
-    }
-
+  
     addClass(_class: Class): void {
         this._classes.push(_class);
     }

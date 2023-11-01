@@ -8,9 +8,20 @@ var Method = /** @class */ (function () {
         this._identifier = new Identifier_1.Identifier("");
         this._parameters = [];
     }
-    Method.prototype.accept = function (visitor) {
-        visitor.visitMethod(this);
-    };
+    Object.defineProperty(Method.prototype, "identifier", {
+        get: function () {
+            return this._identifier;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Method.prototype, "parameters", {
+        get: function () {
+            return this._parameters;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Method.prototype.setIdentifier = function (identifier) {
         this._identifier = new Identifier_1.Identifier(identifier);
     };
@@ -18,6 +29,9 @@ var Method = /** @class */ (function () {
         var parameter = new Parameter_1.Parameter();
         parameter.set(identifier, type);
         this._parameters.push(parameter);
+    };
+    Method.prototype.hasParameters = function () {
+        return this._parameters.length > 0;
     };
     return Method;
 }());

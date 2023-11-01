@@ -6,9 +6,6 @@ var Composition = /** @class */ (function () {
     function Composition() {
         this._identifiers = [];
     }
-    Composition.prototype.accept = function (visitor) {
-        visitor.visitComposition(this);
-    };
     Composition.prototype.addIdentifier = function (name) {
         this._identifiers.push(new Identifier_1.Identifier(name));
     };

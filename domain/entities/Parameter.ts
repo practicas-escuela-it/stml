@@ -9,6 +9,18 @@ export class Parameter {
         this._type = new Identifier("");
     }
 
+    get identifier(): Identifier {
+        return this._identifier;
+    }
+
+    get type(): Identifier {
+        return this._type;
+    }
+
+    isEmpty(): boolean {
+        return this._identifier.value == "";
+    }
+
     set(identifier: string, type: string) {
         this._identifier = new Identifier(identifier);
         this._type = new Identifier(type);

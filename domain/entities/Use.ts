@@ -2,14 +2,15 @@ import { IDiagramObject } from "./IDiagramObject";
 import { IVisitor } from "./IVisitor";
 import { Identifier } from "./Identifier";
 
-export class Use implements IDiagramObject {    
+export class Use {    
     private _identifiers: Identifier[];
 
     constructor() {
         this._identifiers = [];
-    }
-    accept(visitor: IVisitor): void {
-        visitor.visitUse(this);
+    }    
+
+    get identifiers(): Identifier[] {
+       return this._identifiers;
     }
 
     addIdentifier(identifier: string) {

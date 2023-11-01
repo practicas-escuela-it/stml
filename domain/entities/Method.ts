@@ -3,7 +3,7 @@ import { IVisitor } from "./IVisitor";
 import { Identifier } from "./Identifier";
 import { Parameter } from './Parameter';
 
-export class Method implements IDiagramObject {    
+export class Method {    
     private _identifier: Identifier;
     private _parameters: Parameter[];
 
@@ -11,9 +11,14 @@ export class Method implements IDiagramObject {
         this._identifier = new Identifier("");
         this._parameters = [];
     }
-    accept(visitor: IVisitor): void {
-        visitor.visitMethod(this);
+
+    get identifier(): Identifier {
+        return this._identifier;
     }
+
+    get parameters(): Parameter[] {
+       return this._parameters;
+    }   
 
     setIdentifier(identifier: string) {
         this._identifier = new Identifier(identifier);
@@ -23,5 +28,9 @@ export class Method implements IDiagramObject {
         let parameter = new Parameter();
         parameter.set(identifier, type);
         this._parameters.push(parameter);
+    }
+
+    hasParameters(): boolean {
+        return this._parameters.length > 0;
     }
 }

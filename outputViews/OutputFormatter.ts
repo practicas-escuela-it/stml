@@ -1,7 +1,7 @@
 import { Class } from "../domain/entities/Class";
 import { Diagram } from "../domain/entities/Diagram";
 
-export interface OutputBuilder {
+export interface OutputFormatter {
 
-    build(diagram: Diagram): void;        
+    format(): string;        
 }
