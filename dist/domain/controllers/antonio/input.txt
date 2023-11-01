@@ -18,4 +18,4 @@ class Gas
 
 class Vehicle 
    attribute color, cylinders
-   
+   association Gas

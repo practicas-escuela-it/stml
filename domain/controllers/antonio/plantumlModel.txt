@@ -6,18 +6,22 @@ class Car extends Vehicle {
 -conTipo: real
 +run(velocity: real, aceleration: void)
 +stop()
+
 } 
 class Vehicle { 
--color
--cylinders
+-color: void
+-cylinders: int
+
 } 
 class Engine { 
 -piece: real
 -bujia: int
+
 } 
 class Gas { 
 -price: real
 -amount: real
+
 } 
 Car *--> Door
 Car *--> Roof
@@ -25,6 +29,7 @@ Car ..> Cylinder
 Car ..> Injector
 Car o--> Batery
 Car o--> Panel
+Vehicle o--> Gas
 Engine *--> DistributionRun
 Engine *--> OilFilter
 Engine ..> Piston

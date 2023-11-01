@@ -17,5 +17,5 @@ class Gas
        
 
 class Vehicle 
-   attribute color, cylinders
-   
+   attribute color, cylinders int  
+   association Gas

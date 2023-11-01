@@ -42,6 +42,9 @@ var PlantUmlOutputFormatter = /** @class */ (function () {
             if (_attribute.type.value != "") {
                 _this._outputForClassesBody += ": " + _attribute.type.value;
             }
+            else {
+                _this._outputForClassesBody += ": void";
+            }
             _this._outputForClassesBody += "\n";
         });
     };
@@ -54,6 +57,7 @@ var PlantUmlOutputFormatter = /** @class */ (function () {
             }
             _this._outputForClassesBody += ")\n";
         });
+        this._outputForClassesBody += "\n";
     };
     PlantUmlOutputFormatter.prototype.insertParameters = function (_parameters) {
         var _this = this;

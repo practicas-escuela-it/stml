@@ -59,7 +59,9 @@ export class PlantUmlOutputFormatter implements OutputFormatter {
             (_attribute: Attribute) => {
                 this._outputForClassesBody += "-" + _attribute.identifier.value;
                 if (_attribute.type.value != "") {
-                    this._outputForClassesBody += ": " + _attribute.type.value
+                    this._outputForClassesBody += ": " + _attribute.type.value;
+                } else {
+                    this._outputForClassesBody += ": void";
                 }
                 this._outputForClassesBody += "\n";
             }
@@ -76,6 +78,7 @@ export class PlantUmlOutputFormatter implements OutputFormatter {
                 this._outputForClassesBody += ")\n";
             }
         );
+        this._outputForClassesBody += "\n";
     }
 
     insertParameters(_parameters: Parameter[]) {
