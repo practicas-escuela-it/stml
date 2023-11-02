@@ -1,5 +1,5 @@
-import { Class } from "./Class";
-import { Diagram } from "./Diagram";
+import { Class } from "../domain/entities/Class";
+import { Model } from "../domain/entities/Model";
 
 export class ClassBuilder {
    
@@ -24,8 +24,8 @@ export class ClassBuilder {
       return this._classes.get(identifier);
    }
 
-   getAllClasses(): Diagram {
-     let _diagram = new Diagram();
+   getAllClasses(): Model {
+     let _diagram = new Model();
      let classes: Class[] = [];
      this._classes.forEach(
         (_class: Class) => {

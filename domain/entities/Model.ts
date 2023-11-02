@@ -2,7 +2,7 @@ import { Class } from "./Class";
 import { IDiagramObject } from "./IDiagramObject";
 import { IVisitor } from "./IVisitor";
 
-export class Diagram {
+export class Model {
     private _classes: Class[];
 
     constructor() {        

@@ -2,7 +2,7 @@ import { Association } from "../domain/entities/Asociation";
 import { Attribute } from "../domain/entities/Attribute";
 import { Class } from "../domain/entities/Class";
 import { Composition } from "../domain/entities/Composition";
-import { Diagram } from "../domain/entities/Diagram";
+import { Model } from "../domain/entities/Model";
 import { IDiagramObject } from "../domain/entities/IDiagramObject";
 import { IVisitor } from "../domain/entities/IVisitor";
 import { Identifier } from "../domain/entities/Identifier";
@@ -21,7 +21,7 @@ export class PlantUmlVisitor implements IVisitor {
         this._classNameInProcess = "";
     }
 
-    visitDiagram(diagram: Diagram): void {
+    visitDiagram(diagram: Model): void {
         diagram.getClasses().forEach(
             (_class: Class) => {
               this.visitClass(_class);

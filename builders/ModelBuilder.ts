@@ -1,13 +1,13 @@
 import *  as fs from "fs";
-import { Association } from "./Asociation";
-import { Attribute } from "./Attribute";
-import { Class } from "./Class";
-import { Composition } from "./Composition";
-import { Identifier } from "./Identifier";
-import { Method } from "./Method";
-import { Use } from "./Use";
+import { Association } from "../domain/entities/Asociation";
+import { Attribute } from "../domain/entities/Attribute";
+import { Class } from "../domain/entities/Class";
+import { Composition } from "../domain/entities/Composition";
+import { Identifier } from "../domain/entities/Identifier";
+import { Method } from "../domain/entities/Method";
+import { Use } from "../domain/entities/Use";
 import { ClassBuilder } from "./ClassBuilder";
-import { Diagram } from "./Diagram";
+import { Model } from "../domain/entities/Model";
 
 export class ModelBuilder {
 
@@ -29,12 +29,12 @@ export class ModelBuilder {
         this.input = this.input.replace(/\s*,\s*/g, ",");
     }
 
-     getClasses(): Diagram {
+     getClasses(): Model {
          // return this.classes;
          return ClassBuilder.getInstance().getAllClasses();
      } 
 
-    build(): Diagram {
+    build(): Model {
         while (this.matchClassReservedWord()) {
             this.analyzeClass();
         }

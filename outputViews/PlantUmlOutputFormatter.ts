@@ -2,7 +2,7 @@ import { Association } from "../domain/entities/Asociation";
 import { Attribute } from "../domain/entities/Attribute";
 import { Class } from "../domain/entities/Class";
 import { Composition } from "../domain/entities/Composition";
-import { Diagram } from "../domain/entities/Diagram";
+import { Model } from "../domain/entities/Model";
 import { Identifier } from "../domain/entities/Identifier";
 import { Method } from "../domain/entities/Method";
 import { Parameter } from "../domain/entities/Parameter";
@@ -11,11 +11,11 @@ import { OutputFormatter } from "./OutputFormatter";
 
 export class PlantUmlOutputFormatter implements OutputFormatter {
 
-    private _diagram: Diagram;
+    private _diagram: Model;
     private _outputForClassesBody: string;
     private _outputForRelationsBetweenClasses: string;
 
-    constructor(diagram: Diagram) {
+    constructor(diagram: Model) {
         this._diagram = diagram;
         this._outputForClassesBody = "";
         this._outputForRelationsBetweenClasses = "";
