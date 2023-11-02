@@ -1,4 +1,4 @@
-import { DiagramTranslationController } from "./domain/controllers/antonio/GrammarTranslationController";
+import { DiagramTranslationController } from "./domain/controllers/GrammarTranslationController";
 
 let grammarTranslationController: DiagramTranslationController = new DiagramTranslationController();
-grammarTranslationController.process("domain/controllers/antonio/input.txt");
+grammarTranslationController.process("domain/controllers/input.txt");

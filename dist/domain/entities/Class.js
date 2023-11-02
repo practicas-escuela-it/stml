@@ -54,9 +54,6 @@ var Class = /** @class */ (function () {
     Class.prototype.addAttribute = function (attribute) {
         this._attributes.push(attribute);
     };
-    /*  addInherit(identifer: Identifier) {
-         this._inherists.push(identifer);
-      }   */
     Class.prototype.addInherit = function (_class) {
         this._inherists.push(_class);
     };

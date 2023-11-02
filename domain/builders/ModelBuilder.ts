@@ -1,13 +1,13 @@
 import *  as fs from "fs";
-import { Association } from "../domain/entities/Asociation";
-import { Attribute } from "../domain/entities/Attribute";
-import { Class } from "../domain/entities/Class";
-import { Composition } from "../domain/entities/Composition";
-import { Identifier } from "../domain/entities/Identifier";
-import { Method } from "../domain/entities/Method";
-import { Use } from "../domain/entities/Use";
+import { Association } from "../entities/Asociation";
+import { Attribute } from "../entities/Attribute";
+import { Class } from "../entities/Class";
+import { Composition } from "../entities/Composition";
+import { Identifier } from "../entities/Identifier";
+import { Method } from "../entities/Method";
+import { Use } from "../entities/Use";
 import { ClassBuilder } from "./ClassBuilder";
-import { Model } from "../domain/entities/Model";
+import { Model } from "../entities/Model";
 
 export class ModelBuilder {
 

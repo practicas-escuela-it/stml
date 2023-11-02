@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClassBuilder = void 0;
-var Class_1 = require("../domain/entities/Class");
-var Model_1 = require("../domain/entities/Model");
+var Class_1 = require("../entities/Class");
+var Model_1 = require("../entities/Model");
 var ClassBuilder = /** @class */ (function () {
     function ClassBuilder() {
         this._classes = new Map();

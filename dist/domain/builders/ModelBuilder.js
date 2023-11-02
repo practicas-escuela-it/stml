@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModelBuilder = void 0;
-var Asociation_1 = require("../domain/entities/Asociation");
-var Attribute_1 = require("../domain/entities/Attribute");
-var Composition_1 = require("../domain/entities/Composition");
-var Method_1 = require("../domain/entities/Method");
-var Use_1 = require("../domain/entities/Use");
+var Asociation_1 = require("../entities/Asociation");
+var Attribute_1 = require("../entities/Attribute");
+var Composition_1 = require("../entities/Composition");
+var Method_1 = require("../entities/Method");
+var Use_1 = require("../entities/Use");
 var ClassBuilder_1 = require("./ClassBuilder");
 var ModelBuilder = /** @class */ (function () {
     function ModelBuilder(input) {

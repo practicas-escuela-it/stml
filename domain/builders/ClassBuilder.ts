@@ -1,5 +1,5 @@
-import { Class } from "../domain/entities/Class";
-import { Model } from "../domain/entities/Model";
+import { Class } from "../entities/Class";
+import { Model } from "../entities/Model";
 
 export class ClassBuilder {
    

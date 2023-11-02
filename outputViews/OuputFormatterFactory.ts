@@ -1,7 +1,7 @@
 import { Model } from "../domain/entities/Model";
-import { OutputFormatType } from "../outputViews/OutputFormatType";
-import { OutputFormatter } from "../outputViews/OutputFormatter";
-import { PlantUmlOutputFormatter } from "../outputViews/PlantUml/PlantUmlOutputFormatter";
+import { OutputFormatType } from "./OutputFormatType";
+import { OutputFormatter } from "./OutputFormatter";
+import { PlantUmlOutputFormatter } from "./PlantUml/PlantUmlOutputFormatter";
 
 export class OutputFormatterFactory {
 
@@ -11,8 +11,7 @@ export class OutputFormatterFactory {
         this._formatType = formatType;
     }
 
-    build(model: Model): OutputFormatter {
-        
+    build(model: Model): OutputFormatter {        
         return new PlantUmlOutputFormatter(model);
     }
 }
