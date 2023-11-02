@@ -42,6 +42,8 @@ end
 
 # Diagrama de clases de software de lo que sería una aproximación de la idea que queremos plantear de tener diferentes formatos de salida, pero también diferentes filtros sobre el modelo
 
+[PlantUml model](//www.plantuml.com/plantuml/png/XLDDZzem4BtFhx1oweSIjLT48rea92gXSYW_m11JNFaZiYShhTZzxsix2JPUh3s0XpTlPfxncvL5Qd2G0k0agBLafpico1K88V0wOTkEAUHdpWovpjYU6YePfj1FHCEF0x88xHXUT1T_hxNijUN8jOhWmRAaYRNwnEdCI5Nz6hZec0dYwdzklAHcg_e1dT2P-6T01soqaHITk5ZYA4mDCYVyVUuP2HrxGHKUf20_IBMVuihX_-aJzPW_gsJIsdypk-72pqcbdGEqrgeB5xKE-thqX4-V5-DDGXk0krjzgUjsoew94Qc-DusgncaBibo6e6qXd1FbsprbgoxCSFIizxJuId2BGZvvvNB6jqVtbqK1KUFqs30UUUK4frAYX-0MvMN5J45AOZ18udHisZrMfiQ39FwuqliNtAV490I0vBuZovUw9hFFicI9_jjPCAS252plnUJa4bMmCqPwkXkbagPfY-hB9Ozla061E2t2moLB5cN5L3T8yGO0)
+
 ```plantuml
 @startuml
 
