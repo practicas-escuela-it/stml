@@ -1,4 +1,4 @@
-enum FormatterType {
+export enum OutputFormatType {
     PlantUml = "PlantUml",
     Java = "Java"
 }

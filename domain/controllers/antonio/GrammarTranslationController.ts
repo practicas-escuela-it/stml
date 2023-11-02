@@ -3,7 +3,7 @@ import { ModelBuilder } from "../../../builders/ModelBuilder";
 import { OutputFormatter } from '../../../outputViews/OutputFormatter';
 import { Class } from "../../entities/Class";
 import { Model } from "../../entities/Model";
-import { PlantUmlOutputFormatter } from "../../../outputViews/PlantUmlOutputFormatter";
+import { PlantUmlOutputFormatter } from "../../../outputViews/PlantUml/PlantUmlOutputFormatter";
 
 export class DiagramTranslationController {
     
