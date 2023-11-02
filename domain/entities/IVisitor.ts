@@ -3,7 +3,6 @@ import { Attribute } from "./Attribute";
 import { Class } from "./Class";
 import { Composition } from "./Composition";
 import { Model } from "./Model";
-import { IDiagramObject } from "./IDiagramObject";
 import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";

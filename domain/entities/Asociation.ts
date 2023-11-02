@@ -1,11 +1,8 @@
-import { IDiagramObject } from "./IDiagramObject";
-import { IVisitor } from "./IVisitor";
 import { Identifier } from "./Identifier";
 
 export class Association {
    
     private _identifiers: Identifier[];
-    
 
     constructor() {
         this._identifiers = [];

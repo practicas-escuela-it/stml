@@ -1,6 +1,4 @@
 import { Class } from "./Class";
-import { IDiagramObject } from "./IDiagramObject";
-import { IVisitor } from "./IVisitor";
 
 export class Model {
     private _classes: Class[];
@@ -15,6 +13,5 @@ export class Model {
   
     addClass(_class: Class): void {
         this._classes.push(_class);
-    }
-    
+    }   
 }

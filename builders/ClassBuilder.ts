@@ -26,7 +26,6 @@ export class ClassBuilder {
 
    getAllClasses(): Model {
      let _diagram = new Model();
-     let classes: Class[] = [];
      this._classes.forEach(
         (_class: Class) => {
            _diagram.addClass(_class);

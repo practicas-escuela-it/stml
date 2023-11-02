@@ -1,5 +1,3 @@
-import { IDiagramObject } from "./IDiagramObject";
-import { IVisitor } from "./IVisitor";
 
 export class Identifier {
     private _value: string;

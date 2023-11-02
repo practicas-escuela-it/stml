@@ -1,16 +1,13 @@
 import { Association } from "./Asociation";
 import { Attribute } from "./Attribute";
 import { Composition } from "./Composition";
-import { IDiagramObject } from "./IDiagramObject";
-import { IVisitor } from "./IVisitor";
 import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
 
-export class Class {                
-    
+export class Class {
+
     private _identifier: Identifier;
-    // private _inherists: Identifier[];
     private _inherists: Class[];
     private _attributes: Attribute[];
     private _methods: Method[];
@@ -30,12 +27,11 @@ export class Class {
 
     get name(): string {
         return this._identifier.value;
-    }   
+    }
 
     get getIdentifier(): Identifier {
         return this._identifier;
     }
-    
 
     get getAttributes(): Attribute[] {
         return this._attributes;
@@ -43,11 +39,11 @@ export class Class {
 
     hasInherit(): boolean {
         return this._inherists != null && this._inherists.length > 0;
-    } 
+    }
 
     getInherits(): Class[] {
         return this._inherists;
-    } 
+    }
 
     getMethods(): Method[] {
         return this._methods;
@@ -69,12 +65,8 @@ export class Class {
         this._attributes.push(attribute);
     }
 
-  /*  addInherit(identifer: Identifier) {
-       this._inherists.push(identifer);
-    }   */
-
     addInherit(_class: Class) {
-       this._inherists.push(_class);
+        this._inherists.push(_class);
     }
 
     addMethod(method: Method) {
@@ -86,10 +78,10 @@ export class Class {
     }
 
     addUse(use: Use) {
-       this._uses.push(use);
-    } 
+        this._uses.push(use);
+    }
 
     addAsociation(association: Association) {
         this._associations.push(association);
-    } 
+    }
 }

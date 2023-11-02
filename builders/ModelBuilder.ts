@@ -29,10 +29,9 @@ export class ModelBuilder {
         this.input = this.input.replace(/\s*,\s*/g, ",");
     }
 
-     getClasses(): Model {
-         // return this.classes;
-         return ClassBuilder.getInstance().getAllClasses();
-     } 
+    getClasses(): Model {
+        return ClassBuilder.getInstance().getAllClasses();
+    }
 
     build(): Model {
         while (this.matchClassReservedWord()) {
@@ -42,10 +41,8 @@ export class ModelBuilder {
     }
 
     private analyzeClass(): void {
-        // let _class = new Class(this.getMatchedIdentifier());
-        // this.classes.push(_class);
         let _class: Class | undefined = ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
-        if (_class != null) {
+        if (_class != undefined) {
             this.analyzeInherit(_class);
             this.analyzeAttributes(_class);
             this.analyzeMethods(_class);
@@ -70,10 +67,9 @@ export class ModelBuilder {
         if (this.matchInheritReservedWord()) {
             do {
                 let _classInherit: Class | undefined = ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
-              //  let identifier: Identifier = new Identifier(this.getMatchedIdentifier());
-              if (_classInherit != null) {
-                _class.addInherit(_classInherit);
-              }
+                if (_classInherit != null) {
+                    _class.addInherit(_classInherit);
+                }
             } while (this.hasMoreIdentifiers())
         }
     }

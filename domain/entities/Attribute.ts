@@ -1,5 +1,3 @@
-import { IDiagramObject } from "./IDiagramObject";
-import { IVisitor } from "./IVisitor";
 import { Identifier } from "./Identifier";
 
 export class Attribute {
