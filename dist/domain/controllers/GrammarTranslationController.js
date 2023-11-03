@@ -14,7 +14,7 @@ var DiagramTranslationController = /** @class */ (function () {
         var model = modelBuilder.build();
         console.log(JSON.stringify(model));
         fs.writeFileSync("domain/controllers/outputModel.txt", JSON.stringify(model));
-        var outputFormatter = new OuputFormatterFactory_1.OutputFormatterFactory(OutputFormatType_1.OutputFormatType.PlantUml).build(model);
+        var outputFormatter = new OuputFormatterFactory_1.OutputFormatterFactory(OutputFormatType_1.OutputFormatType.PlantUml).create(model);
         console.log("\nGramática de plantuml. Copiar y pegar en Plantext.com\n\n");
         var plantUmlModel = outputFormatter.format();
         console.log(plantUmlModel);

@@ -8,7 +8,7 @@ var OutputFormatterFactory = /** @class */ (function () {
     function OutputFormatterFactory(formatType) {
         this._formatType = formatType;
     }
-    OutputFormatterFactory.prototype.build = function (model) {
+    OutputFormatterFactory.prototype.create = function (model) {
         if (this._formatType == OutputFormatType_1.OutputFormatType.PlantUml) {
             return new PlantUmlOutputFormatter_1.PlantUmlOutputFormatter(model);
         }

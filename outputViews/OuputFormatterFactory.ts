@@ -12,7 +12,7 @@ export class OutputFormatterFactory {
         this._formatType = formatType;
     }
 
-    build(model: Model): OutputFormatter {        
+    create(model: Model): OutputFormatter {        
         if (this._formatType == OutputFormatType.PlantUml) {
           return new PlantUmlOutputFormatter(model);
         } else {
