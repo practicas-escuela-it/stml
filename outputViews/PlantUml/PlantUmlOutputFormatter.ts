@@ -80,7 +80,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         this._outputForClassesBody += "\n";
     }
 
-    insertParameters(_parameters: Parameter[]) {
+    private insertParameters(_parameters: Parameter[]) {
         let _outputLengthBeforeParameters: number = this._outputForClassesBody.length;
         _parameters.forEach(
             (_parameter: Parameter) => {

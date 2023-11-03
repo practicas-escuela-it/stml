@@ -36,6 +36,9 @@ var Class = /** @class */ (function () {
     Class.prototype.hasInherit = function () {
         return this._inherists != null && this._inherists.length > 0;
     };
+    Class.prototype.hasAssociations = function () {
+        return this._associations != null && this._associations.length > 0;
+    };
     Class.prototype.getInherits = function () {
         return this._inherists;
     };

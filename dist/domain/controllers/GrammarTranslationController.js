@@ -19,6 +19,10 @@ var DiagramTranslationController = /** @class */ (function () {
         var plantUmlModel = outputFormatter.format();
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModel.txt", plantUmlModel);
+        outputFormatter = new OuputFormatterFactory_1.OutputFormatterFactory(OutputFormatType_1.OutputFormatType.Java).create(model);
+        var javaModel = outputFormatter.format();
+        console.log(javaModel);
+        fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
     };
     return DiagramTranslationController;
 }());

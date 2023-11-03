@@ -5,7 +5,7 @@ import { Identifier } from "./Identifier";
 import { Method } from "./Method";
 import { Use } from "./Use";
 
-export class Class {
+export class Class {    
 
     private _identifier: Identifier;
     private _inherists: Class[];
@@ -39,6 +39,10 @@ export class Class {
 
     hasInherit(): boolean {
         return this._inherists != null && this._inherists.length > 0;
+    }
+
+    hasAssociations(): boolean {
+        return this._associations != null && this._associations.length > 0;
     }
 
     getInherits(): Class[] {

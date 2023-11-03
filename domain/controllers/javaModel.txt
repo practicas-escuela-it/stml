@@ -1,0 +1,45 @@
+class Car extends Vehicle { 
+	private bool isStarted;
+	private int tipo;
+	private real conTipo;
+	Door door;
+	Roof roof;
+	Batery batery;
+	Panel panel;
+
+	Car(Batery batery, Panel panel) {}
+
+	void run(real velocity,  void aceleration) { }
+
+	void stop() { }
+
+
+} 
+class Vehicle { 
+	private string color;
+	private int cylinders;
+	Gas gas;
+
+	Vehicle(Gas gas) {}
+
+
+} 
+class Engine { 
+	private real piece;
+	private int bujia;
+	DistributionRun distributionrun;
+	OilFilter oilfilter;
+	Batery batery;
+
+	Engine(Batery batery) {}
+
+
+} 
+class Gas { 
+	private real price;
+	private real amount;
+
+	Gas() {}
+
+
+} 

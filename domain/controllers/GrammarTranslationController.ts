@@ -22,6 +22,11 @@ export class DiagramTranslationController {
         let plantUmlModel: string = outputFormatter.format();
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModel.txt", plantUmlModel);
+
+        outputFormatter = new OutputFormatterFactory(OutputFormatType.Java).create(model);
+        let javaModel: string = outputFormatter.format();
+        console.log(javaModel);
+        fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
     }
 }
 
