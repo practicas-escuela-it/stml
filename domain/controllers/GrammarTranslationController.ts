@@ -5,7 +5,7 @@ import { Model } from "../entities/Model";
 import { OutputFormatterFactory } from "../../outputViews/OuputFormatterFactory";
 import { OutputFormatType } from "../../outputViews/OutputFormatType";
 
-export class DiagramTranslationController {
+export class GrammarTranslationController {
 
     constructor() {
 

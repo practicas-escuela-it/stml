@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DiagramTranslationController = void 0;
+exports.GrammarTranslationController = void 0;
 var fs = require("fs");
 var ModelBuilder_1 = require("../builders/ModelBuilder");
 var OuputFormatterFactory_1 = require("../../outputViews/OuputFormatterFactory");
 var OutputFormatType_1 = require("../../outputViews/OutputFormatType");
-var DiagramTranslationController = /** @class */ (function () {
-    function DiagramTranslationController() {
+var GrammarTranslationController = /** @class */ (function () {
+    function GrammarTranslationController() {
     }
-    DiagramTranslationController.prototype.process = function (fileName) {
+    GrammarTranslationController.prototype.process = function (fileName) {
         var fileContent = fs.readFileSync(fileName, "utf8");
         var modelBuilder = new ModelBuilder_1.ModelBuilder(fileContent);
         var model = modelBuilder.build();
@@ -24,7 +24,7 @@ var DiagramTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
     };
-    return DiagramTranslationController;
+    return GrammarTranslationController;
 }());
-exports.DiagramTranslationController = DiagramTranslationController;
+exports.GrammarTranslationController = GrammarTranslationController;
 // Crear una factoría de construcción de clases.

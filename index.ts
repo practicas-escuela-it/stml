@@ -1,4 +1,4 @@
-import { DiagramTranslationController } from "./domain/controllers/GrammarTranslationController";
+import { GrammarTranslationController } from "./domain/controllers/GrammarTranslationController";
 
-let grammarTranslationController: DiagramTranslationController = new DiagramTranslationController();
+let grammarTranslationController: GrammarTranslationController = new GrammarTranslationController();
 grammarTranslationController.process("domain/controllers/input.txt");
