@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlantUmlOutputFormatter = void 0;
 var PlantUmlOutputFormatter = /** @class */ (function () {
-    function PlantUmlOutputFormatter(diagram) {
-        this._diagram = diagram;
+    function PlantUmlOutputFormatter(model) {
+        this._model = model;
         this._outputForClassesBody = "";
         this._outputForRelationsBetweenClasses = "";
     }
     PlantUmlOutputFormatter.prototype.format = function () {
         var _this = this;
-        this._diagram.getClasses().forEach(function (_class) {
+        this._model.getClasses().forEach(function (_class) {
             _this.formatClass(_class);
         });
         return "@startuml\n\n" + this._outputForClassesBody + this._outputForRelationsBetweenClasses + "\n@enduml\n";

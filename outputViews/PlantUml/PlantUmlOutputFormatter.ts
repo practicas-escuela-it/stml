@@ -11,18 +11,18 @@ import { OutputFormatter } from "../OutputFormatter";
 
 export class PlantUmlOutputFormatter implements OutputFormatter {
 
-    private _diagram: Model;
+    private _model: Model;
     private _outputForClassesBody: string;
     private _outputForRelationsBetweenClasses: string;
 
-    constructor(diagram: Model) {
-        this._diagram = diagram;
+    constructor(model: Model) {
+        this._model = model;
         this._outputForClassesBody = "";
         this._outputForRelationsBetweenClasses = "";
     }
 
     format(): string {
-        this._diagram.getClasses().forEach(
+        this._model.getClasses().forEach(
             (_class: Class) => {
                 this.formatClass(_class);
             }
