@@ -1,12 +1,10 @@
 import { Model } from "../../domain/entities/Model";
 import { OutputFormatter } from "../OutputFormatter";
 
-export class JavaOutputFormatter implements OutputFormatter {
-
-    private _model: Model;
+export class JavaOutputFormatter extends OutputFormatter {    
 
     constructor(model: Model) {
-       this._model = model;
+       super(model);
     }
 
     format(): string {

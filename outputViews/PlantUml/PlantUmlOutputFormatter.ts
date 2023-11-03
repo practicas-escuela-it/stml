@@ -9,14 +9,13 @@ import { Parameter } from "../../domain/entities/Parameter";
 import { Use } from "../../domain/entities/Use";
 import { OutputFormatter } from "../OutputFormatter";
 
-export class PlantUmlOutputFormatter implements OutputFormatter {
-
-    private _model: Model;
+export class PlantUmlOutputFormatter extends OutputFormatter {
+    
     private _outputForClassesBody: string;
     private _outputForRelationsBetweenClasses: string;
 
     constructor(model: Model) {
-        this._model = model;
+        super(model);
         this._outputForClassesBody = "";
         this._outputForRelationsBetweenClasses = "";
     }

@@ -1,7 +1,13 @@
 import { Class } from "../domain/entities/Class";
 import { Model } from "../domain/entities/Model";
 
-export interface OutputFormatter {
+export abstract class OutputFormatter {
 
-    format(): string;        
+    protected _model: Model;
+
+    constructor(model: Model) {
+       this._model = model;
+    }
+
+    abstract format(): string;        
 }
