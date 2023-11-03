@@ -40,7 +40,7 @@ can Stop
 
 end
 
-# Diagrama de clases de software de lo que sería una aproximación de la idea que queremos plantear de tener diferentes formatos de salida, pero también diferentes filtros sobre el modelo
+# Diagrama de clases de software de nuestra aplicación
 
 ![PlantUml model](https://planttext.com/api/plantuml/png/bLJBReCm4BplLrYS-X2elLOfIfegKYf5pI7v00USnfMnaRrKYjB-UsqWmN4XKGy8c9tTdMN7Z0rIZLKX0391ZI4BbJD13a08WPyMc-TC8jzofidXY2sffWL37veWQhwfa7NGWk5EvTtxL1MbCXovaXsuDbx6n1YLSNfa-AfUAYvorz2AYpzi-uBgkImhj4A1oQeWxnNQrvdI1KKhRRKl6QdffQ0IruKWpoHQji-HnJ_f5tMOkqTmQlVAgQk_qbGQKMkPAebQ2T6s9_UbLXapvkQsomgwpsY6IkyjtpBeng2s0EcbrfEUpNWNnsapTHjeaEWnIMH4fgx84ncDweSqXVhUKXxEANEvOvgZO_NGJZk3RdjrlDlvSCILH_kD0m6DncRrq3eWhEd3hPIJew3pLfWs6EcNujaDVElvRRtgNgPdG_0jUJtJkXcSemUOzbZPAzp_w3kEoT6OGN28_cOz6r811aoO96bOPOWQ2xR5-0_T7QPBrOVKNqZfdI2SjJi85q-bg-UVeEliiFD_4zf90CPCvlOF-Wi0)
 
