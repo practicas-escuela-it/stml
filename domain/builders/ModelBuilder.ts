@@ -10,8 +10,7 @@ import { ClassBuilder } from "./ClassBuilder";
 import { Model } from "../entities/Model";
 
 export class ModelBuilder {
-
-    // private classes: Class[];
+    
     private input: string;
     private inputPointer: number;
 
