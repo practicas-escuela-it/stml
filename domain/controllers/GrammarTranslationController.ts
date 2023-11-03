@@ -2,9 +2,7 @@ import *  as fs from "fs";
 import { ModelBuilder } from "../builders/ModelBuilder";
 import { OutputFormatter } from '../../outputViews/OutputFormatter';
 import { Model } from "../entities/Model";
-import { PlantUmlOutputFormatter } from "../../outputViews/PlantUml/PlantUmlOutputFormatter";
 import { OutputFormatterFactory } from "../../outputViews/OuputFormatterFactory";
-import { OutputFileType } from "typescript";
 import { OutputFormatType } from "../../outputViews/OutputFormatType";
 
 export class DiagramTranslationController {
