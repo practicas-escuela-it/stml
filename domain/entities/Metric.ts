@@ -8,6 +8,6 @@ export abstract class Metric {
         this._model = model;
     }
 
-    abstract calculate(): void;
+    abstract calculate(model: Model): void;
     abstract getValueOf(_className: string): number;
 }

@@ -18,11 +18,12 @@ export class GrammarTranslationController {
         console.log(JSON.stringify(model));
         fs.writeFileSync("domain/controllers/outputModel.txt", JSON.stringify(model));        
         let outputFormatter: OutputFormatter = new OutputFormatterFactory(OutputFormatType.PlantUml).instance(model);
-        console.log("\nGramática de plantuml. Copiar y pegar en Plantext.com\n\n")
+        console.log("\nGramática formateada a plantuml. Copiar y pegar en Plantext.com\n\n")
         let plantUmlModel: string = outputFormatter.format();
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModel.txt", plantUmlModel);
 
+        console.log("\nGramática formateada a java. \n\n")
         outputFormatter = new OutputFormatterFactory(OutputFormatType.Java).instance(model);
         let javaModel: string = outputFormatter.format();
         console.log(javaModel);

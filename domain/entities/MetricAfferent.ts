@@ -1,8 +1,10 @@
+import { Association } from "./Asociation";
 import { Class } from "./Class";
 import { Composition } from "./Composition";
 import { Identifier } from "./Identifier";
 import { Metric } from "./Metric";
 import { Model } from "./Model";
+import { Use } from "./Use";
 
 export class MetricEfferent extends Metric {
 
@@ -17,15 +19,15 @@ export class MetricEfferent extends Metric {
         this._model.getClasses().forEach(
             (_class: Class) => {
                 let _afferences: string[] = [];
-                _afferences.push(...this.getAfferentClassesOfInherit(_class));
-                _afferences.push(...this.getAfferentClassesOfCompositions(_class));
-                _afferences.push(...this.getAfferentClassesOfAssociations(_class));
-                _afferences.push(...this.getAfferentClassesOfUses(_class));
+                _afferences.push(...this.getAfferentInheritancesOn(_class));
+                _afferences.push(...this.getAfferentCompositionsOn(_class));
+                _afferences.push(...this.getAfferentAssociationsOn(_class));
+                _afferences.push(...this.getAfferentUsesOn(_class));
                 this._classesAfference.set(_class.name, _afferences);
             }
         )
     }
-    private getAfferentClassesOfInherit(_class: Class): string[] {
+    private getAfferentInheritancesOn(_class: Class): string[] {
         let _inheritedClasses: string[] = [];
         this._model.getClasses().forEach(
             (_otherClass: Class) => {
@@ -41,7 +43,7 @@ export class MetricEfferent extends Metric {
         return _inheritedClasses;
     }
 
-    getAfferentClassesOfCompositions(_class: Class): string[] {
+    getAfferentCompositionsOn(_class: Class): string[] {
         let _compositionClasses: string[] = [];
         this._model.getClasses().forEach(
             (_otherClass: Class) => {
@@ -60,16 +62,49 @@ export class MetricEfferent extends Metric {
         return _compositionClasses;
     }
 
-    getAfferentClassesOfAssociations(_class: Class): string[] {
-        return [];
+    getAfferentAssociationsOn(_class: Class): string[] {
+        let _associationsClasses: string[] = [];
+        this._model.getClasses().forEach(
+            (_otherClass: Class) => {
+                if (_otherClass.name != _class.name) {
+                    _otherClass.getAssociations().forEach(
+                        (_associationClass: Association) => {
+                            _associationClass.identifiers.forEach(
+                                (_identifier: Identifier) => {
+                                    if (_identifier.value == _class.name) {
+                                        _associationsClasses.push(_otherClass.name);
+                                    }
+                                });
+                        });
+                }
+            });
+        return _associationsClasses;        
     }
 
-    getAfferentClassesOfUses(_class: Class): string[] {
-        return [];
+    getAfferentUsesOn(_class: Class): string[] {
+        let _useClasses: string[] = [];
+        this._model.getClasses().forEach(
+            (_otherClass: Class) => {
+                if (_otherClass.name != _class.name) {
+                    _otherClass.getUses().forEach(
+                        (_useClass: Use) => {
+                            _useClass.identifiers.forEach(
+                                (_identifier: Identifier) => {
+                                    if (_identifier.value == _class.name) {
+                                        _useClasses.push(_otherClass.name);
+                                    }
+                                });
+                        });
+                }
+            });
+        return _useClasses;
     }
 
     getValueOf(_className: string): number {
-        return 0;
+        let afferences: string[] | undefined = this._classesAfference.get(_className);
+        if (afferences == undefined) {
+            return 0;
+        }
+        return afferences.length;
     }
-
 }

@@ -15,10 +15,11 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(JSON.stringify(model));
         fs.writeFileSync("domain/controllers/outputModel.txt", JSON.stringify(model));
         var outputFormatter = new OuputFormatterFactory_1.OutputFormatterFactory(OutputFormatType_1.OutputFormatType.PlantUml).instance(model);
-        console.log("\nGramática de plantuml. Copiar y pegar en Plantext.com\n\n");
+        console.log("\nGramática formateada a plantuml. Copiar y pegar en Plantext.com\n\n");
         var plantUmlModel = outputFormatter.format();
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModel.txt", plantUmlModel);
+        console.log("\nGramática formateada a java. \n\n");
         outputFormatter = new OuputFormatterFactory_1.OutputFormatterFactory(OutputFormatType_1.OutputFormatType.Java).instance(model);
         var javaModel = outputFormatter.format();
         console.log(javaModel);
