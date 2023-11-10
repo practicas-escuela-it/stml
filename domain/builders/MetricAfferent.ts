@@ -13,6 +13,7 @@ export class MetricAfferent extends Metric {
     constructor(_model: Model) {
         super(_model);
         this._classesAfference = new Map<string, string[]>();
+        this.calculate();
     }
 
     protected calculate(): void {

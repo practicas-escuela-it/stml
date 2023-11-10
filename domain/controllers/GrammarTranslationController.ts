@@ -33,10 +33,8 @@ export class GrammarTranslationController {
         
         plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)
                .addEfferentMetric(ComparatorType.MINOR, 2)
-             //  .addMethodsMetric(ComparatorType.GREATER_OR_EQUAL, 2)
-             //  .addConcretClasses(["Gas"])
-              // .addConcretClasses(["Engine"])
-               .build();
+               .addMethodsMetric(ComparatorType.GREATER_OR_EQUAL, 2)
+               .build();                     
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModelDiagramBuilder.txt", plantUmlModel);

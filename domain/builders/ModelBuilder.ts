@@ -6,13 +6,20 @@ import { Composition } from "../entities/Composition";
 import { Identifier } from "../entities/Identifier";
 import { Method } from "../entities/Method";
 import { Use } from "../entities/Use";
-import { ClassBuilder } from "./ClassBuilder";
+import { ClassManager } from "./ClassManager";
 import { Model } from "../entities/Model";
 
 export class ModelBuilder {
     
+    private readonly KEYWORD_CLASS: RegExp = new RegExp(/\s*class\s+/);
+    private readonly KEYWORD_INHERITS: RegExp = new RegExp(/inherits\s+/);
+    private readonly KEYWORD_ATTRIBUTE: RegExp = new RegExp(/attribute\s+/);
+    private readonly KEYWORD_METHOD: RegExp = new RegExp(/^method\s+/);
+    private readonly KEYWORD_COMPOSITION : RegExp = new RegExp(/^composition\s+/);
+    private readonly KEYWORD_USE: RegExp = new RegExp(/^use\s+/);
+    private readonly KEYWORD_ASSOCIATION: RegExp = new RegExp(/^association\s+/);
     private input: string;
-    private inputPointer: number;
+    private inputPointer: number;   
 
     constructor(input: string) {
         // this.classes = [];
@@ -26,21 +33,17 @@ export class ModelBuilder {
         this.input = this.input.replace(/\s*\(\s*/g, "(");
         this.input = this.input.replace(/\s*\)\s*/g, ") ");
         this.input = this.input.replace(/\s*,\s*/g, ",");
-    }
-
-    getClasses(): Model {
-        return ClassBuilder.getInstance().getAllClasses();
-    }
+    }   
 
     build(): Model {
-        while (this.matchClassReservedWord()) {
+        while (this.matchWord(this.KEYWORD_CLASS)) {
             this.analyzeClass();
         }
-        return ClassBuilder.getInstance().getAllClasses();
+        return ClassManager.getInstance().getAllClasses();
     }
 
     private analyzeClass(): void {
-        let _class: Class | undefined = ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
+        let _class: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
         if (_class != undefined) {
             this.analyzeInherit(_class);
             this.analyzeAttributes(_class);
@@ -51,10 +54,6 @@ export class ModelBuilder {
         }
     }
 
-    private matchClassReservedWord(): boolean {
-        return this.matchWord(/\s*class\s+/);
-    }
-
     private matchWord(expReg: RegExp): boolean {
         let matchedWord = expReg.exec(this.input.substring(this.inputPointer));
         if (matchedWord != null)
@@ -63,32 +62,24 @@ export class ModelBuilder {
     }
 
     private analyzeInherit(_class: Class) {
-        if (this.matchInheritReservedWord()) {
+        if (this.matchWord(this.KEYWORD_INHERITS)) {
             do {
-                let _classInherit: Class | undefined = ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
+                let _classInherit: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (_classInherit != null) {
                     _class.addInherit(_classInherit);
                 }
             } while (this.hasMoreIdentifiers())
         }
-    }
-
-    private matchInheritReservedWord(): boolean {
-        return this.matchWord(/inherits\s+/);
-    }
+    }   
 
     private analyzeAttributes(_class: Class) {
-        if (this.matchedAttributeReservedWord()) {
+        if (this.matchWord(this.KEYWORD_ATTRIBUTE)) {
             do {
                 let attribute: Attribute = new Attribute();
                 attribute.set(this.getMatchedIdentifier(), this.getMatchedType());
                 _class.addAttribute(attribute);
             } while (this.hasMoreIdentifiers());
         }
-    }
-
-    private matchedAttributeReservedWord(): boolean {
-        return this.matchWord(/attribute\s+/);
     }
 
     private getMatchedIdentifier(): string {
@@ -142,7 +133,7 @@ export class ModelBuilder {
     }
 
     private analyzeMethods(_class: Class) {
-        while (this.matchedMethodReservedWord()) {
+        while (this.matchWord(this.KEYWORD_METHOD)) {
             do {
                 let method: Method = new Method();
                 method.setIdentifier(this.getMatchedIdentifier());
@@ -151,11 +142,7 @@ export class ModelBuilder {
             } while (this.hasMoreIdentifiers());
         }
     }
-
-    private matchedMethodReservedWord(): boolean {
-        return this.matchWord(/^method\s+/);
-    }
-
+    
     getMethodParams(method: Method) {
         this.matchWord(/\(\s*/);
         do {
@@ -165,21 +152,17 @@ export class ModelBuilder {
     }
 
     private analyzeCompositions(_class: Class) {
-        if (this.matchedCompositionReservedWord()) {
+        if (this.matchWord(this.KEYWORD_COMPOSITION)) {
             let composition: Composition = new Composition();
             do {
                 composition.addIdentifier(this.getMatchedIdentifier());
             } while (this.hasMoreIdentifiers());
             _class.addComposition(composition);
         }
-    }
-
-    private matchedCompositionReservedWord(): boolean {
-        return this.matchWord(/^composition\s+/);
-    }
+    }   
 
     private analyzeUses(_class: Class) {
-        if (this.matchedUseReservedWord()) {
+        if (this.matchWord(this.KEYWORD_USE)) {
             let use: Use = new Use();
             do {
                 use.addIdentifier(this.getMatchedIdentifier());
@@ -187,22 +170,14 @@ export class ModelBuilder {
             _class.addUse(use);
         }
     }
-
-    private matchedUseReservedWord(): boolean {
-        return this.matchWord(/^use\s+/);
-    }
-
+   
     private analyzeAssociations(_class: Class) {
-        if (this.matchedAssociationsReservedWord()) {
+        if (this.matchWord(this.KEYWORD_ASSOCIATION)) {
             let asociation: Association = new Association();
             do {
                 asociation.addIdentifier(this.getMatchedIdentifier());
             } while (this.hasMoreIdentifiers());
             _class.addAsociation(asociation);
         }
-    }
-
-    matchedAssociationsReservedWord(): boolean {
-        return this.matchWord(/^association\s+/)
     }
 }

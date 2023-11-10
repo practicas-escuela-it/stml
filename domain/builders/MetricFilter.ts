@@ -3,24 +3,25 @@ import { Metric } from "./Metric";
 import { MetricType } from "./MetricType";
 
 export class MetricFilter {   
-            
-    private _type: MetricType;
+                
+    private _metric: Metric;
     private _forAdd: boolean;    
     private _amount: number;
     private _aritmeticComparation: ComparatorType;        
 
-    constructor(type: MetricType, forAdd: boolean, amount: number, aritmeticComparation: ComparatorType) {
-        this._type = type;
+    constructor(metric: Metric, forAdd: boolean, amount: number, aritmeticComparation: ComparatorType) {        
         this._forAdd = forAdd;
         this._amount = amount;
         this._aritmeticComparation = aritmeticComparation;                
+        this._metric = metric;
     }
 
-    getMetricType(): MetricType {
-        return this._type;
-    }
+    getMetric(): Metric {
+        return this._metric;
+    }   
 
-    valuePassFilter(value: number): boolean {
+    classPassFilter(className: string): boolean {
+        let value: number = this._metric.getValueOf(className); 
         switch (this._aritmeticComparation) {
             case ComparatorType.EQUAL: 
                return this._amount == value; 

@@ -6,9 +6,16 @@ var Attribute_1 = require("../entities/Attribute");
 var Composition_1 = require("../entities/Composition");
 var Method_1 = require("../entities/Method");
 var Use_1 = require("../entities/Use");
-var ClassBuilder_1 = require("./ClassBuilder");
+var ClassManager_1 = require("./ClassManager");
 var ModelBuilder = /** @class */ (function () {
     function ModelBuilder(input) {
+        this.KEYWORD_CLASS = new RegExp(/\s*class\s+/);
+        this.KEYWORD_INHERITS = new RegExp(/inherits\s+/);
+        this.KEYWORD_ATTRIBUTE = new RegExp(/attribute\s+/);
+        this.KEYWORD_METHOD = new RegExp(/^method\s+/);
+        this.KEYWORD_COMPOSITION = new RegExp(/^composition\s+/);
+        this.KEYWORD_USE = new RegExp(/^use\s+/);
+        this.KEYWORD_ASSOCIATION = new RegExp(/^association\s+/);
         // this.classes = [];
         this.input = input;
         this.inputPointer = 0;
@@ -20,17 +27,14 @@ var ModelBuilder = /** @class */ (function () {
         this.input = this.input.replace(/\s*\)\s*/g, ") ");
         this.input = this.input.replace(/\s*,\s*/g, ",");
     };
-    ModelBuilder.prototype.getClasses = function () {
-        return ClassBuilder_1.ClassBuilder.getInstance().getAllClasses();
-    };
     ModelBuilder.prototype.build = function () {
-        while (this.matchClassReservedWord()) {
+        while (this.matchWord(this.KEYWORD_CLASS)) {
             this.analyzeClass();
         }
-        return ClassBuilder_1.ClassBuilder.getInstance().getAllClasses();
+        return ClassManager_1.ClassManager.getInstance().getAllClasses();
     };
     ModelBuilder.prototype.analyzeClass = function () {
-        var _class = ClassBuilder_1.ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
+        var _class = ClassManager_1.ClassManager.getInstance().getClass(this.getMatchedIdentifier());
         if (_class != undefined) {
             this.analyzeInherit(_class);
             this.analyzeAttributes(_class);
@@ -40,9 +44,6 @@ var ModelBuilder = /** @class */ (function () {
             this.analyzeAssociations(_class);
         }
     };
-    ModelBuilder.prototype.matchClassReservedWord = function () {
-        return this.matchWord(/\s*class\s+/);
-    };
     ModelBuilder.prototype.matchWord = function (expReg) {
         var matchedWord = expReg.exec(this.input.substring(this.inputPointer));
         if (matchedWord != null)
@@ -50,29 +51,23 @@ var ModelBuilder = /** @class */ (function () {
         return matchedWord != null; //&& matchedWord[0].length > 0;
     };
     ModelBuilder.prototype.analyzeInherit = function (_class) {
-        if (this.matchInheritReservedWord()) {
+        if (this.matchWord(this.KEYWORD_INHERITS)) {
             do {
-                var _classInherit = ClassBuilder_1.ClassBuilder.getInstance().getClass(this.getMatchedIdentifier());
+                var _classInherit = ClassManager_1.ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (_classInherit != null) {
                     _class.addInherit(_classInherit);
                 }
             } while (this.hasMoreIdentifiers());
         }
     };
-    ModelBuilder.prototype.matchInheritReservedWord = function () {
-        return this.matchWord(/inherits\s+/);
-    };
     ModelBuilder.prototype.analyzeAttributes = function (_class) {
-        if (this.matchedAttributeReservedWord()) {
+        if (this.matchWord(this.KEYWORD_ATTRIBUTE)) {
             do {
                 var attribute = new Attribute_1.Attribute();
                 attribute.set(this.getMatchedIdentifier(), this.getMatchedType());
                 _class.addAttribute(attribute);
             } while (this.hasMoreIdentifiers());
         }
-    };
-    ModelBuilder.prototype.matchedAttributeReservedWord = function () {
-        return this.matchWord(/attribute\s+/);
     };
     ModelBuilder.prototype.getMatchedIdentifier = function () {
         var identifier = "";
@@ -116,7 +111,7 @@ var ModelBuilder = /** @class */ (function () {
         return hasMoreAttr;
     };
     ModelBuilder.prototype.analyzeMethods = function (_class) {
-        while (this.matchedMethodReservedWord()) {
+        while (this.matchWord(this.KEYWORD_METHOD)) {
             do {
                 var method = new Method_1.Method();
                 method.setIdentifier(this.getMatchedIdentifier());
@@ -124,9 +119,6 @@ var ModelBuilder = /** @class */ (function () {
                 _class.addMethod(method);
             } while (this.hasMoreIdentifiers());
         }
-    };
-    ModelBuilder.prototype.matchedMethodReservedWord = function () {
-        return this.matchWord(/^method\s+/);
     };
     ModelBuilder.prototype.getMethodParams = function (method) {
         this.matchWord(/\(\s*/);
@@ -136,7 +128,7 @@ var ModelBuilder = /** @class */ (function () {
         this.matchWord(/\s*\)\s+/);
     };
     ModelBuilder.prototype.analyzeCompositions = function (_class) {
-        if (this.matchedCompositionReservedWord()) {
+        if (this.matchWord(this.KEYWORD_COMPOSITION)) {
             var composition = new Composition_1.Composition();
             do {
                 composition.addIdentifier(this.getMatchedIdentifier());
@@ -144,11 +136,8 @@ var ModelBuilder = /** @class */ (function () {
             _class.addComposition(composition);
         }
     };
-    ModelBuilder.prototype.matchedCompositionReservedWord = function () {
-        return this.matchWord(/^composition\s+/);
-    };
     ModelBuilder.prototype.analyzeUses = function (_class) {
-        if (this.matchedUseReservedWord()) {
+        if (this.matchWord(this.KEYWORD_USE)) {
             var use = new Use_1.Use();
             do {
                 use.addIdentifier(this.getMatchedIdentifier());
@@ -156,20 +145,14 @@ var ModelBuilder = /** @class */ (function () {
             _class.addUse(use);
         }
     };
-    ModelBuilder.prototype.matchedUseReservedWord = function () {
-        return this.matchWord(/^use\s+/);
-    };
     ModelBuilder.prototype.analyzeAssociations = function (_class) {
-        if (this.matchedAssociationsReservedWord()) {
+        if (this.matchWord(this.KEYWORD_ASSOCIATION)) {
             var asociation = new Asociation_1.Association();
             do {
                 asociation.addIdentifier(this.getMatchedIdentifier());
             } while (this.hasMoreIdentifiers());
             _class.addAsociation(asociation);
         }
-    };
-    ModelBuilder.prototype.matchedAssociationsReservedWord = function () {
-        return this.matchWord(/^association\s+/);
     };
     return ModelBuilder;
 }());

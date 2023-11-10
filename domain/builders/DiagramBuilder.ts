@@ -8,6 +8,11 @@ import { ComparatorType } from "./ComparatorType";
 import { Class } from "../entities/Class";
 import { Metric } from "./Metric";
 import { MetricFactory } from "./MetricFactory";
+import { MetricAfferent } from "./MetricAfferent";
+import { MetricEfferent } from "./MetricEfferent";
+import { MetricMethod } from "./MetricMethod";
+import { MetricAttribute } from "./MetricAttribute";
+import { MetricParameter } from "./MetricParameter";
 
 export class DiagramBuilder {
 
@@ -39,61 +44,61 @@ export class DiagramBuilder {
    }
 
    addAfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.AFFERENCE, true, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricAfferent(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    addEfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.EFFERENCE, true, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricEfferent(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    addMethodsMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.METHODS, true, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricMethod(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    addAttributesMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.ATTRIBUTES, true, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricAttribute(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    addParametersMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.PARAMETERS, true, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricParameter(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    removeAfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.AFFERENCE, false, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricAfferent(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    removeEfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.EFFERENCE, false, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricEfferent(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    removeMethodsMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.METHODS, false, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricMethod(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    removeAttributesMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.ATTRIBUTES, false, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricAttribute(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
    removeParametersMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
-      let metricFilter: MetricFilter = new MetricFilter(MetricType.PARAMETERS, false, amount, comparatorType);
+      let metricFilter: MetricFilter = new MetricFilter(new MetricParameter(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
@@ -113,11 +118,10 @@ export class DiagramBuilder {
    private _applyAddFilters() {
       this._model.getClasses().forEach(
          (_class: Class) => {
-            if (!this._isClassToRemove(_class.name)) {
+            if (!this._isConcreteClassToRemove(_class.name)) {
                this._metricFilters.forEach(
-                  (metricFilter: MetricFilter) => {
-                     let metric: Metric = new MetricFactory(metricFilter.getMetricType()).instance(this._model);
-                     if (metricFilter.isForAdd() && metricFilter.valuePassFilter(metric.getValueOf(_class.name))) {
+                  (metricFilter: MetricFilter) => {                     
+                     if (metricFilter.isForAdd() && metricFilter.classPassFilter(_class.name)) {
                         this._filteredModel.addClass(_class);
                      }
                   }
@@ -127,7 +131,7 @@ export class DiagramBuilder {
       );
    }
 
-   private _isClassToRemove(name: string): boolean {
+   private _isConcreteClassToRemove(name: string): boolean {
       return this._concretClassesToRemove.includes(name);
    }
 
@@ -135,9 +139,8 @@ export class DiagramBuilder {
       this._model.getClasses().forEach(
          (_class: Class) => {
             this._metricFilters.forEach(
-               (metricFilter: MetricFilter) => {
-                  let metric: Metric = new MetricFactory(metricFilter.getMetricType()).instance(this._model);
-                  if (metricFilter.isForRemove() && metricFilter.valuePassFilter(metric.getValueOf(_class.name))) {
+               (metricFilter: MetricFilter) => {                  
+                  if (metricFilter.isForRemove() && metricFilter.classPassFilter(_class.name)) {
                      this._filteredModel.removeClass(_class);
                   }
                }
