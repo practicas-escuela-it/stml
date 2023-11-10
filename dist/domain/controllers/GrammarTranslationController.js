@@ -5,6 +5,8 @@ var fs = require("fs");
 var ModelBuilder_1 = require("../builders/ModelBuilder");
 var OuputFormatterFactory_1 = require("../../outputViews/OuputFormatterFactory");
 var OutputFormatType_1 = require("../../outputViews/OutputFormatType");
+var DiagramBuilder_1 = require("../builders/DiagramBuilder");
+var ComparatorType_1 = require("../builders/ComparatorType");
 var GrammarTranslationController = /** @class */ (function () {
     function GrammarTranslationController() {
     }
@@ -24,6 +26,15 @@ var GrammarTranslationController = /** @class */ (function () {
         var javaModel = outputFormatter.format();
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
+        plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
+            .addEfferentMetric(ComparatorType_1.ComparatorType.MINOR, 2)
+            //  .addMethodsMetric(ComparatorType.GREATER_OR_EQUAL, 2)
+            //  .addConcretClasses(["Gas"])
+            // .addConcretClasses(["Engine"])
+            .build();
+        console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
+        console.log(plantUmlModel);
+        fs.writeFileSync("domain/controllers/plantumlModelDiagramBuilder.txt", plantUmlModel);
     };
     return GrammarTranslationController;
 }());

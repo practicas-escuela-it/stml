@@ -1,0 +1,15 @@
+@startuml
+
+class Vehicle { 
+-color: void
+-cylinders: int
+
+} 
+class Gas { 
+-price: real
+-amount: real
+
+} 
+Vehicle o--> Gas
+
+@enduml

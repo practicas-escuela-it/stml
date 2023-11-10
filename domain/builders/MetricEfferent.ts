@@ -1,21 +1,22 @@
 import { Metric } from "./Metric";
-import { Class } from './Class';
-import { Model } from "./Model";
-import { Composition } from "./Composition";
-import { Identifier } from "./Identifier";
-import { Use } from "./Use";
-import { Association } from "./Asociation";
+import { Class } from '../entities/Class';
+import { Model } from "../entities/Model";
+import { Composition } from "../entities/Composition";
+import { Identifier } from "../entities/Identifier";
+import { Use } from "../entities/Use";
+import { Association } from "../entities/Asociation";
 
 export class MetricEfferent extends Metric {
 
     private _classesEfference: Map<string, string[]>;
 
-    constructor(_model: Model) {
-        super(_model);
+    constructor(_model: Model) {        
+        super(_model);        
         this._classesEfference = new Map<string, string[]>();
+        this.calculate();
     }
 
-    calculate(): void {        
+    protected calculate(): void {        
         this._model.getClasses().forEach(
             (_class: Class) => {            
                 let _efferences: string[] = [];
@@ -23,7 +24,9 @@ export class MetricEfferent extends Metric {
                 _efferences.push(...this.getEfferentClassesOfCompositions(_class));
                 _efferences.push(...this.getEfferentClassesOfAssociations(_class));
                 _efferences.push(...this.getEfferentClassesOfUses(_class));
-                this._classesEfference.set(_class.name, _efferences);
+                if (_efferences.length > 0) {                                 
+                   this._classesEfference.set(_class.name, _efferences);
+                }
             }
         )
     }
