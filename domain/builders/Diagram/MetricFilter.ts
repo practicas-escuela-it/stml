@@ -8,12 +8,14 @@ export class MetricFilter {
     private _forAdd: boolean;    
     private _amount: number;
     private _aritmeticComparation: ComparatorType;        
+    private _className: string;
 
     constructor(metric: Metric, forAdd: boolean, amount: number, aritmeticComparation: ComparatorType) {        
         this._forAdd = forAdd;
         this._amount = amount;
         this._aritmeticComparation = aritmeticComparation;                
         this._metric = metric;
+        this._className = "";
     }
 
     getMetric(): Metric {

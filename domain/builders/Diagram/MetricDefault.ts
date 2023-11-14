@@ -1,8 +1,8 @@
-import { Model } from "../entities/Model";
+import { Model } from "../../entities/Model";
 import { Metric } from "./Metric";
 
 export class MetricDefault extends Metric {
-    protected calculate(model: Model): void {
+    calculate(): void {
         
     }
     getValueOf(_className: string): number {

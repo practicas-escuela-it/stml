@@ -1,10 +1,10 @@
 import { Metric } from "./Metric";
-import { Class } from '../entities/Class';
-import { Model } from "../entities/Model";
-import { Composition } from "../entities/Composition";
-import { Identifier } from "../entities/Identifier";
-import { Use } from "../entities/Use";
-import { Association } from "../entities/Asociation";
+import { Class } from '../../entities/Class';
+import { Model } from "../../entities/Model";
+import { Composition } from "../../entities/Composition";
+import { Identifier } from "../../entities/Identifier";
+import { Use } from "../../entities/Use";
+import { Association } from "../../entities/Asociation";
 
 export class MetricEfferent extends Metric {
 
@@ -16,7 +16,7 @@ export class MetricEfferent extends Metric {
         this.calculate();
     }
 
-    protected calculate(): void {        
+    calculate(): void {        
         this._model.getClasses().forEach(
             (_class: Class) => {            
                 let _efferences: string[] = [];
