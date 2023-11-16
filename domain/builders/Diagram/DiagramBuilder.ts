@@ -2,15 +2,15 @@ import { Model } from "../../entities/Model";
 import { OutputFormatType } from '../../../outputViews/OutputFormatType';
 import { OutputFormatterFactory } from "../../../outputViews/OuputFormatterFactory";
 import { MetricFilter } from "./MetricFilter";
-import { ComparatorType } from "./ComparatorType";
+import { ComparatorType } from "./classFilters/ComparatorType";
 import { Class } from "../../entities/Class";
 import { MetricAfferent } from "./MetricAfferent";
 import { MetricEfferent } from "./MetricEfferent";
 import { MetricMethod } from "./MetricMethod";
 import { MetricAttribute } from "./MetricAttribute";
 import { MetricParameter } from "./MetricParameter";
-import { ClassFilter } from "./ClassFilter";
-import { Direction } from "./Direction";
+import { ClassFilter } from "./classFilters/ClassFilter";
+import { Direction } from "./classFilters/Direction";
 
 export class DiagramBuilder {   
 
@@ -18,9 +18,9 @@ export class DiagramBuilder {
    private _filteredModel: Model;
    private _outputFormatType: OutputFormatType;
    private _metricFilters: MetricFilter[];
-   private _concretClassesToAdd: Map<string, ClassFilter>;
-   private _concretClassesToRemove: Map<string, ClassFilter>;   
-   private _currentConcretClass: string;
+   private _concretClasses: Map<string, ClassFilter>;   
+   private _classMap: Map<string, Class>;
+   private _currentConcretClass: Class;
 
    constructor(model: Model, outputFormatType: OutputFormatType = OutputFormatType.PlantUml) {
       this._outputFormatType = outputFormatType;
@@ -28,65 +28,53 @@ export class DiagramBuilder {
       this._filteredModel = new Model();
       //  this._filteredModel.copy(this._model);
       this._metricFilters = [];
-      this._concretClassesToAdd = new Map<string, ClassFilter>();
-      this._concretClassesToRemove = new Map<string, ClassFilter>();      
-      this._currentConcretClass = "";      
+      this._concretClasses = new Map<string, ClassFilter>();
+      this._classMap = new Map<string, Class>();
+      this._currentConcretClass = new Class(""); 
+      this.setClassesMap();     
+   }
+
+   private setClassesMap(): void {
+      this._model.getClasses().forEach(
+         (_class: Class) => {
+            this._classMap.set(_class.name, _class);
+         }
+      )
    }
 
    setClass(className: string): DiagramBuilder {
-      this._currentConcretClass = className;
+      let _class: Class | undefined = this._classMap.get(className)?? undefined;      
+      if (_class != undefined) {
+         this._currentConcretClass = _class;   
+         this._concretClasses.set(className, new ClassFilter(_class, this._model, this._filteredModel));
+      }
       return this;
     }
 
    private hasClassSetted(): boolean {
-      return this._currentConcretClass != "";
-   }
-   
-   addConcretClass(className: string): DiagramBuilder {      
-      this._currentConcretClass = className;           
-      this._concretClassesToAdd.set(className, new ClassFilter(className));
-      return this;
-   } 
+      return this._currentConcretClass != null;
+   }     
 
    withCompositions(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.addCompositions(direction);      
+      this._concretClasses.get(this._currentConcretClass.name)?.addCompositions(direction);      
       return this;
-   }
-
-   withoutCompositions(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.removeCompositions(direction);
-      return this;
-   }
+   }  
 
    withAssociations(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.addAssociations(direction);
+      this._concretClasses.get(this._currentConcretClass.name)?.addAssociations(direction);
       return this;
    }
-
-   withoutAssociations(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.removeAssociations(direction);
-      return this;
-   }
+   
 
    withUses(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.addUses(direction);
+      this._concretClasses.get(this._currentConcretClass.name)?.addUses(direction);
       return this;
-   }
-
-   withoutUses(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.removeUses(direction);
-      return this;
-   }
+   }   
 
    withInherits(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.addInherits(direction);      
+      this._concretClasses.get(this._currentConcretClass.name)?.addInherits(direction);      
       return this;
-   }
-
-   withoutInherits(direction: Direction): DiagramBuilder {
-      this._concretClassesToAdd.get(this._currentConcretClass)?.removeInherits(direction);
-      return this;
-   }
+   }  
 
    withEfferences(): DiagramBuilder {
       this.withAssociations(Direction.EFFERENT);
@@ -94,15 +82,7 @@ export class DiagramBuilder {
       this.withInherits(Direction.EFFERENT);
       this.withUses(Direction.EFFERENT);
       return this;
-   }
-
-   withoutEfferences(): DiagramBuilder {
-      this.withoutAssociations(Direction.EFFERENT);
-      this.withoutCompositions(Direction.EFFERENT);
-      this.withoutInherits(Direction.EFFERENT);
-      this.withoutUses(Direction.EFFERENT);
-      return this;
-   }
+   }   
 
    withAfferences(): DiagramBuilder {
       this.withAssociations(Direction.AFFERENT);
@@ -110,14 +90,12 @@ export class DiagramBuilder {
       this.withInherits(Direction.AFFERENT);
       this.withUses(Direction.AFFERENT);
       return this;
-   }
-
-   withoutAfferences(): DiagramBuilder {
-      this.withoutAssociations(Direction.AFFERENT);
-      this.withoutCompositions(Direction.AFFERENT);
-      this.withoutInherits(Direction.AFFERENT);
-      this.withoutUses(Direction.AFFERENT);
-      return this;
+   }   
+   
+   withAll(): DiagramBuilder {
+     this.withEfferences();
+     this.withAfferences();
+     return this;
    }
 
    /*
@@ -200,7 +178,7 @@ export class DiagramBuilder {
 
    private _applyAddFilters() {
       if (this.hasClassSetted()) {
-         this._applyAddFilterToConcretClass();
+         this._applyAddFilterToConcretClasses();
       } else {
          this._applyAddFilterToAllClasses();
       }     
@@ -216,9 +194,18 @@ export class DiagramBuilder {
       );
    }
 
-   private _applyAddFilterToConcretClass(): void {
-      let _class: Class = this._model.getClass(this._currentConcretClass);
-      this._applyFilters(_class);
+   private _applyAddFilterToConcretClasses(): void {
+      //let _class: Class = this._model.getClass(this._currentConcretClass);
+      // this._applyFilters(_class);
+      this._model.getClasses().forEach(
+         (_class: Class) => {
+            let _classFilter: ClassFilter | undefined = this._concretClasses.get(_class.name)?? undefined;
+            if (_classFilter) {
+               _classFilter.apply();
+            }
+         }
+      )
+         
    }
 
    private _applyFilters(_class: Class) {

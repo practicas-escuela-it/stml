@@ -5,10 +5,7 @@ import { Model } from "../entities/Model";
 import { OutputFormatterFactory } from "../../outputViews/OuputFormatterFactory";
 import { OutputFormatType } from "../../outputViews/OutputFormatType";
 import { DiagramBuilder } from "../builders/Diagram/DiagramBuilder";
-import { ComparatorType } from "../builders/Diagram/ComparatorType";
-import { MetricType } from "../builders/Diagram/MetricType";
-import { MetricFilter } from "../builders/Diagram/MetricFilter";
-import { Direction } from "../builders/Diagram/Direction";
+import { Direction } from "../builders/Diagram/classFilters/Direction";
 
 export class GrammarTranslationController {
 
@@ -35,9 +32,12 @@ export class GrammarTranslationController {
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         
         plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)               
-               .addEfferentMetric(ComparatorType.MINOR, 2)
+             //  .addEfferentMetric(ComparatorType.MINOR, 2)
              //  .addMethodsMetric(ComparatorType.GREATER_OR_EQUAL, 2)        
-               .setClass("Engine").withCompositions(Direction.EFFERENT)      
+               .setClass("Engine")
+                   .withCompositions(Direction.EFFERENT)                   
+                   .withCompositions(Direction.AFFERENT)      
+                   .withAssociations(Direction.AFFERENT)
                .build();                     
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);

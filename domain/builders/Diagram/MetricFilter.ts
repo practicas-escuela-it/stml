@@ -1,4 +1,4 @@
-import { ComparatorType } from "./ComparatorType";
+import { ComparatorType } from "./classFilters/ComparatorType";
 import { Metric } from "./Metric";
 import { MetricType } from "./MetricType";
 

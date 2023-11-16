@@ -6,8 +6,7 @@ var ModelBuilder_1 = require("../builders/ModelBuilder");
 var OuputFormatterFactory_1 = require("../../outputViews/OuputFormatterFactory");
 var OutputFormatType_1 = require("../../outputViews/OutputFormatType");
 var DiagramBuilder_1 = require("../builders/Diagram/DiagramBuilder");
-var ComparatorType_1 = require("../builders/Diagram/ComparatorType");
-var Direction_1 = require("../builders/Diagram/Direction");
+var Direction_1 = require("../builders/Diagram/classFilters/Direction");
 var GrammarTranslationController = /** @class */ (function () {
     function GrammarTranslationController() {
     }
@@ -28,9 +27,12 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
-            .addEfferentMetric(ComparatorType_1.ComparatorType.MINOR, 2)
+            //  .addEfferentMetric(ComparatorType.MINOR, 2)
             //  .addMethodsMetric(ComparatorType.GREATER_OR_EQUAL, 2)        
-            .setClass("Engine").withCompositions(Direction_1.Direction.EFFERENT)
+            .setClass("Engine")
+            .withCompositions(Direction_1.Direction.EFFERENT)
+            .withCompositions(Direction_1.Direction.AFFERENT)
+            .withAssociations(Direction_1.Direction.AFFERENT)
             .build();
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);
