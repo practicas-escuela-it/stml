@@ -37,7 +37,7 @@ export class GrammarTranslationController {
                .setClass("Engine")
                    .withCompositions(Direction.EFFERENT)                   
                    .withCompositions(Direction.AFFERENT)      
-                   .withAssociations(Direction.AFFERENT)
+                   .withAssociations(Direction.EFFERENT)
                .build();                     
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);

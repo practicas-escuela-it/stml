@@ -3,7 +3,11 @@
 class Engine { 
 
 } 
+class Engine { 
+
+} 
 Engine *--> DistributionRun
 Engine *--> OilFilter
+Engine o--> Batery
 
 @enduml

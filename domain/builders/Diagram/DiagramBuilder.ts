@@ -194,9 +194,7 @@ export class DiagramBuilder {
       );
    }
 
-   private _applyAddFilterToConcretClasses(): void {
-      //let _class: Class = this._model.getClass(this._currentConcretClass);
-      // this._applyFilters(_class);
+   private _applyAddFilterToConcretClasses(): void {     
       this._model.getClasses().forEach(
          (_class: Class) => {
             let _classFilter: ClassFilter | undefined = this._concretClasses.get(_class.name)?? undefined;
