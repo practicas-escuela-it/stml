@@ -4,6 +4,7 @@ import { AfferentAssociationFilter } from './AfferentAssociationFilter';
 import { AfferentCompositionFilter } from './AfferentCompositionFilter';
 import { AfferentInheritFilter } from './AfferentInheritFilter';
 import { AfferentUseFilter } from './AfferentUseFilter';
+import { AttributeFilter } from './AttributeFilter';
 import { ClassElementFilter } from './ClassElementFilter';
 import { ClassFilterActionType } from './ClassFilterOptionType';
 import { Direction } from "./Direction";
@@ -11,6 +12,7 @@ import { EfferentAssociationFilter } from './EfferentAssociationFilter';
 import { EfferentCompositionFilter } from './EfferentCompositionFilter';
 import { EfferentInheritFilter } from './EfferentInheritFilter';
 import { EfferentUseFilter } from './EfferentUseFilter';
+import { MethodFilter } from './MethodFilter';
 
 export class ClassFilter {
     private _class: Class;
@@ -24,6 +26,14 @@ export class ClassFilter {
         this._filteredModel = filteredModel;
         this._classElementsFilter = [];
     }
+
+    addAttributes(): void {
+        this._classElementsFilter.push(new AttributeFilter(this._class));
+    }
+
+    addMethods(): void {
+        this._classElementsFilter.push(new MethodFilter(this._class));
+    }    
 
     addCompositions(direction: Direction): void {
         if (direction == Direction.EFFERENT) {
@@ -61,7 +71,7 @@ export class ClassFilter {
     apply(): void {
         this._classElementsFilter.forEach(
             (classElementFilter: ClassElementFilter) => {
-                classElementFilter.getFilteredClasses().forEach(
+                classElementFilter.getFilteredElements().forEach(
                     (_class: Class) => {
                         this._filteredModel.addClass(_class);
                     }

@@ -14,15 +14,17 @@ export class AfferentAssociationFilter extends ClassElementFilter {
       this._model = model;      
     }
 
-    getFilteredClasses(): Class[] {
+    getFilteredElements(): Class[] {
         let _filteredClasses: Class[] = [];
         this._model.getClasses().forEach(
-            (_class: Class) => {                
-               _class.getAssociations().forEach(
+            (_class: Class) => {      
+              if (_class.name != this._class.name) {        
+                _class.getAssociations().forEach(
                 (_association: Association) => {
                    _filteredClasses.push(...this.findAfferentClass(_association.identifiers, _class));                   
                 }
                )
+            }
             }
         );
         return _filteredClasses;

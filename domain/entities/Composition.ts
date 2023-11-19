@@ -1,18 +1,18 @@
-import { Identifier } from "./Identifier";
+import { Class } from "./Class";
 
 export class Composition {
     
-    private _identifiers: Identifier[];
+    private _classes: Class[];
 
     constructor() {
-        this._identifiers = [];
+        this._classes = [];
     }   
 
-    addIdentifier(name: string) {
-        this._identifiers.push(new Identifier(name));
+    addClass(_class: Class) {
+        this._classes.push(_class);
     }
 
-    getIdentifiers(): Identifier[] {
-        return this._identifiers;
+    getClasses(): Class[] {
+        return this._classes;
     }
 }

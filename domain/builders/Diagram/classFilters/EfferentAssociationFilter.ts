@@ -10,7 +10,7 @@ export class EfferentAssociationFilter extends ClassElementFilter {
       super(_class)
     }
 
-    getFilteredClasses(): Class[] {        
+    getFilteredElements(): Class[] {        
         let _filteredClass: Class = new Class(this._class.name);
         this._class.getAssociations().forEach(
             (association: Association) => {

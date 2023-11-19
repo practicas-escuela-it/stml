@@ -156,10 +156,10 @@ export class Class {
     private _copyCompositions(compositions: Composition[]) {
         compositions.forEach(
             (composition: Composition) => {
-                composition.getIdentifiers().forEach(
-                    (identifier: Identifier) => {
+                composition.getClasses().forEach(
+                    (_class: Class) => {
                         let _composition: Composition = new Composition();
-                        _composition.addIdentifier(identifier.value);
+                        _composition.addClass(_class);
                         this._compositions.push(_composition);
                     }
                 )

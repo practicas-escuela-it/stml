@@ -131,7 +131,10 @@ var ModelBuilder = /** @class */ (function () {
         if (this.matchWord(this.KEYWORD_COMPOSITION)) {
             var composition = new Composition_1.Composition();
             do {
-                composition.addIdentifier(this.getMatchedIdentifier());
+                var compositionClass = ClassManager_1.ClassManager.getInstance().getClass(this.getMatchedIdentifier());
+                if (compositionClass != null) {
+                    composition.addClass(compositionClass);
+                }
             } while (this.hasMoreIdentifiers());
             _class.addComposition(composition);
         }

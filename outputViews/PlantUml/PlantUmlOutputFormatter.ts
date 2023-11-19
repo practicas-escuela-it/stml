@@ -103,9 +103,9 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
     private formatCompositions(_class: Class) {
         _class.getCompositions().forEach(
             (composition: Composition) => {
-                composition.getIdentifiers().forEach(
-                    (identifier: Identifier) => {
-                        this._outputForRelationsBetweenClasses += _class.name + " *--> " + identifier.value + "\n";
+                composition.getClasses().forEach(
+                    (compositionClass: Class) => {
+                        this._outputForRelationsBetweenClasses += _class.name + " *--> " + compositionClass.name + "\n";
                     }
                 );
             }

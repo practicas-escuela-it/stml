@@ -12,15 +12,15 @@ import { MetricParameter } from "./MetricParameter";
 import { ClassFilter } from "./classFilters/ClassFilter";
 import { Direction } from "./classFilters/Direction";
 
-export class DiagramBuilder {   
+export class DiagramBuilder {     
 
    private _model: Model;
    private _filteredModel: Model;
    private _outputFormatType: OutputFormatType;
    private _metricFilters: MetricFilter[];
-   private _concretClasses: Map<string, ClassFilter>;   
+   private _classFilters: Map<string, ClassFilter>;   
    private _classMap: Map<string, Class>;
-   private _currentConcretClass: Class;
+   private _currentClass: Class;
 
    constructor(model: Model, outputFormatType: OutputFormatType = OutputFormatType.PlantUml) {
       this._outputFormatType = outputFormatType;
@@ -28,9 +28,9 @@ export class DiagramBuilder {
       this._filteredModel = new Model();
       //  this._filteredModel.copy(this._model);
       this._metricFilters = [];
-      this._concretClasses = new Map<string, ClassFilter>();
+      this._classFilters = new Map<string, ClassFilter>();
       this._classMap = new Map<string, Class>();
-      this._currentConcretClass = new Class(""); 
+      this._currentClass = new Class(""); 
       this.setClassesMap();     
    }
 
@@ -45,34 +45,44 @@ export class DiagramBuilder {
    setClass(className: string): DiagramBuilder {
       let _class: Class | undefined = this._classMap.get(className)?? undefined;      
       if (_class != undefined) {
-         this._currentConcretClass = _class;   
-         this._concretClasses.set(className, new ClassFilter(_class, this._model, this._filteredModel));
+         this._currentClass = _class;   
+         this._classFilters.set(className, new ClassFilter(_class, this._model, this._filteredModel));
       }
       return this;
     }
 
    private hasClassSetted(): boolean {
-      return this._currentConcretClass != null;
+      return this._currentClass != null;
    }     
 
+   withAttributes(): DiagramBuilder {      
+      this._classFilters.get(this._currentClass.name)?.addAttributes();
+      return this;
+   } 
+
+   withMethods(): DiagramBuilder {
+      this._classFilters.get(this._currentClass.name)?.addMethods();
+      return this;
+   }
+
    withCompositions(direction: Direction): DiagramBuilder {
-      this._concretClasses.get(this._currentConcretClass.name)?.addCompositions(direction);      
+      this._classFilters.get(this._currentClass.name)?.addCompositions(direction);      
       return this;
    }  
 
    withAssociations(direction: Direction): DiagramBuilder {
-      this._concretClasses.get(this._currentConcretClass.name)?.addAssociations(direction);
+      this._classFilters.get(this._currentClass.name)?.addAssociations(direction);
       return this;
    }
    
 
    withUses(direction: Direction): DiagramBuilder {
-      this._concretClasses.get(this._currentConcretClass.name)?.addUses(direction);
+      this._classFilters.get(this._currentClass.name)?.addUses(direction);
       return this;
    }   
 
    withInherits(direction: Direction): DiagramBuilder {
-      this._concretClasses.get(this._currentConcretClass.name)?.addInherits(direction);      
+      this._classFilters.get(this._currentClass.name)?.addInherits(direction);      
       return this;
    }  
 
@@ -95,6 +105,8 @@ export class DiagramBuilder {
    withAll(): DiagramBuilder {
      this.withEfferences();
      this.withAfferences();
+     this.withAttributes();
+     this.withMethods();
      return this;
    }
 
@@ -188,7 +200,13 @@ export class DiagramBuilder {
       this._model.getClasses().forEach(
          (_class: Class) => {
             if (!this._isConcreteClassToRemove(_class.name)) {
-               this._applyFilters(_class);
+               this._metricFilters.forEach(
+                  (metricFilter: MetricFilter) => {                     
+                     if (metricFilter.isForAdd() && metricFilter.classPassFilter(_class.name)) {
+                        this._filteredModel.addClass(_class);
+                     }
+                  }
+               );
             }
          }
       );
@@ -197,7 +215,7 @@ export class DiagramBuilder {
    private _applyAddFilterToConcretClasses(): void {     
       this._model.getClasses().forEach(
          (_class: Class) => {
-            let _classFilter: ClassFilter | undefined = this._concretClasses.get(_class.name)?? undefined;
+            let _classFilter: ClassFilter | undefined = this._classFilters.get(_class.name)?? undefined;
             if (_classFilter) {
                _classFilter.apply();
             }
@@ -205,17 +223,6 @@ export class DiagramBuilder {
       )
          
    }
-
-   private _applyFilters(_class: Class) {
-      this._metricFilters.forEach(
-         (metricFilter: MetricFilter) => {                     
-            if (metricFilter.isForAdd() && metricFilter.classPassFilter(_class.name)) {
-               this._filteredModel.addClass(_class);
-            }
-         }
-      );
-   }
-
 
    private _isConcreteClassToRemove(name: string): boolean {
       //return this._concretClassesToRemove.includes(name);

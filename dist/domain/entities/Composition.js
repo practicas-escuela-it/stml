@@ -1,16 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Composition = void 0;
-var Identifier_1 = require("./Identifier");
 var Composition = /** @class */ (function () {
     function Composition() {
-        this._identifiers = [];
+        this._classes = [];
     }
-    Composition.prototype.addIdentifier = function (name) {
-        this._identifiers.push(new Identifier_1.Identifier(name));
+    Composition.prototype.addClass = function (_class) {
+        this._classes.push(_class);
     };
-    Composition.prototype.getIdentifiers = function () {
-        return this._identifiers;
+    Composition.prototype.getClasses = function () {
+        return this._classes;
     };
     return Composition;
 }());

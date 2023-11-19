@@ -51,7 +51,7 @@ export class MetricAfferent extends Metric {
                 if (_otherClass.name != _class.name) {
                     _otherClass.getCompositions().forEach(
                         (_compositionClass: Composition) => {
-                            _compositionClasses.push(...this.getAfferentIdentifiers(_compositionClass.getIdentifiers(), _class, _otherClass));                            
+                            _compositionClasses.push(...this.getAfferentIdentifiers(_compositionClass.getClasses(), _class, _otherClass));                            
                         });
                 }
             });

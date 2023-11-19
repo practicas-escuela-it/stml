@@ -13,9 +13,21 @@ class Vehicle {
 -cylinders: int
 
 } 
+class Door { 
+
+} 
+class Roof { 
+
+} 
 class Engine { 
 -piece: real
 -bujia: int
+
+} 
+class DistributionRun { 
+
+} 
+class OilFilter { 
 
 } 
 class Gas { 

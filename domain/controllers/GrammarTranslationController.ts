@@ -17,6 +17,8 @@ export class GrammarTranslationController {
         let fileContent: string = fs.readFileSync(fileName, "utf8");
         let modelBuilder: ModelBuilder = new ModelBuilder(fileContent);
         let model: Model = modelBuilder.build();
+
+        
         console.log(JSON.stringify(model));
         fs.writeFileSync("domain/controllers/outputModel.txt", JSON.stringify(model));        
         let outputFormatter: OutputFormatter = new OutputFormatterFactory(OutputFormatType.PlantUml).instance(model);
@@ -24,25 +26,42 @@ export class GrammarTranslationController {
         let plantUmlModel: string = outputFormatter.format();
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModel.txt", plantUmlModel);
-
+/*
         console.log("\nGramática formateada a java. \n\n")
         outputFormatter = new OutputFormatterFactory(OutputFormatType.Java).instance(model);
         let javaModel: string = outputFormatter.format();
         console.log(javaModel);
-        fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
-        
-        plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)               
-             //  .addEfferentMetric(ComparatorType.MINOR, 2)
-             //  .addMethodsMetric(ComparatorType.GREATER_OR_EQUAL, 2)        
+        fs.writeFileSync("domain/controllers/javaModel.txt", javaModel); */
+     /*   
+        let plantUmlModel: string = new DiagramBuilder(model, OutputFormatType.PlantUml)                            
                .setClass("Engine")
+                 // .coupling(Direction.EFFERENT, Relation.Composition)
+                //  .attribute("<nombre>")
+                //  .method()
+               .setClass("A")
+               .setClass("B")
+               .setClass("C")
                    .withCompositions(Direction.EFFERENT)                   
                    .withCompositions(Direction.AFFERENT)      
                    .withAssociations(Direction.EFFERENT)
-               .build();                     
-        console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
+                   .withAttributes()
+                   .withMethods()
+
+                .setClass("X")
+                   .withCompositions(Direction.EFFERENT)                   
+                   .withCompositions(Direction.AFFERENT)      
+                   .withAssociations(Direction.EFFERENT)
+                   .withAttributes()
+                   .withMethods()
+                //   .withAfferences()
+                //   .withEfferences()
+                //   .withAll();
+               .build();     */  
+
+    /*    console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModelDiagramBuilder.txt", plantUmlModel);
-        
+      */  
     }
 }
 

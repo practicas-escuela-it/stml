@@ -10,14 +10,14 @@ export class EfferentCompositionFilter extends ClassElementFilter {
       super(_class)
     }
 
-    getFilteredClasses(): Class[] {
+    getFilteredElements(): Class[] {
         let _filteredClass: Class = new Class(this._class.name);
         this._class.getCompositions().forEach(
             (composition: Composition) => {
                let _composition = new Composition();
-               composition.getIdentifiers().forEach(
+               composition.getClasses().forEach(
                  (identifier: Identifier) => {
-                    _composition.addIdentifier(identifier.value);
+                    _composition.addClass(identifier.value);
                  }
                )
                _filteredClass.addComposition(_composition);

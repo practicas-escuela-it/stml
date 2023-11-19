@@ -155,7 +155,10 @@ export class ModelBuilder {
         if (this.matchWord(this.KEYWORD_COMPOSITION)) {
             let composition: Composition = new Composition();
             do {
-                composition.addIdentifier(this.getMatchedIdentifier());
+                let compositionClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
+                if (compositionClass != null) {
+                   composition.addClass(compositionClass);                
+                }
             } while (this.hasMoreIdentifiers());
             _class.addComposition(composition);
         }

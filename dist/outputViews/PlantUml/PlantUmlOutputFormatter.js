@@ -99,8 +99,8 @@ var PlantUmlOutputFormatter = /** @class */ (function (_super) {
     PlantUmlOutputFormatter.prototype.formatCompositions = function (_class) {
         var _this = this;
         _class.getCompositions().forEach(function (composition) {
-            composition.getIdentifiers().forEach(function (identifier) {
-                _this._outputForRelationsBetweenClasses += _class.name + " *--> " + identifier.value + "\n";
+            composition.getClasses().forEach(function (compositionClass) {
+                _this._outputForRelationsBetweenClasses += _class.name + " *--> " + compositionClass.name + "\n";
             });
         });
     };

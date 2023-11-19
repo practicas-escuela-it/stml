@@ -49,7 +49,7 @@ export class MetricEfferent extends Metric {
        let _compositionsClasses: string[] = [];
        _class.getCompositions().forEach(
          (_compositionClass: Composition) => {
-            _compositionClass.getIdentifiers().forEach(
+            _compositionClass.getClasses().forEach(
                 (_identifier: Identifier) => {
                    _compositionsClasses.push(_identifier.value);
                 }

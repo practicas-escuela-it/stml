@@ -7,7 +7,7 @@ export class EfferentInheritFilter extends ClassElementFilter {
       super(_class)
     }
 
-    getFilteredClasses(): Class[] {
+    getFilteredElements(): Class[] {
         let _filteredClass: Class = new Class(this._class.name);
         this._class.getInherits().forEach(
             (_inherit: Class) => {               

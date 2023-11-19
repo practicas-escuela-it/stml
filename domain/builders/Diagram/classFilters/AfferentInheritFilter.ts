@@ -11,10 +11,11 @@ export class AfferentInheritFilter extends ClassElementFilter {
         this._model = model;
     }
 
-    getFilteredClasses(): Class[] {
+    getFilteredElements(): Class[] {
         let _filteredClasses: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
+              if (_class.name != this._class.name) {
                 _class.getInherits().forEach(
                     (_inherit: Class) => {
                         if (_inherit.name == this._class.name) {
@@ -22,6 +23,7 @@ export class AfferentInheritFilter extends ClassElementFilter {
                         }        
                     }
                 )
+              }
             }
         );
         return _filteredClasses;

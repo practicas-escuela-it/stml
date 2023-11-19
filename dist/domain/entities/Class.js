@@ -129,9 +129,9 @@ var Class = /** @class */ (function () {
     Class.prototype._copyCompositions = function (compositions) {
         var _this = this;
         compositions.forEach(function (composition) {
-            composition.getIdentifiers().forEach(function (identifier) {
+            composition.getClasses().forEach(function (_class) {
                 var _composition = new Composition_1.Composition();
-                _composition.addIdentifier(identifier.value);
+                _composition.addClass(_class);
                 _this._compositions.push(_composition);
             });
         });

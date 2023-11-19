@@ -12,15 +12,17 @@ export class AfferentUseFilter extends ClassElementFilter {
         this._model = model;
     }
 
-    getFilteredClasses(): Class[] {
+    getFilteredElements(): Class[] {
         let _filteredClasses: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
+              if (_class.name != this._class.name) {
                 _class.getUses().forEach(
                     (_use: Use) => {
                        _filteredClasses.push(...this.findAfferentClass(_use.identifiers, _class));                        
                     }
                 )
+              }
             }
         );
         return _filteredClasses;

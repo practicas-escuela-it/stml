@@ -96,9 +96,9 @@ export class JavaOutputFormatter extends OutputFormatter {
     private formatCompositions(_class: Class) {
         _class.getCompositions().forEach(
             (composition: Composition) => {
-                composition.getIdentifiers().forEach(
-                    (identifier: Identifier) => {                        
-                        this._output += "\t" + identifier.value + " " + identifier.value.toLowerCase() + ";\n";
+                composition.getClasses().forEach(
+                    (identifier: Class) => {                        
+                        this._output += "\t private " + identifier.name + " " + identifier.name.toLowerCase() + ";\n";
                     }
                 );
             }

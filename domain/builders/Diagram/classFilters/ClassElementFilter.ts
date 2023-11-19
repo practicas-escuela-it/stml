@@ -10,7 +10,7 @@ export abstract class ClassElementFilter {
        this._class = _class;       
     }
 
-    abstract getFilteredClasses(): Class[];
+    abstract getFilteredElements(): Class[];
 
     protected findAfferentClass(identifiers: Identifier[], _class: Class): Class[] {
         let _filteredClasses: Class[] = [];
