@@ -14,9 +14,9 @@ export class EfferentUseFilter extends ClassElementFilter {
         this._class.getUses().forEach(
             (use: Use) => {
                let _use = new Use();
-               use.identifiers.forEach(
+               use.classes.forEach(
                  (identifier: Identifier) => {
-                    _use.addIdentifier(identifier.value);
+                    _use.addClass(identifier.value);
                  }
                )
                _filteredClass.addUse(_use);

@@ -1,17 +1,18 @@
+import { Class } from "./Class";
 import { Identifier } from "./Identifier";
 
 export class Use {    
-    private _identifiers: Identifier[];
+    private _classes: Class[];
 
     constructor() {
-        this._identifiers = [];
+        this._classes = [];
     }    
 
-    get identifiers(): Identifier[] {
-       return this._identifiers;
+    get classes(): Class[] {
+       return this._classes;
     }
 
-    addIdentifier(identifier: string) {
-        this._identifiers.push(new Identifier(identifier));
+    addClass(_class: Class) {
+        this._classes.push(_class);
     }
 }

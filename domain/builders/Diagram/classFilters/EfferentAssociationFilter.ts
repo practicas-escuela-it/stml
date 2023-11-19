@@ -15,9 +15,9 @@ export class EfferentAssociationFilter extends ClassElementFilter {
         this._class.getAssociations().forEach(
             (association: Association) => {
                let _association = new Association();
-               association.identifiers.forEach(
+               association.classes.forEach(
                  (identifier: Identifier) => {
-                    _association.addIdentifier(identifier.value);
+                    _association.addClass(identifier.value);
                  }
                )
                _filteredClass.addAsociation(_association);

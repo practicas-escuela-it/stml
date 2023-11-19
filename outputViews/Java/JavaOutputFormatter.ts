@@ -98,7 +98,7 @@ export class JavaOutputFormatter extends OutputFormatter {
             (composition: Composition) => {
                 composition.getClasses().forEach(
                     (identifier: Class) => {                        
-                        this._output += "\t private " + identifier.name + " " + identifier.name.toLowerCase() + ";\n";
+                        this._output += "\tprivate " + identifier.name + " " + identifier.name.toLowerCase() + ";\n";
                     }
                 );
             }
@@ -108,9 +108,9 @@ export class JavaOutputFormatter extends OutputFormatter {
     private formatUses(_class: Class) {
         _class.getUses().forEach(
             (use: Use) => {
-                use.identifiers.forEach(
-                    (_identifier: Identifier) => {
-                        this._output += _class.name + " ..> " + _identifier.value + "\n";
+                use.classes.forEach(
+                    (_classUse: Class) => {
+                        this._output += _class.name + " ..> " + _classUse.name + "\n";
                     }
                 );
             }
@@ -121,10 +121,10 @@ export class JavaOutputFormatter extends OutputFormatter {
         let _associationsInConstructor: string = "\t" + _class.name + "(";
         _class.getAssociations().forEach(
             (association: Association) => {
-                association.identifiers.forEach(
-                    (_identifier: Identifier) => {                        
-                        this._output += "\t" + _identifier.value + " " + _identifier.value.toLowerCase() + ";\n";
-                        _associationsInConstructor += _identifier.value + " " + _identifier.value.toLowerCase() + ", ";
+                association.classes.forEach(
+                    (_classAssociation: Class) => {                        
+                        this._output += "\tprivate" + _classAssociation.name + " " + _classAssociation.name.toLowerCase() + ";\n";
+                        _associationsInConstructor += _classAssociation.name + " " + _classAssociation.name.toLowerCase() + ", ";
                     }
                 );
             }

@@ -119,9 +119,9 @@ var Class = /** @class */ (function () {
     Class.prototype._copyAssociations = function (associations) {
         var _this = this;
         associations.forEach(function (association) {
-            association.identifiers.forEach(function (identifier) {
+            association.classes.forEach(function (_class) {
                 var _association = new Asociation_1.Association();
-                _association.addIdentifier(identifier.value);
+                _association.addClass(_class);
                 _this._associations.push(_association);
             });
         });
@@ -139,9 +139,9 @@ var Class = /** @class */ (function () {
     Class.prototype._copyUses = function (uses) {
         var _this = this;
         uses.forEach(function (use) {
-            use.identifiers.forEach(function (identifier) {
+            use.classes.forEach(function (_class) {
                 var _use = new Use_1.Use();
-                _use.addIdentifier(identifier.value);
+                _use.addClass(_class);
                 _this._uses.push(_use);
             });
         });

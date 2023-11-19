@@ -168,7 +168,10 @@ export class ModelBuilder {
         if (this.matchWord(this.KEYWORD_USE)) {
             let use: Use = new Use();
             do {
-                use.addIdentifier(this.getMatchedIdentifier());
+                let useClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
+                if (useClass != null) {
+                   use.addClass(useClass);
+                }
             } while (this.hasMoreIdentifiers());
             _class.addUse(use);
         }
@@ -178,7 +181,10 @@ export class ModelBuilder {
         if (this.matchWord(this.KEYWORD_ASSOCIATION)) {
             let asociation: Association = new Association();
             do {
-                asociation.addIdentifier(this.getMatchedIdentifier());
+                let associationClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
+                if (associationClass != null) {
+                   asociation.addClass(associationClass);
+                }
             } while (this.hasMoreIdentifiers());
             _class.addAsociation(asociation);
         }

@@ -1,20 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Use = void 0;
-var Identifier_1 = require("./Identifier");
 var Use = /** @class */ (function () {
     function Use() {
-        this._identifiers = [];
+        this._classes = [];
     }
-    Object.defineProperty(Use.prototype, "identifiers", {
+    Object.defineProperty(Use.prototype, "classes", {
         get: function () {
-            return this._identifiers;
+            return this._classes;
         },
         enumerable: false,
         configurable: true
     });
-    Use.prototype.addIdentifier = function (identifier) {
-        this._identifiers.push(new Identifier_1.Identifier(identifier));
+    Use.prototype.addClass = function (_class) {
+        this._classes.push(_class);
     };
     return Use;
 }());

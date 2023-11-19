@@ -63,7 +63,7 @@ export class MetricEfferent extends Metric {
        let _useClasses: string[] = [];
        _class.getUses().forEach(
           (_useClass: Use) => {
-             _useClass.identifiers.forEach(
+             _useClass.classes.forEach(
                 (_identifier: Identifier) => {
                     _useClasses.push(_identifier.value);
                 }
@@ -77,7 +77,7 @@ export class MetricEfferent extends Metric {
        let _associationClasses: string[] = [];
        _class.getAssociations().forEach(
          (_associationClass: Association) => {
-            _associationClass.identifiers.forEach(
+            _associationClass.classes.forEach(
                 (_identifier: Identifier) => {
                     _associationClasses.push(_identifier.value);
                 }

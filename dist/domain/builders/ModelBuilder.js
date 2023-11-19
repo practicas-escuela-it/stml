@@ -143,7 +143,10 @@ var ModelBuilder = /** @class */ (function () {
         if (this.matchWord(this.KEYWORD_USE)) {
             var use = new Use_1.Use();
             do {
-                use.addIdentifier(this.getMatchedIdentifier());
+                var useClass = ClassManager_1.ClassManager.getInstance().getClass(this.getMatchedIdentifier());
+                if (useClass != null) {
+                    use.addClass(useClass);
+                }
             } while (this.hasMoreIdentifiers());
             _class.addUse(use);
         }
@@ -152,7 +155,10 @@ var ModelBuilder = /** @class */ (function () {
         if (this.matchWord(this.KEYWORD_ASSOCIATION)) {
             var asociation = new Asociation_1.Association();
             do {
-                asociation.addIdentifier(this.getMatchedIdentifier());
+                var associationClass = ClassManager_1.ClassManager.getInstance().getClass(this.getMatchedIdentifier());
+                if (associationClass != null) {
+                    asociation.addClass(associationClass);
+                }
             } while (this.hasMoreIdentifiers());
             _class.addAsociation(asociation);
         }

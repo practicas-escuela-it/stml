@@ -21,7 +21,7 @@ export class AfferentAssociationFilter extends ClassElementFilter {
               if (_class.name != this._class.name) {        
                 _class.getAssociations().forEach(
                 (_association: Association) => {
-                   _filteredClasses.push(...this.findAfferentClass(_association.identifiers, _class));                   
+                   _filteredClasses.push(...this.findAfferentClass(_association.classes, _class));                   
                 }
                )
             }

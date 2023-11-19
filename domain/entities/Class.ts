@@ -142,10 +142,10 @@ export class Class {
     private _copyAssociations(associations: Association[]) {
         associations.forEach(
             (association: Association) => {
-                association.identifiers.forEach(
-                    (identifier: Identifier) => {
+                association.classes.forEach(
+                    (_class: Class) => {
                         let _association: Association = new Association();
-                        _association.addIdentifier(identifier.value);
+                        _association.addClass(_class);
                         this._associations.push(_association);
                     }
                 )
@@ -170,10 +170,10 @@ export class Class {
     private _copyUses(uses: Use[]) {
         uses.forEach(
             (use: Use) => {
-                use.identifiers.forEach(
-                    (identifier: Identifier) => {
+                use.classes.forEach(
+                    (_class: Class) => {
                         let _use: Use = new Use();
-                        _use.addIdentifier(identifier.value);
+                        _use.addClass(_class);
                         this._uses.push(_use);
                     }
                 )

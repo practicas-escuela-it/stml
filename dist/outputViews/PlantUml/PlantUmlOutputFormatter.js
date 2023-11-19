@@ -107,16 +107,16 @@ var PlantUmlOutputFormatter = /** @class */ (function (_super) {
     PlantUmlOutputFormatter.prototype.formatUses = function (_class) {
         var _this = this;
         _class.getUses().forEach(function (use) {
-            use.identifiers.forEach(function (_identifier) {
-                _this._outputForRelationsBetweenClasses += _class.name + " ..> " + _identifier.value + "\n";
+            use.classes.forEach(function (_useClass) {
+                _this._outputForRelationsBetweenClasses += _class.name + " ..> " + _useClass.name + "\n";
             });
         });
     };
     PlantUmlOutputFormatter.prototype.formatAssociations = function (_class) {
         var _this = this;
         _class.getAssociations().forEach(function (association) {
-            association.identifiers.forEach(function (_identifier) {
-                _this._outputForRelationsBetweenClasses += _class.name + " o--> " + _identifier.value + "\n";
+            association.classes.forEach(function (_associationClass) {
+                _this._outputForRelationsBetweenClasses += _class.name + " o--> " + _associationClass.name + "\n";
             });
         });
     };

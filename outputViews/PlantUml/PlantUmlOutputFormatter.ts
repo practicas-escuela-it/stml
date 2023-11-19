@@ -115,9 +115,9 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
     private formatUses(_class: Class) {
         _class.getUses().forEach(
             (use: Use) => {
-                use.identifiers.forEach(
-                    (_identifier: Identifier) => {
-                        this._outputForRelationsBetweenClasses += _class.name + " ..> " + _identifier.value + "\n";
+                use.classes.forEach(
+                    (_useClass: Class) => {
+                        this._outputForRelationsBetweenClasses += _class.name + " ..> " + _useClass.name + "\n";
                     }
                 );
             }
@@ -127,9 +127,9 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
     private formatAssociations(_class: Class) {
         _class.getAssociations().forEach(
             (association: Association) => {
-                association.identifiers.forEach(
-                    (_identifier: Identifier) => {
-                        this._outputForRelationsBetweenClasses += _class.name + " o--> " + _identifier.value + "\n";
+                association.classes.forEach(
+                    (_associationClass: Class) => {
+                        this._outputForRelationsBetweenClasses += _class.name + " o--> " + _associationClass.name + "\n";
                     }
                 );
             }

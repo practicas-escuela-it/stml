@@ -19,7 +19,7 @@ export class AfferentUseFilter extends ClassElementFilter {
               if (_class.name != this._class.name) {
                 _class.getUses().forEach(
                     (_use: Use) => {
-                       _filteredClasses.push(...this.findAfferentClass(_use.identifiers, _class));                        
+                       _filteredClasses.push(...this.findAfferentClass(_use.classes, _class));                        
                     }
                 )
               }

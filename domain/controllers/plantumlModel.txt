@@ -19,6 +19,18 @@ class Door {
 class Roof { 
 
 } 
+class Cylinder { 
+
+} 
+class Injector { 
+
+} 
+class Batery { 
+
+} 
+class Panel { 
+
+} 
 class Engine { 
 -piece: real
 -bujia: int
@@ -30,9 +42,18 @@ class DistributionRun {
 class OilFilter { 
 
 } 
+class Piston { 
+
+} 
+class Batery { 
+
+} 
 class Gas { 
 -price: real
 -amount: real
+
+} 
+class Gas { 
 
 } 
 Car *--> Door

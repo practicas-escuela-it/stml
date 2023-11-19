@@ -1,20 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Association = void 0;
-var Identifier_1 = require("./Identifier");
 var Association = /** @class */ (function () {
     function Association() {
-        this._identifiers = [];
+        this._classes = [];
     }
-    Object.defineProperty(Association.prototype, "identifiers", {
+    Object.defineProperty(Association.prototype, "classes", {
         get: function () {
-            return this._identifiers;
+            return this._classes;
         },
         enumerable: false,
         configurable: true
     });
-    Association.prototype.addIdentifier = function (identifier) {
-        this._identifiers.push(new Identifier_1.Identifier(identifier));
+    Association.prototype.addClass = function (_class) {
+        this._classes.push(_class);
     };
     return Association;
 }());
