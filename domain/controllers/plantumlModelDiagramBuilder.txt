@@ -1,28 +1,10 @@
 @startuml
 
-class Engine { 
+class Piston { 
 
 } 
-class Engine { 
+class Piston { 
 
 } 
-class Engine { 
-
-} 
-class Engine { 
-
-} 
-class Engine { 
-
-} 
-class Engine { 
-
-} 
-Engine *--> DistributionRun
-Engine *--> OilFilter
-Engine o--> Batery
-Engine *--> DistributionRun
-Engine *--> OilFilter
-Engine o--> Batery
 
 @enduml

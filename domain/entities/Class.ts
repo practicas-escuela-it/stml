@@ -6,7 +6,7 @@ import { Method } from "./Method";
 import { Parameter } from "./Parameter";
 import { Use } from "./Use";
 
-export class Class {
+export class Class {   
 
     private _identifier: Identifier;
     private _inherists: Class[];
@@ -180,4 +180,49 @@ export class Class {
             }
         )
     }
+
+    hasCompositionRelationWith(_classToSearch: Class): boolean {
+        this._compositions.forEach(
+            (composition: Composition) => {
+               composition.getClasses().forEach(
+                (_class: Class) => {
+                   if (_class.name == _classToSearch.name) {
+                    return true;
+                   }
+                }
+               )
+            }
+        );
+        return false;
+    }
+
+    hasAssociationRelationWith(_classToSearch: Class): boolean {
+        this._associations.forEach(
+            (association: Association) => {
+               association.classes.forEach(
+                (_class: Class) => {
+                   if (_class.name == _classToSearch.name) {
+                    return true;
+                   }
+                }
+               )
+            }
+        );
+        return false;
+    }
+
+    hasUseRelationWith(_classToSearch: Class): boolean {
+        this._uses.forEach(
+          (use: Use) => {
+            use.classes.forEach(
+              (_class: Class) => {
+                if (_class.name == _classToSearch.name) {
+                  return true;
+                }
+           }
+          )
+         }
+        );
+        return false;
+    }    
 }

@@ -10,8 +10,8 @@ var ClassManager_1 = require("./ClassManager");
 var ModelBuilder = /** @class */ (function () {
     function ModelBuilder(input) {
         this.KEYWORD_CLASS = new RegExp(/\s*class\s+/);
-        this.KEYWORD_INHERITS = new RegExp(/inherits\s+/);
-        this.KEYWORD_ATTRIBUTE = new RegExp(/attribute\s+/);
+        this.KEYWORD_INHERITS = new RegExp(/^inherits\s+/);
+        this.KEYWORD_ATTRIBUTE = new RegExp(/^attribute\s+/);
         this.KEYWORD_METHOD = new RegExp(/^method\s+/);
         this.KEYWORD_COMPOSITION = new RegExp(/^composition\s+/);
         this.KEYWORD_USE = new RegExp(/^use\s+/);

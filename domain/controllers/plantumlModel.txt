@@ -45,15 +45,9 @@ class OilFilter {
 class Piston { 
 
 } 
-class Batery { 
-
-} 
 class Gas { 
 -price: real
 -amount: real
-
-} 
-class Gas { 
 
 } 
 Car *--> Door
@@ -67,5 +61,6 @@ Engine *--> DistributionRun
 Engine *--> OilFilter
 Engine ..> Piston
 Engine o--> Batery
+Gas *--> Door
 
 @enduml

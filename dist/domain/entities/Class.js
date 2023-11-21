@@ -146,6 +146,36 @@ var Class = /** @class */ (function () {
             });
         });
     };
+    Class.prototype.hasCompositionRelationWith = function (_classToSearch) {
+        this._compositions.forEach(function (composition) {
+            composition.getClasses().forEach(function (_class) {
+                if (_class.name == _classToSearch.name) {
+                    return true;
+                }
+            });
+        });
+        return false;
+    };
+    Class.prototype.hasAssociationRelationWith = function (_classToSearch) {
+        this._associations.forEach(function (association) {
+            association.classes.forEach(function (_class) {
+                if (_class.name == _classToSearch.name) {
+                    return true;
+                }
+            });
+        });
+        return false;
+    };
+    Class.prototype.hasUseRelationWith = function (_classToSearch) {
+        this._uses.forEach(function (use) {
+            use.classes.forEach(function (_class) {
+                if (_class.name == _classToSearch.name) {
+                    return true;
+                }
+            });
+        });
+        return false;
+    };
     return Class;
 }());
 exports.Class = Class;

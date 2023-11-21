@@ -13,6 +13,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
     
     private _outputForClassesBody: string;
     private _outputForRelationsBetweenClasses: string;
+    
 
     constructor(model: Model) {
         super(model);

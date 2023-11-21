@@ -123,7 +123,7 @@ export class JavaOutputFormatter extends OutputFormatter {
             (association: Association) => {
                 association.classes.forEach(
                     (_classAssociation: Class) => {                        
-                        this._output += "\tprivate" + _classAssociation.name + " " + _classAssociation.name.toLowerCase() + ";\n";
+                        this._output += "\tprivate " + _classAssociation.name + " " + _classAssociation.name.toLowerCase() + ";\n";
                         _associationsInConstructor += _classAssociation.name + " " + _classAssociation.name.toLowerCase() + ", ";
                     }
                 );

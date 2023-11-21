@@ -19,10 +19,10 @@ export class ClassManager {
    } 
    
    getClass(identifier: string): Class | undefined {
-      if (this._classes.get(identifier) == null) {
-        this._classes.set(identifier, new Class(identifier));
+      if (this._classes.get(identifier.trim()) == undefined) {         
+        this._classes.set(identifier.trim(), new Class(identifier.trim()));
       }
-      return this._classes.get(identifier);
+      return this._classes.get(identifier.trim());
    }
 
    getAllClasses(): Model {

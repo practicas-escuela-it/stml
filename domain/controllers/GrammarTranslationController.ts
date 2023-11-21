@@ -6,6 +6,8 @@ import { OutputFormatterFactory } from "../../outputViews/OuputFormatterFactory"
 import { OutputFormatType } from "../../outputViews/OutputFormatType";
 import { DiagramBuilder } from "../builders/Diagram/DiagramBuilder";
 import { Direction } from "../builders/Diagram/classFilters/Direction";
+import { InitialConfig } from "../builders/Diagram/InitialConfig";
+import { Relation } from "../builders/Diagram/Relation";
 
 export class GrammarTranslationController {
 
@@ -26,19 +28,22 @@ export class GrammarTranslationController {
         let plantUmlModel: string = outputFormatter.format();
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModel.txt", plantUmlModel);
-/*
+
         console.log("\nGramática formateada a java. \n\n")
         outputFormatter = new OutputFormatterFactory(OutputFormatType.Java).instance(model);
         let javaModel: string = outputFormatter.format();
         console.log(javaModel);
-        fs.writeFileSync("domain/controllers/javaModel.txt", javaModel); */
-     /*   
-        let plantUmlModel: string = new DiagramBuilder(model, OutputFormatType.PlantUml)                            
-               .setClass("Engine")
-                 // .coupling(Direction.EFFERENT, Relation.Composition)
-                //  .attribute("<nombre>")
+        fs.writeFileSync("domain/controllers/javaModel.txt", javaModel); 
+        
+       plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)                            
+               .setClass("Piston")
+                  .coupling(Direction.EFFERENT, Relation.COMPOSITION)
+                  .coupling(Direction.AFFERENT, Relation.ASSOCIATION)
+                  .build(); 
+                //  .coupling(Direction.AFFERENT, Relation.ASSOCIATION)
+                //  .attribute("")
                 //  .method()
-               .setClass("A")
+             /*  .setClass("A")
                .setClass("B")
                .setClass("C")
                    .withCompositions(Direction.EFFERENT)                   
@@ -52,16 +57,16 @@ export class GrammarTranslationController {
                    .withCompositions(Direction.AFFERENT)      
                    .withAssociations(Direction.EFFERENT)
                    .withAttributes()
-                   .withMethods()
+                   .withMethods()  */
                 //   .withAfferences()
                 //   .withEfferences()
                 //   .withAll();
-               .build();     */  
+                  
 
-    /*    console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
+        console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModelDiagramBuilder.txt", plantUmlModel);
-      */  
+      
     }
 }
 

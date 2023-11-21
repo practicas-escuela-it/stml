@@ -12,8 +12,8 @@ import { Model } from "../entities/Model";
 export class ModelBuilder {
     
     private readonly KEYWORD_CLASS: RegExp = new RegExp(/\s*class\s+/);
-    private readonly KEYWORD_INHERITS: RegExp = new RegExp(/inherits\s+/);
-    private readonly KEYWORD_ATTRIBUTE: RegExp = new RegExp(/attribute\s+/);
+    private readonly KEYWORD_INHERITS: RegExp = new RegExp(/^inherits\s+/);
+    private readonly KEYWORD_ATTRIBUTE: RegExp = new RegExp(/^attribute\s+/);
     private readonly KEYWORD_METHOD: RegExp = new RegExp(/^method\s+/);
     private readonly KEYWORD_COMPOSITION : RegExp = new RegExp(/^composition\s+/);
     private readonly KEYWORD_USE: RegExp = new RegExp(/^use\s+/);
@@ -44,7 +44,7 @@ export class ModelBuilder {
 
     private analyzeClass(): void {
         let _class: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
-        if (_class != undefined) {
+        if (_class != undefined) {            
             this.analyzeInherit(_class);
             this.analyzeAttributes(_class);
             this.analyzeMethods(_class);
@@ -155,7 +155,7 @@ export class ModelBuilder {
         if (this.matchWord(this.KEYWORD_COMPOSITION)) {
             let composition: Composition = new Composition();
             do {
-                let compositionClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
+                let compositionClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());                
                 if (compositionClass != null) {
                    composition.addClass(compositionClass);                
                 }

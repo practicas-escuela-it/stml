@@ -2,10 +2,10 @@ class Car extends Vehicle {
 	private bool isStarted;
 	private int tipo;
 	private real conTipo;
-	Door door;
-	Roof roof;
-	Batery batery;
-	Panel panel;
+	private Door door;
+	private Roof roof;
+	private Batery batery;
+	private Panel panel;
 
 	Car(Batery batery, Panel panel) {}
 
@@ -18,26 +18,81 @@ class Car extends Vehicle {
 class Vehicle { 
 	private string color;
 	private int cylinders;
-	Gas gas;
+	private Gas gas;
 
 	Vehicle(Gas gas) {}
+
+
+} 
+class Door { 
+
+	Door() {}
+
+
+} 
+class Roof { 
+
+	Roof() {}
+
+
+} 
+class Cylinder { 
+
+	Cylinder() {}
+
+
+} 
+class Injector { 
+
+	Injector() {}
+
+
+} 
+class Batery { 
+
+	Batery() {}
+
+
+} 
+class Panel { 
+
+	Panel() {}
 
 
 } 
 class Engine { 
 	private real piece;
 	private int bujia;
-	DistributionRun distributionrun;
-	OilFilter oilfilter;
-	Batery batery;
+	private DistributionRun distributionrun;
+	private OilFilter oilfilter;
+	private Batery batery;
 
 	Engine(Batery batery) {}
+
+
+} 
+class DistributionRun { 
+
+	DistributionRun() {}
+
+
+} 
+class OilFilter { 
+
+	OilFilter() {}
+
+
+} 
+class Piston { 
+
+	Piston() {}
 
 
 } 
 class Gas { 
 	private real price;
 	private real amount;
+	private Door door;
 
 	Gas() {}
 

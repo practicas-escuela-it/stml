@@ -10,7 +10,12 @@ import { MetricMethod } from "./MetricMethod";
 import { MetricAttribute } from "./MetricAttribute";
 import { MetricParameter } from "./MetricParameter";
 import { ClassFilter } from "./classFilters/ClassFilter";
-import { Direction } from "./classFilters/Direction";
+import { Direction } from './classFilters/Direction';
+import { InitialConfig } from "./InitialConfig";
+import { Relation } from "./Relation";
+import { RelationClassesFactory } from "./relationsClasses/RelationClassesFactory";
+import { ClassElementFilter } from "./classFilters/ClassElementFilter";
+import { RelationClass } from "./relationsClasses/RelationClass";
 
 export class DiagramBuilder {     
 
@@ -18,9 +23,10 @@ export class DiagramBuilder {
    private _filteredModel: Model;
    private _outputFormatType: OutputFormatType;
    private _metricFilters: MetricFilter[];
-   private _classFilters: Map<string, ClassFilter>;   
+   //private _classFilters: Map<string, Class>;   
    private _classMap: Map<string, Class>;
    private _currentClass: Class;
+   private _relationClasses: RelationClass[];
 
    constructor(model: Model, outputFormatType: OutputFormatType = OutputFormatType.PlantUml) {
       this._outputFormatType = outputFormatType;
@@ -28,9 +34,10 @@ export class DiagramBuilder {
       this._filteredModel = new Model();
       //  this._filteredModel.copy(this._model);
       this._metricFilters = [];
-      this._classFilters = new Map<string, ClassFilter>();
+      //this._classFilters = new Map<string, Class>();
       this._classMap = new Map<string, Class>();
       this._currentClass = new Class(""); 
+      this._relationClasses = [];
       this.setClassesMap();     
    }
 
@@ -42,73 +49,23 @@ export class DiagramBuilder {
       )
    }
 
-   setClass(className: string): DiagramBuilder {
+   setClass(className: string, classState: InitialConfig = InitialConfig.EMPTY): DiagramBuilder {
       let _class: Class | undefined = this._classMap.get(className)?? undefined;      
       if (_class != undefined) {
-         this._currentClass = _class;   
-         this._classFilters.set(className, new ClassFilter(_class, this._model, this._filteredModel));
+         this._currentClass = _class;                           
       }
       return this;
+    }
+
+    coupling(direction: Direction, relation: Relation) {
+        this._relationClasses.push(new RelationClassesFactory(direction, relation, this._currentClass, this._model).instance());        
+        return this;
     }
 
    private hasClassSetted(): boolean {
       return this._currentClass != null;
    }     
 
-   withAttributes(): DiagramBuilder {      
-      this._classFilters.get(this._currentClass.name)?.addAttributes();
-      return this;
-   } 
-
-   withMethods(): DiagramBuilder {
-      this._classFilters.get(this._currentClass.name)?.addMethods();
-      return this;
-   }
-
-   withCompositions(direction: Direction): DiagramBuilder {
-      this._classFilters.get(this._currentClass.name)?.addCompositions(direction);      
-      return this;
-   }  
-
-   withAssociations(direction: Direction): DiagramBuilder {
-      this._classFilters.get(this._currentClass.name)?.addAssociations(direction);
-      return this;
-   }
-   
-
-   withUses(direction: Direction): DiagramBuilder {
-      this._classFilters.get(this._currentClass.name)?.addUses(direction);
-      return this;
-   }   
-
-   withInherits(direction: Direction): DiagramBuilder {
-      this._classFilters.get(this._currentClass.name)?.addInherits(direction);      
-      return this;
-   }  
-
-   withEfferences(): DiagramBuilder {
-      this.withAssociations(Direction.EFFERENT);
-      this.withCompositions(Direction.EFFERENT);
-      this.withInherits(Direction.EFFERENT);
-      this.withUses(Direction.EFFERENT);
-      return this;
-   }   
-
-   withAfferences(): DiagramBuilder {
-      this.withAssociations(Direction.AFFERENT);
-      this.withCompositions(Direction.AFFERENT);
-      this.withInherits(Direction.AFFERENT);
-      this.withUses(Direction.AFFERENT);
-      return this;
-   }   
-   
-   withAll(): DiagramBuilder {
-     this.withEfferences();
-     this.withAfferences();
-     this.withAttributes();
-     this.withMethods();
-     return this;
-   }
 
    /*
    removeConcretClasses(className: string): DiagramBuilder {
@@ -190,13 +147,13 @@ export class DiagramBuilder {
 
    private _applyAddFilters() {
       if (this.hasClassSetted()) {
-         this._applyAddFilterToConcretClasses();
+         this._applyRelations();
       } else {
-         this._applyAddFilterToAllClasses();
+         this._applyMetricFiltersToAllClasses();
       }     
    }
 
-   private _applyAddFilterToAllClasses() {
+   private _applyMetricFiltersToAllClasses() {
       this._model.getClasses().forEach(
          (_class: Class) => {
             if (!this._isConcreteClassToRemove(_class.name)) {
@@ -212,16 +169,13 @@ export class DiagramBuilder {
       );
    }
 
-   private _applyAddFilterToConcretClasses(): void {     
-      this._model.getClasses().forEach(
-         (_class: Class) => {
-            let _classFilter: ClassFilter | undefined = this._classFilters.get(_class.name)?? undefined;
-            if (_classFilter) {
-               _classFilter.apply();
-            }
+   private _applyRelations(): void {     
+      console.log("APLICANDO RELACIONES");
+      this._relationClasses.forEach(
+         (relationClass: RelationClass) => {
+            this._filteredModel.addClasses(relationClass.getRelationClasses())
          }
-      )
-         
+      );               
    }
 
    private _isConcreteClassToRemove(name: string): boolean {

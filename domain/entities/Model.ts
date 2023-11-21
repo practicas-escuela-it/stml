@@ -33,6 +33,10 @@ export class Model {
         this._classes.push(_class);
     }
 
+    addClasses(_classes: Class[]): void {
+        this._classes.push(..._classes);
+    }
+
     removeClass(_class: Class): void {
         let _index: number = 0;        
         this._classes.forEach(
