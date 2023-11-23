@@ -6,8 +6,9 @@ class Car extends Vehicle {
 	private Roof roof;
 	private Batery batery;
 	private Panel panel;
+	private Engine engine;
 
-	Car(Batery batery, Panel panel) {}
+	Car(Batery batery, Panel panel, Engine engine) {}
 
 	void run(real velocity,  void aceleration) { }
 

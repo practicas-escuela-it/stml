@@ -56,6 +56,7 @@ Car ..> Cylinder
 Car ..> Injector
 Car o--> Batery
 Car o--> Panel
+Car o--> Engine
 Vehicle o--> Gas
 Engine *--> DistributionRun
 Engine *--> OilFilter

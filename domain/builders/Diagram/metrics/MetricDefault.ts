@@ -1,4 +1,4 @@
-import { Model } from "../../entities/Model";
+import { Model } from "../../../entities/Model";
 import { Metric } from "./Metric";
 
 export class MetricDefault extends Metric {

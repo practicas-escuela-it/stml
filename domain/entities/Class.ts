@@ -6,7 +6,7 @@ import { Method } from "./Method";
 import { Parameter } from "./Parameter";
 import { Use } from "./Use";
 
-export class Class {   
+export class Class {        
 
     private _identifier: Identifier;
     private _inherists: Class[];
@@ -25,6 +25,15 @@ export class Class {
         this._uses = [];
         this._associations = [];
     }
+
+    empty(): void {
+        this._inherists = [];
+        this._attributes = [];
+        this._methods = [];
+        this._compositions = [];
+        this._uses = [];
+        this._associations = [];
+     } 
 
     get name(): string {
         return this._identifier.value;
@@ -182,47 +191,62 @@ export class Class {
     }
 
     hasCompositionRelationWith(_classToSearch: Class): boolean {
+        let result: boolean = false;       
         this._compositions.forEach(
             (composition: Composition) => {
                composition.getClasses().forEach(
                 (_class: Class) => {
-                   if (_class.name == _classToSearch.name) {
-                    return true;
+                   if (_class.name.trim() == _classToSearch.name.trim()) {
+                    result = true;
                    }
                 }
                )
             }
         );
-        return false;
+        return result;
     }
 
     hasAssociationRelationWith(_classToSearch: Class): boolean {
+        let result: boolean = false;        
         this._associations.forEach(
             (association: Association) => {
                association.classes.forEach(
-                (_class: Class) => {
-                   if (_class.name == _classToSearch.name) {
-                    return true;
+                (_class: Class) => {                    
+                   if (_class.name.trim() == _classToSearch.name.trim()) {                    
+                     result = true;
                    }
                 }
                )
             }
         );
-        return false;
+        return result;
     }
 
     hasUseRelationWith(_classToSearch: Class): boolean {
+        let result: boolean = false;       
         this._uses.forEach(
           (use: Use) => {
             use.classes.forEach(
               (_class: Class) => {
                 if (_class.name == _classToSearch.name) {
-                  return true;
+                  result = true;
                 }
            }
           )
          }
         );
-        return false;
+        return result;
     }    
+
+    hasInheritRelationWith(_class: Class): boolean {
+        let result: boolean = false;       
+        this._inherists.forEach(
+            (inherit: Class) => {
+                if (inherit.name == _class.name) {
+                    result = true;
+                }
+            }
+        );
+        return result;
+    } 
 }

@@ -3,10 +3,10 @@ import { Class } from "./Class";
 export class Model {
       
 
-    private _classes: Class[];
+    private _classes: Class[];    
 
     constructor() {
-        this._classes = [];
+        this._classes = [];        
     }
 
     getClasses(): Class[] {
@@ -30,11 +30,17 @@ export class Model {
     }
 
     addClass(_class: Class): void {
-        this._classes.push(_class);
+        this._classes.push(_class);        
     }
 
     addClasses(_classes: Class[]): void {
-        this._classes.push(..._classes);
+        _classes.forEach(
+            (_class: Class) => {
+                if (!this.exists(_class.name)) {
+                    this._classes.push(_class);
+                }
+            }
+        );        
     }
 
     removeClass(_class: Class): void {

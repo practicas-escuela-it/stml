@@ -25,8 +25,12 @@ var Model = /** @class */ (function () {
         this._classes.push(_class);
     };
     Model.prototype.addClasses = function (_classes) {
-        var _a;
-        (_a = this._classes).push.apply(_a, _classes);
+        var _this = this;
+        _classes.forEach(function (_class) {
+            if (!_this.exists(_class.name)) {
+                _this._classes.push(_class);
+            }
+        });
     };
     Model.prototype.removeClass = function (_class) {
         var _this = this;

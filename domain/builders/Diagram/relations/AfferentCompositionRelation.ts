@@ -1,13 +1,14 @@
 import { Class } from "../../../entities/Class";
+import { Composition } from "../../../entities/Composition";
 import { Model } from "../../../entities/Model";
-import { RelationClass } from "./RelationClass";
+import { Relation } from "./Relation";
 
-export class AfferentAssociationRelation extends RelationClass {
+export class AfferentCompositionRelation extends Relation {
     
     private _model: Model;
 
-    constructor(_class: Class, model: Model) {
-        super(_class);
+    constructor(_class: Class, model: Model, filteredClass: Class) {
+        super(_class, filteredClass);
         this._model = model;
      }
  
@@ -15,8 +16,8 @@ export class AfferentAssociationRelation extends RelationClass {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.hasAssociationRelationWith(this._class)) {
-                    _classes.push(_class);                    
+                if (_class.hasCompositionRelationWith(this._class)) {
+                    _classes.push(_class);
                 }
             }
         );

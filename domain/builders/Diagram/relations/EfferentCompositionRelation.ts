@@ -1,11 +1,11 @@
 import { Class } from "../../../entities/Class";
 import { Composition } from "../../../entities/Composition";
-import { RelationClass } from "./RelationClass";
+import { Relation } from "./Relation";
 
-export class EfferentCompositionRelation extends RelationClass {
+export class EfferentCompositionRelation extends Relation {
     
-    constructor(_class: Class) {
-        super(_class);
+    constructor(_class: Class, filteredClass: Class) {
+        super(_class, filteredClass);
      }
  
      override getRelationClasses(): Class[] {

@@ -1,6 +1,6 @@
-import { Attribute } from "../../entities/Attribute";
-import { Class } from "../../entities/Class";
-import { Model } from "../../entities/Model";
+import { Attribute } from "../../../entities/Attribute";
+import { Class } from "../../../entities/Class";
+import { Model } from "../../../entities/Model";
 import { Metric } from "./Metric"
 
 export class MetricAttribute extends Metric {

@@ -1,14 +1,12 @@
 import { Class } from "../../../entities/Class";
-import { Composition } from "../../../entities/Composition";
 import { Model } from "../../../entities/Model";
-import { RelationClass } from "./RelationClass";
+import { Relation } from "./Relation"
 
-export class AfferentCompositionRelation extends RelationClass {
-    
+export class AfferentInheritRelation extends Relation {
     private _model: Model;
 
-    constructor(_class: Class, model: Model) {
-        super(_class);
+    constructor(_class: Class, model: Model, filteredClass: Class) {
+        super(_class, filteredClass);
         this._model = model;
      }
  
@@ -16,11 +14,13 @@ export class AfferentCompositionRelation extends RelationClass {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.hasCompositionRelationWith(this._class)) {
+                if (_class.name != this._class.name && _class.hasInheritRelationWith(this._class)) {
                     _classes.push(_class);
+                    console.log("CLASE QUE HEREDA DE " + this._class.name)
                 }
             }
         );
         return [this._filteredClass, ..._classes];
      }  
+
 }

@@ -4,7 +4,7 @@ class Car inherits Vehicle attribute isStarted bool,
     method stop() 
     composition Door, Roof 
     use Cylinder, Injector 
-    association Batery, Panel 
+    association Batery, Panel, Engine
 
 class Engine
    attribute piece real, bujia int 

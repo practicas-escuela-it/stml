@@ -1,4 +1,4 @@
-import { Model } from "../../entities/Model";
+import { Model } from "../../../entities/Model";
 import { Metric } from "./Metric";
 import { MetricAfferent } from "./MetricAfferent";
 import { MetricAttribute } from "./MetricAttribute";

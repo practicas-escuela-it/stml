@@ -1,32 +1,33 @@
 import { Model } from "../../entities/Model";
 import { OutputFormatType } from '../../../outputViews/OutputFormatType';
 import { OutputFormatterFactory } from "../../../outputViews/OuputFormatterFactory";
-import { MetricFilter } from "./MetricFilter";
-import { ComparatorType } from "./classFilters/ComparatorType";
+import { MetricFilter } from "./metrics/MetricFilter";
+import { ComparatorType } from "./types/ComparatorType";
 import { Class } from "../../entities/Class";
-import { MetricAfferent } from "./MetricAfferent";
-import { MetricEfferent } from "./MetricEfferent";
-import { MetricMethod } from "./MetricMethod";
-import { MetricAttribute } from "./MetricAttribute";
-import { MetricParameter } from "./MetricParameter";
-import { ClassFilter } from "./classFilters/ClassFilter";
-import { Direction } from './classFilters/Direction';
+import { MetricAfferent } from "./metrics/MetricAfferent";
+import { MetricEfferent } from "./metrics/MetricEfferent";
+import { MetricMethod } from "./metrics/MetricMethod";
+import { MetricAttribute } from "./metrics/MetricAttribute";
+import { MetricParameter } from "./metrics/MetricParameter";
+import { Direction } from './types/Direction';
 import { InitialConfig } from "./InitialConfig";
-import { Relation } from "./Relation";
-import { RelationClassesFactory } from "./relationsClasses/RelationClassesFactory";
-import { ClassElementFilter } from "./classFilters/ClassElementFilter";
-import { RelationClass } from "./relationsClasses/RelationClass";
+import { RelationClassesFactory } from "./relations/RelationClassesFactory";
+import { Attribute } from "../../entities/Attribute";
+import { Relation } from "./relations/Relation";
+import { RelationType } from "./types/RelationType";
+import { AttributeFilter } from "./ClassElements/AttributeFilter";
+import { MethodFilter } from "./ClassElements/MethodFilter";
 
-export class DiagramBuilder {     
+export class DiagramBuilder {           
 
    private _model: Model;
    private _filteredModel: Model;
    private _outputFormatType: OutputFormatType;
-   private _metricFilters: MetricFilter[];
-   //private _classFilters: Map<string, Class>;   
+   private _metricFilters: MetricFilter[];   
    private _classMap: Map<string, Class>;
-   private _currentClass: Class;
-   private _relationClasses: RelationClass[];
+   private _originalClass: Class;
+   private _filteredClass: Class;
+   private _relations: Relation[];
 
    constructor(model: Model, outputFormatType: OutputFormatType = OutputFormatType.PlantUml) {
       this._outputFormatType = outputFormatType;
@@ -36,8 +37,9 @@ export class DiagramBuilder {
       this._metricFilters = [];
       //this._classFilters = new Map<string, Class>();
       this._classMap = new Map<string, Class>();
-      this._currentClass = new Class(""); 
-      this._relationClasses = [];
+      this._originalClass = new Class(""); 
+      this._filteredClass = new Class("");
+      this._relations = [];
       this.setClassesMap();     
    }
 
@@ -51,27 +53,31 @@ export class DiagramBuilder {
 
    setClass(className: string, classState: InitialConfig = InitialConfig.EMPTY): DiagramBuilder {
       let _class: Class | undefined = this._classMap.get(className)?? undefined;      
-      if (_class != undefined) {
-         this._currentClass = _class;                           
+      if (_class != undefined) {           
+         this._originalClass = _class;       
+         this._filteredClass = new Class(_class.name);                                
       }
       return this;
-    }
+    }       
 
-    coupling(direction: Direction, relation: Relation) {
-        this._relationClasses.push(new RelationClassesFactory(direction, relation, this._currentClass, this._model).instance());        
+    coupling(direction: Direction, relation: RelationType): DiagramBuilder {
+        this._relations.push(new RelationClassesFactory(direction, relation, this._originalClass, this._model, this._filteredClass).instance());        
         return this;
     }
 
-   private hasClassSetted(): boolean {
-      return this._currentClass != null;
-   }     
-
-
-   /*
-   removeConcretClasses(className: string): DiagramBuilder {
-      this._concretClassesToRemove.push(new ClassFilter(className));
+    attribute(names: string[] = []): DiagramBuilder {
+      new AttributeFilter(names, this._originalClass, this._filteredClass).filter();
       return this;
-   } */
+    }   
+
+    method(names: string[] = []): DiagramBuilder {
+      new MethodFilter(names, this._originalClass, this._filteredClass).filter();
+      return this;
+    }
+
+   private hasClassSetted(): boolean {
+      return this._originalClass != null;
+   }        
 
    addAfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
       let metricFilter: MetricFilter = new MetricFilter(new MetricAfferent(this._model), true, amount, comparatorType);
@@ -134,10 +140,7 @@ export class DiagramBuilder {
    }
 
    build(): string {
-      this._applyAddFilters();
-      this._applyRemoveFilters();
-      //this._applyConcretClassToAdd();
-      //this._applyConcretClassToRemove();      
+      this._applyAddFilters();      
       if (this._filteredModel.hasClasses()) {
          return new OutputFormatterFactory(this._outputFormatType).instance(this._filteredModel).format();
       } else {
@@ -169,10 +172,9 @@ export class DiagramBuilder {
       );
    }
 
-   private _applyRelations(): void {     
-      console.log("APLICANDO RELACIONES");
-      this._relationClasses.forEach(
-         (relationClass: RelationClass) => {
+   private _applyRelations(): void {           
+      this._relations.forEach(
+         (relationClass: Relation) => {                        
             this._filteredModel.addClasses(relationClass.getRelationClasses())
          }
       );               
@@ -195,27 +197,5 @@ export class DiagramBuilder {
             )
          }
       )
-   }
-
-   /*
-   private _applyConcretClassToAdd() {
-      this._concretClassesToAdd.forEach(
-         (className: string) => {
-            if (!this._filteredModel.exists(className)) {               
-               this._filteredModel.addClass(this._model.getClass(className));
-            }
-         }
-      );
-   }
-
-   private _applyConcretClassToRemove() {
-      this._concretClassesToRemove.forEach(
-         (className: string) => {
-            if (this._filteredModel.exists(className)) {
-               this._filteredModel.removeClass(this._model.getClass(className));
-            }
-         }
-      )
-   }*/
-
+   }  
 }

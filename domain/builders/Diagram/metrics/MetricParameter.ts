@@ -1,7 +1,7 @@
-import { Class } from "../../entities/Class";
-import { Method } from "../../entities/Method";
-import { Model } from "../../entities/Model";
-import { Parameter } from "../../entities/Parameter";
+import { Class } from "../../../entities/Class";
+import { Method } from "../../../entities/Method";
+import { Model } from "../../../entities/Model";
+import { Parameter } from "../../../entities/Parameter";
 import { Metric } from "./Metric";
 
 export class MetricParameter extends Metric {

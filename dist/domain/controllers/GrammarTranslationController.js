@@ -6,8 +6,8 @@ var ModelBuilder_1 = require("../builders/ModelBuilder");
 var OuputFormatterFactory_1 = require("../../outputViews/OuputFormatterFactory");
 var OutputFormatType_1 = require("../../outputViews/OutputFormatType");
 var DiagramBuilder_1 = require("../builders/Diagram/DiagramBuilder");
-var Direction_1 = require("../builders/Diagram/classFilters/Direction");
-var Relation_1 = require("../builders/Diagram/Relation");
+var Direction_1 = require("../builders/Diagram/types/Direction");
+var RelationType_1 = require("../builders/Diagram/types/RelationType");
 var GrammarTranslationController = /** @class */ (function () {
     function GrammarTranslationController() {
     }
@@ -28,9 +28,20 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
-            .setClass("Piston")
-            .coupling(Direction_1.Direction.EFFERENT, Relation_1.Relation.COMPOSITION)
-            .coupling(Direction_1.Direction.AFFERENT, Relation_1.Relation.ASSOCIATION)
+            .setClass("Car")
+            //  .coupling(Direction.EFFERENT, Relation.COMPOSITION)
+            //   .coupling(Direction.EFFERENT, Relation.USE)
+            .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.INHERIT)
+            .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.ASSOCIATION)
+            .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.INHERIT)
+            .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.COMPOSITION)
+            .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.ASSOCIATION)
+            .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.USE)
+            .attribute(["tipo"])
+            .method(["run"])
+            // .setClass("Engine")
+            //   .coupling(Direction.EFFERENT, Relation.ASSOCIATION)
+            //   .endset()
             .build();
         //  .coupling(Direction.AFFERENT, Relation.ASSOCIATION)
         //  .attribute("")

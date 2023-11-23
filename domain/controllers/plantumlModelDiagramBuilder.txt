@@ -1,10 +1,33 @@
 @startuml
 
-class Piston { 
+class Car extends Vehicle { 
+-tipo: int
++run()
 
 } 
-class Piston { 
+class Vehicle { 
+-color: void
+-cylinders: int
 
 } 
+class Batery { 
+
+} 
+class Panel { 
+
+} 
+class Engine { 
+-piece: real
+-bujia: int
+
+} 
+Car o--> Batery
+Car o--> Panel
+Car o--> Engine
+Vehicle o--> Gas
+Engine *--> DistributionRun
+Engine *--> OilFilter
+Engine ..> Piston
+Engine o--> Batery
 
 @enduml
