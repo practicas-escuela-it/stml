@@ -45,33 +45,8 @@ export class GrammarTranslationController {
                   .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
                   .coupling(Direction.AFFERENT, RelationType.USE)
                   .attribute(["tipo"])   
-                  .method(["run"])                            
-              
-               // .setClass("Engine")
-               //   .coupling(Direction.EFFERENT, Relation.ASSOCIATION)
-               //   .endset()
-                .build(); 
-                //  .coupling(Direction.AFFERENT, Relation.ASSOCIATION)
-                //  .attribute("")
-                //  .method()
-             /*  .setClass("A")
-               .setClass("B")
-               .setClass("C")
-                   .withCompositions(Direction.EFFERENT)                   
-                   .withCompositions(Direction.AFFERENT)      
-                   .withAssociations(Direction.EFFERENT)
-                   .withAttributes()
-                   .withMethods()
-
-                .setClass("X")
-                   .withCompositions(Direction.EFFERENT)                   
-                   .withCompositions(Direction.AFFERENT)      
-                   .withAssociations(Direction.EFFERENT)
-                   .withAttributes()
-                   .withMethods()  */
-                //   .withAfferences()
-                //   .withEfferences()
-                //   .withAll();
+                  .method(["run"])                                                      
+                .build();                
                   
 
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
