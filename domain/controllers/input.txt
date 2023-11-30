@@ -1,4 +1,5 @@
-class Car inherits Vehicle attribute isStarted bool,
+class Car inherits Vehicle 
+    attribute isStarted bool,
     tipo int,    conTipo real  
     method run (velocity real, aceleration ) 
     method stop() 

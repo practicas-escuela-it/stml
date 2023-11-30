@@ -8,6 +8,7 @@ var OutputFormatType_1 = require("../../outputViews/OutputFormatType");
 var DiagramBuilder_1 = require("../builders/Diagram/DiagramBuilder");
 var Direction_1 = require("../builders/Diagram/types/Direction");
 var RelationType_1 = require("../builders/Diagram/types/RelationType");
+var ActionType_1 = require("../builders/Diagram/ActionType");
 var GrammarTranslationController = /** @class */ (function () {
     function GrammarTranslationController() {
     }
@@ -28,9 +29,7 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
-            .setClass("Car")
-            //  .coupling(Direction.EFFERENT, Relation.COMPOSITION)
-            //   .coupling(Direction.EFFERENT, Relation.USE)
+            .setClass("Car", ActionType_1.ActionType.ADD)
             .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.INHERIT)
             .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.ASSOCIATION)
             .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.INHERIT)
@@ -39,31 +38,7 @@ var GrammarTranslationController = /** @class */ (function () {
             .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.USE)
             .attribute(["tipo"])
             .method(["run"])
-            // .setClass("Engine")
-            //   .coupling(Direction.EFFERENT, Relation.ASSOCIATION)
-            //   .endset()
             .build();
-        //  .coupling(Direction.AFFERENT, Relation.ASSOCIATION)
-        //  .attribute("")
-        //  .method()
-        /*  .setClass("A")
-          .setClass("B")
-          .setClass("C")
-              .withCompositions(Direction.EFFERENT)
-              .withCompositions(Direction.AFFERENT)
-              .withAssociations(Direction.EFFERENT)
-              .withAttributes()
-              .withMethods()
-
-           .setClass("X")
-              .withCompositions(Direction.EFFERENT)
-              .withCompositions(Direction.AFFERENT)
-              .withAssociations(Direction.EFFERENT)
-              .withAttributes()
-              .withMethods()  */
-        //   .withAfferences()
-        //   .withEfferences()
-        //   .withAll();
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);
         fs.writeFileSync("domain/controllers/plantumlModelDiagramBuilder.txt", plantUmlModel);
@@ -72,3 +47,12 @@ var GrammarTranslationController = /** @class */ (function () {
 }());
 exports.GrammarTranslationController = GrammarTranslationController;
 // Crear una factoría de construcción de clases.
+/*  plantUmlModel = new DiagramBuilder1(model, OutputFormatType.PlantUml)
+              .setClass("Car")
+                .coupling
+                  .efferent
+                   .association
+                   .composition
+                  .afferent
+                   .composition
+                .attribute() */ 

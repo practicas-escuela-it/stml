@@ -16,25 +16,25 @@ export class MethodFilter extends ElementFilter {
          }
     }
     protected _addAll(): void {
-        this._originalClass.getMethods().forEach(
+        this._modelClass.getMethods().forEach(
             (method: Method) => {
                let _copyMethod: Method = new Method();
                _copyMethod.setIdentifier(method.identifier.value);
-               this._filteredClass.addMethod(_copyMethod);
+               this._diagramClass.addMethod(_copyMethod);
             }
          );
     }
     protected _add(names: string[]): void {
         names.forEach(
             (name: string) => {
-               this._filteredClass.addMethod(this._getOriginalClassMethod(name));
+               this._diagramClass.addMethod(this._getOriginalClassMethod(name));
             }
          )
     }
     
     _getOriginalClassMethod(name: string) {
         let result: Method = new Method();
-        this._originalClass.getMethods().forEach(
+        this._modelClass.getMethods().forEach(
            (method: Method) => {
               if (method.identifier.value == name) {
                  result.setIdentifier(method.identifier.value);

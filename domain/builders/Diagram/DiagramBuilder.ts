@@ -10,7 +10,7 @@ import { MetricMethod } from "./metrics/MetricMethod";
 import { MetricAttribute } from "./metrics/MetricAttribute";
 import { MetricParameter } from "./metrics/MetricParameter";
 import { Direction } from './types/Direction';
-import { InitialConfig } from "./InitialConfig";
+import { ActionType } from "./ActionType";
 import { RelationClassesFactory } from "./relations/RelationClassesFactory";
 import { Attribute } from "../../entities/Attribute";
 import { Relation } from "./relations/Relation";
@@ -23,60 +23,60 @@ export class DiagramBuilder {
    private _model: Model;
    private _filteredModel: Model;
    private _outputFormatType: OutputFormatType;
-   private _metricFilters: MetricFilter[];   
-   private _classMap: Map<string, Class>;
-   private _originalClass: Class;
-   private _filteredClass: Class;
+   private _metricFilters: MetricFilter[];      
+   private _modelClass: Class;
+   private _diagramClass: Class;
    private _relations: Relation[];
+   private _actionType: ActionType;
 
    constructor(model: Model, outputFormatType: OutputFormatType = OutputFormatType.PlantUml) {
       this._outputFormatType = outputFormatType;
       this._model = model;
-      this._filteredModel = new Model();
-      //  this._filteredModel.copy(this._model);
-      this._metricFilters = [];
-      //this._classFilters = new Map<string, Class>();
-      this._classMap = new Map<string, Class>();
-      this._originalClass = new Class(""); 
-      this._filteredClass = new Class("");
+      this._filteredModel = new Model();      
+      this._metricFilters = [];      
+      this._modelClass = new Class(""); 
+      this._diagramClass = new Class("");
       this._relations = [];
-      this.setClassesMap();     
-   }
+      this._actionType = ActionType.ADD;      
+   }   
 
-   private setClassesMap(): void {
-      this._model.getClasses().forEach(
-         (_class: Class) => {
-            this._classMap.set(_class.name, _class);
-         }
-      )
-   }
-
-   setClass(className: string, classState: InitialConfig = InitialConfig.EMPTY): DiagramBuilder {
-      let _class: Class | undefined = this._classMap.get(className)?? undefined;      
+   setClass(className: string, actionType: ActionType = ActionType.ADD): DiagramBuilder {
+      // assert(this._classMap.get(className) != undefined)
+      let _class: Class | undefined = this._model.getClass(className)?? undefined;      
       if (_class != undefined) {           
-         this._originalClass = _class;       
-         this._filteredClass = new Class(_class.name);                                
+         this._modelClass = _class;                                  
+         this.setDiagramClass(actionType);
       }
       return this;
     }       
+    
+    private setDiagramClass(actionType: ActionType): DiagramBuilder  {
+      this._actionType = actionType;
+      if (actionType == ActionType.ADD) {
+         this._diagramClass = new Class(this._modelClass.name);
+      } else {
+         this._diagramClass.copy(this._modelClass); 
+      }
+      return this;
+    }   
 
     coupling(direction: Direction, relation: RelationType): DiagramBuilder {
-        this._relations.push(new RelationClassesFactory(direction, relation, this._originalClass, this._model, this._filteredClass).instance());        
+        this._relations.push(new RelationClassesFactory(direction, relation, this._modelClass, this._model, this._diagramClass).instance());        
         return this;
     }
 
     attribute(names: string[] = []): DiagramBuilder {
-      new AttributeFilter(names, this._originalClass, this._filteredClass).filter();
+      new AttributeFilter(names, this._modelClass, this._diagramClass).filter();
       return this;
     }   
 
     method(names: string[] = []): DiagramBuilder {
-      new MethodFilter(names, this._originalClass, this._filteredClass).filter();
+      new MethodFilter(names, this._modelClass, this._diagramClass).filter();
       return this;
     }
 
    private hasClassSetted(): boolean {
-      return this._originalClass != null;
+      return this._modelClass != null;
    }        
 
    addAfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
@@ -173,11 +173,27 @@ export class DiagramBuilder {
    }
 
    private _applyRelations(): void {           
+      if (this._actionType == ActionType.ADD) {
+         this._applyRelationsForAdd();  
+      } else {
+         this._applyRelationsForRemove();
+      }
+   }
+
+   private _applyRelationsForAdd(): void {
       this._relations.forEach(
-         (relationClass: Relation) => {                        
-            this._filteredModel.addClasses(relationClass.getRelationClasses())
+         (relation: Relation) => {                        
+            this._filteredModel.addClasses(relation.getRelationClasses())
          }
-      );               
+      ); 
+   }
+
+   private _applyRelationsForRemove(): void {
+      this._relations.forEach(
+         (relation: Relation) => {                        
+            this._filteredModel.removeClasses(relation.getRelationClasses())
+         }
+      );
    }
 
    private _isConcreteClassToRemove(name: string): boolean {

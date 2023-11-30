@@ -17,11 +17,11 @@ export class AttributeFilter extends ElementFilter {
     }
 
     protected override _addAll(): void {
-        this._originalClass.getAttributes.forEach(
+        this._modelClass.getAttributes.forEach(
            (attribute: Attribute) => {
-              let _copyAttr: Attribute = new Attribute();
-              _copyAttr.set(attribute.identifier.value, attribute.type.value);
-              this._filteredClass.addAttribute(_copyAttr);
+              let _copyAttr: Attribute = new Attribute(attribute);
+              // _copyAttr.set(attribute.identifier.value, attribute.type.value);
+              this._diagramClass.addAttribute(_copyAttr);
            }
         );
      }
@@ -29,14 +29,14 @@ export class AttributeFilter extends ElementFilter {
      protected override _add(names: string[]): void {
         names.forEach(
            (name: string) => {
-              this._filteredClass.addAttribute(this._getOriginalClassAttribute(name));
+              this._diagramClass.addAttribute(this._getOriginalClassAttribute(name));
            }
         )
      }
   
      private _getOriginalClassAttribute(name: string): Attribute {
         let result: Attribute = new Attribute();
-        this._originalClass.getAttributes.forEach(
+        this._modelClass.getAttributes.forEach(
            (attribute: Attribute) => {
               if (attribute.identifier.value == name) {
                  result.set(attribute.identifier.value, attribute.type.value);

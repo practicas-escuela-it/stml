@@ -1,14 +1,14 @@
 import { Class } from "../../../entities/Class";
 
 export abstract class ElementFilter {
-    protected _originalClass: Class;
-    protected _filteredClass: Class;
+    protected _modelClass: Class;
+    protected _diagramClass: Class;
     protected _names: string[];
 
     constructor(names: string[], originalClass: Class, filteredClass: Class) {
         this._names = names;
-        this._originalClass = originalClass;
-        this._filteredClass = filteredClass;
+        this._modelClass = originalClass;
+        this._diagramClass = filteredClass;
     }
 
     abstract filter(): void;

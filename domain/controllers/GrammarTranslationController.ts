@@ -7,6 +7,7 @@ import { OutputFormatType } from "../../outputViews/OutputFormatType";
 import { DiagramBuilder } from "../builders/Diagram/DiagramBuilder";
 import { Direction } from "../builders/Diagram/types/Direction";
 import { RelationType } from "../builders/Diagram/types/RelationType";
+import { ActionType } from "../builders/Diagram/ActionType";
 
 export class GrammarTranslationController {
 
@@ -18,7 +19,6 @@ export class GrammarTranslationController {
         let fileContent: string = fs.readFileSync(fileName, "utf8");
         let modelBuilder: ModelBuilder = new ModelBuilder(fileContent);
         let model: Model = modelBuilder.build();
-
         
         console.log(JSON.stringify(model));
         fs.writeFileSync("domain/controllers/outputModel.txt", JSON.stringify(model));        
@@ -35,25 +35,32 @@ export class GrammarTranslationController {
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel); 
         
        plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)                            
-               .setClass("Car")
-                //  .coupling(Direction.EFFERENT, Relation.COMPOSITION)
-               //   .coupling(Direction.EFFERENT, Relation.USE)
+               .setClass("Car", ActionType.ADD)                               
                   .coupling(Direction.EFFERENT, RelationType.INHERIT)
                   .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
                   .coupling(Direction.AFFERENT, RelationType.INHERIT)
                   .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
                   .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
                   .coupling(Direction.AFFERENT, RelationType.USE)
-                  .attribute(["tipo"])   
+                  .attribute(["tipo"])  
                   .method(["run"])                                                      
-                .build();                
-                  
+                .build();                                     
 
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);
-        fs.writeFileSync("domain/controllers/plantumlModelDiagramBuilder.txt", plantUmlModel);
-      
+        fs.writeFileSync("domain/controllers/plantumlModelDiagramBuilder.txt", plantUmlModel);      
     }
 }
 
 // Crear una factoría de construcción de clases.
+
+
+ /*  plantUmlModel = new DiagramBuilder1(model, OutputFormatType.PlantUml)
+               .setClass("Car")
+                 .coupling
+                   .efferent
+                    .association
+                    .composition
+                   .afferent
+                    .composition
+                 .attribute() */
