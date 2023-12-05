@@ -51,7 +51,7 @@ export class MetricAfferent extends Metric {
                 if (_otherClass.name != _class.name) {
                     _otherClass.getCompositions().forEach(
                         (_compositionClass: Composition) => {
-                            _compositionClasses.push(...this.getAfferentIdentifiers(_compositionClass.getClasses(), _class, _otherClass));                            
+                            // _compositionClasses.push(...this.getAfferentIdentifiers(_compositionClass.getClasses(), _class, _otherClass));                            
                         });
                 }
             });
@@ -76,7 +76,7 @@ export class MetricAfferent extends Metric {
                 if (_otherClass.name != _class.name) {
                     _otherClass.getAssociations().forEach(
                         (_associationClass: Association) => {
-                            _associationsClasses.push(...this.getAfferentIdentifiers(_associationClass.classes, _class, _otherClass));                            
+                            // _associationsClasses.push(...this.getAfferentIdentifiers(_associationClass.classes, _class, _otherClass));                            
                         });
                 }
             });
@@ -90,7 +90,7 @@ export class MetricAfferent extends Metric {
                 if (_otherClass.name != _class.name) {
                     _otherClass.getUses().forEach(
                         (_useClass: Use) => {
-                            _useClasses.push(...this.getAfferentIdentifiers(_useClass.classes, _class, _otherClass));                            
+                            // _useClasses.push(...this.getAfferentIdentifiers(_useClass.classes, _class, _otherClass));                            
                         });
                 }
             });

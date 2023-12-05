@@ -16,7 +16,6 @@ var Model = /** @class */ (function () {
                 // console.log("VALUE: " + entry[1]);
             }
         }
-        console.log("__CLASSES: " + __classes);
         // return __classes; */
         return this._classes;
     };

@@ -17,8 +17,7 @@ export class Model {
                 __classes.push(value);
                 // console.log("VALUE: " + entry[1]);
             }
-        }
-        console.log("__CLASSES: " + __classes)
+        }        
        // return __classes; */
         return this._classes;
     }

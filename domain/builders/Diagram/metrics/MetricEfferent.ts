@@ -50,8 +50,9 @@ export class MetricEfferent extends Metric {
        _class.getCompositions().forEach(
          (_compositionClass: Composition) => {
             _compositionClass.getClasses().forEach(
-                (_identifier: Identifier) => {
-                   _compositionsClasses.push(_identifier.value);
+                //(_identifier: Identifier) => {
+                (_class: Class) => {
+                   // _compositionsClasses.push(_identifier.value);
                 }
             )
          }
@@ -64,8 +65,9 @@ export class MetricEfferent extends Metric {
        _class.getUses().forEach(
           (_useClass: Use) => {
              _useClass.classes.forEach(
-                (_identifier: Identifier) => {
-                    _useClasses.push(_identifier.value);
+               // (_identifier: Identifier) => {
+                (_class: Class) => {
+                    // _useClasses.push(_identifier.value);
                 }
              )
           }
@@ -78,8 +80,9 @@ export class MetricEfferent extends Metric {
        _class.getAssociations().forEach(
          (_associationClass: Association) => {
             _associationClass.classes.forEach(
-                (_identifier: Identifier) => {
-                    _associationClasses.push(_identifier.value);
+                // (_identifier: Identifier) => {
+                (_class: Class) => {
+                    // _associationClasses.push(_identifier.value);
                 }
             )
          }
