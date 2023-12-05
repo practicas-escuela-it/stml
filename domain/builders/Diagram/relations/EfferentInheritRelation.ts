@@ -11,12 +11,12 @@ export class EfferentInheritRelation extends Relation {
 
     override getRelationClasses(): Class[] {
         let _classes: Class[] = [];
-        this._class.getInherits().forEach(
+        this._modelClass.getInherits().forEach(
             (inherit: Class) => {               
                 _classes.push(inherit);
-                this._filteredClass.addInherit(inherit);                
+                this._diagramClass.addInherit(inherit);                
             });
-        return [this._filteredClass, ..._classes];
+        return [this._diagramClass, ..._classes];
     }
 
 }

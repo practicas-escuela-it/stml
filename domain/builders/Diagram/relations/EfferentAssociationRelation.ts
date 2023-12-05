@@ -10,15 +10,15 @@ export class EfferentAssociationRelation extends Relation {
 
     override getRelationClasses(): Class[] {
         let _classes: Class[] = [];
-        this._class.getAssociations().forEach(
+        this._modelClass.getAssociations().forEach(
             (association: Association) => {
                 association.classes.forEach(
                     (_class: Class) => {
                         _classes.push(_class);
                     });
-                 this._filteredClass.addAsociation(association);
+                 this._diagramClass.addAsociation(association);
             });
-        return [this._filteredClass, ..._classes];
+        return [this._diagramClass, ..._classes];
     }
 
 }

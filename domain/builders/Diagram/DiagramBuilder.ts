@@ -17,11 +17,12 @@ import { Relation } from "./relations/Relation";
 import { RelationType } from "./types/RelationType";
 import { AttributeFilter } from "./ClassElements/AttributeFilter";
 import { MethodFilter } from "./ClassElements/MethodFilter";
+import { Assert } from "../../utils/Assert";
 
 export class DiagramBuilder {           
 
    private _model: Model;
-   private _filteredModel: Model;
+   private _diagramModel: Model;
    private _outputFormatType: OutputFormatType;
    private _metricFilters: MetricFilter[];      
    private _modelClass: Class;
@@ -32,7 +33,7 @@ export class DiagramBuilder {
    constructor(model: Model, outputFormatType: OutputFormatType = OutputFormatType.PlantUml) {
       this._outputFormatType = outputFormatType;
       this._model = model;
-      this._filteredModel = new Model();      
+      this._diagramModel = new Model();      
       this._metricFilters = [];      
       this._modelClass = new Class(""); 
       this._diagramClass = new Class("");
@@ -40,8 +41,8 @@ export class DiagramBuilder {
       this._actionType = ActionType.ADD;      
    }   
 
-   setClass(className: string, actionType: ActionType = ActionType.ADD): DiagramBuilder {
-      // assert(this._classMap.get(className) != undefined)
+   setClass(className: string, actionType: ActionType = ActionType.ADD): this {
+      Assert.test(this._model.getClass(className) != null, "No puedes pasar una clase inexistente");
       let _class: Class | undefined = this._model.getClass(className)?? undefined;      
       if (_class != undefined) {           
          this._modelClass = _class;                                  
@@ -50,7 +51,7 @@ export class DiagramBuilder {
       return this;
     }       
     
-    private setDiagramClass(actionType: ActionType): DiagramBuilder  {
+    private setDiagramClass(actionType: ActionType): this  {
       this._actionType = actionType;
       if (actionType == ActionType.ADD) {
          this._diagramClass = new Class(this._modelClass.name);
@@ -60,17 +61,17 @@ export class DiagramBuilder {
       return this;
     }   
 
-    coupling(direction: Direction, relation: RelationType): DiagramBuilder {
+    coupling(direction: Direction, relation: RelationType): this {
         this._relations.push(new RelationClassesFactory(direction, relation, this._modelClass, this._model, this._diagramClass).instance());        
         return this;
     }
 
-    attribute(names: string[] = []): DiagramBuilder {
+    attribute(names: string[] = []): this {
       new AttributeFilter(names, this._modelClass, this._diagramClass).filter();
       return this;
     }   
 
-    method(names: string[] = []): DiagramBuilder {
+    method(names: string[] = []): this {
       new MethodFilter(names, this._modelClass, this._diagramClass).filter();
       return this;
     }
@@ -79,61 +80,61 @@ export class DiagramBuilder {
       return this._modelClass != null;
    }        
 
-   addAfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   addAfferentMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricAfferent(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   addEfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   addEfferentMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricEfferent(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   addMethodsMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   addMethodsMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricMethod(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   addAttributesMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   addAttributesMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricAttribute(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   addParametersMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   addParametersMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricParameter(this._model), true, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   removeAfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   removeAfferentMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricAfferent(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   removeEfferentMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   removeEfferentMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricEfferent(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   removeMethodsMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   removeMethodsMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricMethod(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   removeAttributesMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   removeAttributesMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricAttribute(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
    }
 
-   removeParametersMetric(comparatorType: ComparatorType, amount: number): DiagramBuilder {
+   removeParametersMetric(comparatorType: ComparatorType, amount: number): this {
       let metricFilter: MetricFilter = new MetricFilter(new MetricParameter(this._model), false, amount, comparatorType);
       this._metricFilters.push(metricFilter);
       return this;
@@ -141,8 +142,8 @@ export class DiagramBuilder {
 
    build(): string {
       this._applyAddFilters();      
-      if (this._filteredModel.hasClasses()) {
-         return new OutputFormatterFactory(this._outputFormatType).instance(this._filteredModel).format();
+      if (this._diagramModel.hasClasses()) {
+         return new OutputFormatterFactory(this._outputFormatType).instance(this._diagramModel).format();
       } else {
          return new OutputFormatterFactory(this._outputFormatType).instance(this._model).format();
       }
@@ -163,7 +164,7 @@ export class DiagramBuilder {
                this._metricFilters.forEach(
                   (metricFilter: MetricFilter) => {                     
                      if (metricFilter.isForAdd() && metricFilter.classPassFilter(_class.name)) {
-                        this._filteredModel.addClass(_class);
+                        this._diagramModel.addClass(_class);
                      }
                   }
                );
@@ -182,8 +183,8 @@ export class DiagramBuilder {
 
    private _applyRelationsForAdd(): void {
       this._relations.forEach(
-         (relation: Relation) => {                        
-            this._filteredModel.addClasses(relation.getRelationClasses())
+         (relation: Relation) => {              
+            this._diagramModel.addClasses(relation.getRelationClasses());            
          }
       ); 
    }
@@ -191,7 +192,7 @@ export class DiagramBuilder {
    private _applyRelationsForRemove(): void {
       this._relations.forEach(
          (relation: Relation) => {                        
-            this._filteredModel.removeClasses(relation.getRelationClasses())
+            this._diagramModel.removeClasses(relation.getRelationClasses())
          }
       );
    }
@@ -207,7 +208,7 @@ export class DiagramBuilder {
             this._metricFilters.forEach(
                (metricFilter: MetricFilter) => {                  
                   if (metricFilter.isForRemove() && metricFilter.classPassFilter(_class.name)) {
-                     this._filteredModel.removeClass(_class);
+                     this._diagramModel.removeClass(_class);
                   }
                }
             )

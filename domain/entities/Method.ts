@@ -29,6 +29,6 @@ export class Method {
     }
 
     hasParameters(): boolean {
-        return this._parameters.length > 0;
+        return this._parameters.length > 0 && this._parameters[0].identifier.value != "";
     }
 }

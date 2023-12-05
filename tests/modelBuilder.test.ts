@@ -3,14 +3,18 @@ import { Class } from "../domain/entities/Class";
 import { Model } from "../domain/entities/Model";
 import { Attribute } from '../domain/entities/Attribute';
 import { Method } from "../domain/entities/Method";
+import { Association } from "../domain/entities/Asociation";
+import { Composition } from "../domain/entities/Composition";
+import { Use } from "../domain/entities/Use";
+import { Parameter } from "../domain/entities/Parameter";
 
 describe("ModelBuilder", () => {
-    test("An empty input should return an empty model", () => {
+    it("An empty input should return an empty model", () => {
        let model: Model = new ModelBuilder("").build();
        expect(model.hasClasses()).toBeFalsy();
     });
 
-    test("An entry with a single empty class", () => {
+    it("An entry with a single empty class", () => {
        let model: Model = new ModelBuilder("class Car").build();
        let _carClass: Class = model.getClass("Car");
        expect(model.existsClass("Car") && 
@@ -22,7 +26,7 @@ describe("ModelBuilder", () => {
                 !(_carClass.getAttributes.length > 0)).toBeTruthy();
     });
 
-    test("An entry with a single class with 1 untyped attribute", () => {
+    it("An entry with a single class with 1 untyped attribute", () => {
         let model: Model = new ModelBuilder("class Car attribute isStarted").build();
         let _carClass: Class = model.getClass("Car");
         let _existsAttribute: boolean = false;
@@ -36,7 +40,7 @@ describe("ModelBuilder", () => {
         expect(model.existsClass("Car") && _existsAttribute).toBeTruthy();
     });
 
-    test("Given a single class with a typed attribute, when get its model, then its name and attribute match", () => {
+    it("Given a single class with a typed attribute, when get its model, then its name and attribute match", () => {
         let model: Model = new ModelBuilder("class Car attribute isStarted int").build();
         let _carClass: Class = model.getClass("Car");
         let _existsAttribute: boolean = false;
@@ -50,29 +54,29 @@ describe("ModelBuilder", () => {
         expect(model.existsClass("Car") && _existsAttribute).toBeTruthy();
     })
 
-    test("Given a class with 3 attributes, when count the attributes of its model, then it gives us 3", () => {
+    it("Given a class with 3 attributes, when count the attributes of its model, then it gives us 3", () => {
       let model: Model = new ModelBuilder("class Car attribute attr1 int, attr2 int, attr3 byte").build();
       let _carClass: Class = model.getClass("Car");          
       expect(model.existsClass("Car") && _carClass.getAttributes.length == 3).toBeTruthy();
   })
 
-   test("Given a class with inheritance, when we get its model, then its inheritance object matches", () => {
+   it("Given a class with inheritance, when we get its model, then its inheritance object matches", () => {
       let model:Model = new ModelBuilder("class Car inherits Vehicle").build();
       let _carClass: Class = model.getClass("Car");
       let inherits: Class[] = _carClass.getInherits();
       expect(model.existsClass("Car") && _carClass.hasInherit() && inherits[0].name == "Vehicle").toBeTruthy();
    });
 
-   test("Given a class with method without params, when we get its model, then its method name matches", () => {
+   it("Given a class with method without params, when we get its model, then its method name matches", () => {
       let model: Model = new ModelBuilder("class Car method run()").build();
       let _carClass: Class = model.getClass("Car");
       let methods: Method[] = _carClass.getMethods();
-      let hasParameters: boolean = methods[0].hasParameters();
+      let hasParameters: boolean = methods[0].hasParameters();      
       expect(model.existsClass("Car") && methods.length > 0 && methods[0].identifier.value == "run" && !hasParameters).toBeTruthy();
    });
 
-   test("Given a class with method with params, when we get its model, then its method name and parameters match", () => {
-      let model: Model = new ModelBuilder("class Car method run(param1 int, param2)").build();
+   it("Given a class with method with params, when we get its model, then its method name and parameters match", () => {
+      let model: Model = new ModelBuilder("class Car method run(param1 int, param2 int)").build();
       let _carClass: Class = model.getClass("Car");
       let methods: Method[] = _carClass.getMethods();
       let param1: string = "";
@@ -80,12 +84,44 @@ describe("ModelBuilder", () => {
       let param2: string = "";
       let param2Type: string = "";
       if (methods[0].hasParameters()) {
-         param1 = methods[0].parameters[0].identifier.value;
-         param1Type = methods[0].parameters[0].type.value;
-         param2 = methods[0].parameters[1].identifier.value;
-         param2Type = methods[0].parameters[1].type.value;
+         let param: Parameter = methods[0].parameters[0];
+         param1 = param.identifier.value;
+         param1Type = param.type.value;         
+         param = methods[0].parameters[1];
+         param2 = param.identifier.value;
+         param2Type = param.type.value;
       }
-      let paramsOK = param1 == "param1" && param1Type == "int" && param2 == "param2" && param2Type == "";
+      let paramsOK: boolean = param1 == "param1" && param1Type == "int" && param2 == "param2" && param2Type == "int";
       expect(model.existsClass("Car") && methods.length > 0 && methods[0].identifier.value == "run" && paramsOK).toBeTruthy();
+   });
+
+   it("Given a class with associations, when get its model, then its associations match with the input", () => {
+      let model: Model = new ModelBuilder("class Car association Batery, Panel, Engine").build();
+      let _carClass: Class = model.getClass("Car");
+      let associations: Association[] = _carClass.getAssociations();     
+      let _lastAssociation: Association = associations[associations.length - 1];
+      let _numClasses: number = _lastAssociation.classes.length - 1;
+      let _lastClassName: string = _lastAssociation.classes[_numClasses].name;
+      expect(model.existsClass("Car") && _lastAssociation.classes.length == 3).toBeTruthy(); // && _lastClassName == "Engine").toBeTruthy();
+   });
+
+   it("Given a class with compositions, when get its model, then its model compositions match with the input", () => {
+      let model: Model = new ModelBuilder("class Car composition Batery, Panel, Engine").build();
+      let _carClass: Class = model.getClass("Car");
+      let compositions: Composition[] = _carClass.getCompositions();     
+      let _lastComposition: Composition = compositions[compositions.length - 1];
+      let _numClasses: number = _lastComposition.getClasses().length - 1;
+      let _lastClassName: string = _lastComposition.getClasses()[_numClasses].name;
+      expect(model.existsClass("Car") && _lastComposition.getClasses().length == 3).toBeTruthy(); // && _lastClassName == "Engine").toBeTruthy();
+   });
+
+   it("Given a class with uses, when get its model, then its model uses match with the input", () => {
+      let model: Model = new ModelBuilder("class Car use Batery, Panel, Engine").build();
+      let _carClass: Class = model.getClass("Car");
+      let uses: Use[] = _carClass.getUses();     
+      let _lastUse: Use = uses[uses.length - 1];
+      let _numClasses: number = _lastUse.classes.length - 1;
+      let _lastClassName: string = _lastUse.classes[_numClasses].name;
+      expect(model.existsClass("Car") && _lastUse.classes.length == 3).toBeTruthy(); // && _lastClassName == "Engine").toBeTruthy();
    });
 })

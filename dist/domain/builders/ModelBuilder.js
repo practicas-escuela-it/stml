@@ -90,10 +90,10 @@ var ModelBuilder = /** @class */ (function () {
         return /attribute\s+/.test(this.input.substring(this.inputPointer));
     };
     ModelBuilder.prototype.isIdentifier = function (identifier) {
-        return /^[a-zA-Z_]+\s*/.test(identifier.trim());
+        return /^[a-zA-Z_0-9]+\s*/.test(identifier.trim());
     };
     ModelBuilder.prototype.getIdentifier = function (identifier) {
-        var matches = /^[a-zA-Z_]+\s*/.exec(identifier.trim());
+        var matches = /^[a-zA-Z_0-9]+\s*/.exec(identifier.trim());
         if (matches != null) {
             return matches[0];
         }

@@ -9,19 +9,19 @@ export class AfferentUseRelation extends Relation {
     constructor(_class: Class, model: Model, filteredClass: Class) {
        super(_class, filteredClass);
        this._model = model;
-       this._filteredClass = new Class(this._class.name);
+       this._diagramClass = new Class(this._modelClass.name);
     }
 
     getRelationClasses(): Class[] {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.hasUseRelationWith(this._class)) {
+                if (_class.hasUseRelationWith(this._modelClass)) {
                     _classes.push(_class);
                 }
             }
         );
-        return [this._filteredClass, ..._classes];
+        return [this._diagramClass, ..._classes];
     }   
     
 }

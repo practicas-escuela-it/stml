@@ -108,11 +108,11 @@ export class ModelBuilder {
     }
 
     private isIdentifier(identifier: string): boolean {
-        return /^[a-zA-Z_]+\s*/.test(identifier.trim());
+        return /^[a-zA-Z_0-9]+\s*/.test(identifier.trim());
     }
 
     private getIdentifier(identifier: string): string {
-        let matches = /^[a-zA-Z_]+\s*/.exec(identifier.trim());
+        let matches = /^[a-zA-Z_0-9]+\s*/.exec(identifier.trim());
         if (matches != null) {
             return matches[0];
         }

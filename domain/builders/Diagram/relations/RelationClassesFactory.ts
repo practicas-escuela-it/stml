@@ -16,16 +16,16 @@ export class RelationClassesFactory {
 
     private _direction: Direction;
     private _relation: RelationType;
-    private _class: Class;
+    private _modelClass: Class;
     private _model: Model;
-    private _filteredClass: Class;
+    private _diagramClass: Class;
 
-    constructor(direction: Direction, relation: RelationType, _class: Class, model: Model, filteredClass: Class) {
+    constructor(direction: Direction, relation: RelationType, _modelClass: Class, model: Model, diagramClass: Class) {
        this._direction = direction;
        this._relation = relation;
-       this._class = _class;
+       this._modelClass = _modelClass;
        this._model = model;
-       this._filteredClass = filteredClass;
+       this._diagramClass = diagramClass;
     }
 
     instance(): Relation {
@@ -38,19 +38,19 @@ export class RelationClassesFactory {
 
     private getAfferentRelation(): Relation {
        switch (this._relation) {
-          case RelationType.COMPOSITION:  return new AfferentCompositionRelation(this._class, this._model, this._filteredClass);
-          case RelationType.ASSOCIATION: return new AfferentAssociationRelation(this._class, this._model, this._filteredClass);
-          case RelationType.USE: return new AfferentUseRelation(this._class, this._model, this._filteredClass);
-          case RelationType.INHERIT: return new AfferentInheritRelation(this._class, this._model, this._filteredClass);
+          case RelationType.COMPOSITION:  return new AfferentCompositionRelation(this._modelClass, this._model, this._diagramClass);
+          case RelationType.ASSOCIATION: return new AfferentAssociationRelation(this._modelClass, this._model, this._diagramClass);
+          case RelationType.USE: return new AfferentUseRelation(this._modelClass, this._model, this._diagramClass);
+          case RelationType.INHERIT: return new AfferentInheritRelation(this._modelClass, this._model, this._diagramClass);
        }
     }
 
     private getEfferentRelation(): Relation {
         switch (this._relation) {
-            case RelationType.COMPOSITION:  return new EfferentCompositionRelation(this._class, this._filteredClass);
-            case RelationType.ASSOCIATION: return new EfferentAssociationRelation(this._class, this._filteredClass);
-            case RelationType.USE: return new EfferentUseRelation(this._class, this._filteredClass);
-            case RelationType.INHERIT: return new EfferentInheritRelation(this._class, this._filteredClass);
+            case RelationType.COMPOSITION:  return new EfferentCompositionRelation(this._modelClass, this._diagramClass);
+            case RelationType.ASSOCIATION: return new EfferentAssociationRelation(this._modelClass, this._diagramClass);
+            case RelationType.USE: return new EfferentUseRelation(this._modelClass, this._diagramClass);
+            case RelationType.INHERIT: return new EfferentInheritRelation(this._modelClass, this._diagramClass);
          }
     }
 }

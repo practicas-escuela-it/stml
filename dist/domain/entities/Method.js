@@ -31,7 +31,7 @@ var Method = /** @class */ (function () {
         this._parameters.push(parameter);
     };
     Method.prototype.hasParameters = function () {
-        return this._parameters.length > 0;
+        return this._parameters.length > 0 && this._parameters[0].identifier.value != "";
     };
     return Method;
 }());

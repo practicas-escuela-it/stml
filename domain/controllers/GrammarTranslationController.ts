@@ -43,7 +43,7 @@ export class GrammarTranslationController {
                   .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
                   .coupling(Direction.AFFERENT, RelationType.USE)
                   .attribute(["tipo"])  
-                  .method(["run"])                                                      
+                  .method(["run"])                                              
                 .build();                                     
 
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");

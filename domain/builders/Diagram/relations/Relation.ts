@@ -2,12 +2,12 @@ import { Class } from "../../../entities/Class";
 
 export abstract class Relation {
     
-    protected _class: Class;
-    protected _filteredClass: Class;
+    protected _modelClass: Class;
+    protected _diagramClass: Class;
 
-    constructor(_class: Class, filteredClass: Class) {
-       this._class = _class;       
-       this._filteredClass = filteredClass;
+    constructor(_class: Class, diagramClass: Class) {
+       this._modelClass = _class;       
+       this._diagramClass = diagramClass;
     }
 
     abstract getRelationClasses(): Class[];

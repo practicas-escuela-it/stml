@@ -7,8 +7,8 @@ export class AfferentCompositionRelation extends Relation {
     
     private _model: Model;
 
-    constructor(_class: Class, model: Model, filteredClass: Class) {
-        super(_class, filteredClass);
+    constructor(_modelClass: Class, model: Model, diagramClass: Class) {
+        super(_modelClass, diagramClass);
         this._model = model;
      }
  
@@ -16,11 +16,11 @@ export class AfferentCompositionRelation extends Relation {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.hasCompositionRelationWith(this._class)) {
+                if (_class.hasCompositionRelationWith(this._modelClass)) {
                     _classes.push(_class);
                 }
             }
         );
-        return [this._filteredClass, ..._classes];
+        return [this._diagramClass, ..._classes];
      }  
 }

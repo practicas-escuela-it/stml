@@ -56,7 +56,7 @@ var Model = /** @class */ (function () {
             _this.removeClass(_class);
         });
     };
-    Model.prototype.exists = function (className) {
+    Model.prototype.existsClass = function (className) {
         var result = false;
         this._classes.forEach(function (_class) {
             if (_class.name.trim().indexOf(className.trim()) >= 0) {

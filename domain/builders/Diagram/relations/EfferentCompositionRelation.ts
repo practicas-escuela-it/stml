@@ -10,14 +10,14 @@ export class EfferentCompositionRelation extends Relation {
  
      override getRelationClasses(): Class[] {
          let _classes: Class[] = [];
-         this._class.getCompositions().forEach(
+         this._modelClass.getCompositions().forEach(
             (composition: Composition) => {               
                composition.getClasses().forEach(
                  (_class: Class) => {                    
                     _classes.push(_class);     
                  });               
-                this._filteredClass.addComposition(composition);
+                this._diagramClass.addComposition(composition);
            });                                
-         return [this._filteredClass, ..._classes];
+         return [this._diagramClass, ..._classes];
      }  
 }

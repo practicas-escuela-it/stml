@@ -10,14 +10,14 @@ export class EfferentUseRelation extends Relation {
  
      getRelationClasses(): Class[] {
         let _classes: Class[] = [];
-         this._class.getUses().forEach(
+         this._modelClass.getUses().forEach(
             (use: Use) => {               
                use.classes.forEach(
                  (_class: Class) => {                    
                     _classes.push(_class);     
                  });      
-               this._filteredClass.addUse(use);         
+               this._diagramClass.addUse(use);         
            });                                
-         return [this._filteredClass, ..._classes];
+         return [this._diagramClass, ..._classes];
      }  
 }
