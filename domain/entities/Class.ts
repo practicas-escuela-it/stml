@@ -83,6 +83,20 @@ export class Class {
         this._inherists.push(_class);
     }
 
+    removeInherit(_class: Class): void {
+        let i: number = 0;
+        this._inherists.forEach(
+           (_inherit: Class) => {
+             if (_inherit.name == _class.name) {
+                this._inherists.splice(i, 1);
+                return;
+             }
+             i++;
+           } 
+        )
+
+    }
+
     addMethod(method: Method) {
         this._methods.push(method);
     }
