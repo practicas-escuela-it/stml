@@ -15,8 +15,7 @@ export class AfferentInheritRelation extends Relation {
         this._model.getClasses().forEach(
             (_class: Class) => {
                 if (_class.name != this._modelClass.name && _class.hasInheritRelationWith(this._modelClass)) {
-                    _classes.push(_class);
-                    console.log("CLASE QUE HEREDA DE " + this._modelClass.name)
+                    _classes.push(_class);                    
                 }
             }
         );

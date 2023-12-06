@@ -21,12 +21,12 @@ export class EfferentCompositionRelation extends Relation {
                   _classes.push(_copyClass);                  
                   _copyComposition.addClass(_copyClass);
                });                    
-           this.execOperation(_copyComposition);
+           this.updateDiagram(_copyComposition);
          });
       return _classes;
    }   
 
-   private execOperation(_composition: Composition) {
+   private updateDiagram(_composition: Composition) {
       if (this._actionType == ActionType.ADD) {
          this._diagramClass.addComposition(_composition);
       } else {             

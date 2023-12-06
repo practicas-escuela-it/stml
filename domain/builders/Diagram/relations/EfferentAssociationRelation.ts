@@ -21,12 +21,12 @@ export class EfferentAssociationRelation extends Relation {
                         _relatedClasses.push(_copyClass);
                         _copyAssociation.addClass(_copyClass);
                     });
-                 this.execOperation(_copyAssociation);
+                 this.updateDiagram(_copyAssociation);
             });
         return _relatedClasses;
     }
 
-    private execOperation(_association: Association) {
+    private updateDiagram(_association: Association) {
         if (this._actionType == ActionType.ADD) {
            this._diagramClass.addAsociation(_association);
         } else {             

@@ -52,7 +52,7 @@ export class RelationClassesFactory {
         switch (this._relation) {
             case RelationType.COMPOSITION:  return new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType);
             case RelationType.ASSOCIATION: return new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType);
-            case RelationType.USE: return new EfferentUseRelation(this._modelClass, this._diagramClass);
+            case RelationType.USE: return new EfferentUseRelation(this._modelClass, this._diagramClass, this._actionType);
             case RelationType.INHERIT: return new EfferentInheritRelation(this._modelClass, this._diagramClass);
          }
     }

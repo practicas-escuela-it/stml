@@ -6,7 +6,7 @@ import { Method } from "./Method";
 import { Parameter } from "./Parameter";
 import { Use } from "./Use";
 
-export class Class {        
+export class Class {
 
     private _identifier: Identifier;
     private _inherists: Class[];
@@ -33,7 +33,7 @@ export class Class {
         this._compositions = [];
         this._uses = [];
         this._associations = [];
-     } 
+    }
 
     get name(): string {
         return this._identifier.value;
@@ -92,20 +92,33 @@ export class Class {
     }
 
     removeComposition(compositionToRemove: Composition): void {
-        let i: number = 0;        
+        let i: number = 0;
         this._compositions.forEach(
-            (_composition: Composition) => {                
-                if (_composition.isEqualTo(compositionToRemove)) {                    
+            (_composition: Composition) => {
+                if (_composition.isEqualTo(compositionToRemove)) {
                     this._compositions.splice(i, 1);
                     return;
                 }
                 i++;
             }
-        );        
+        );
     }
 
     addUse(use: Use) {
         this._uses.push(use);
+    }
+
+    removeUse(useToRemove: Use) {
+        let i: number = 0;
+        this._uses.forEach(
+            (_use: Use) => {
+                if (_use.isEqualTo(useToRemove)) {
+                    this._uses.splice(i, 1);
+                    return;
+                }
+                i++;
+            }
+        );
     }
 
     addAsociation(association: Association) {
@@ -113,16 +126,16 @@ export class Class {
     }
 
     removeAssociation(associationToRemove: Association) {
-        let i: number = 0;        
+        let i: number = 0;
         this._associations.forEach(
-            (_association: Association) => {                
-                if (_association.isEqualTo(associationToRemove)) {                    
+            (_association: Association) => {
+                if (_association.isEqualTo(associationToRemove)) {
                     this._associations.splice(i, 1);
                     return;
                 }
                 i++;
             }
-        );    
+        );
     }
 
     copy(_classToCopy: Class) {
@@ -179,10 +192,10 @@ export class Class {
             (association: Association) => {
                 let _association: Association = new Association();
                 association.classes.forEach(
-                    (_class: Class) => {                        
+                    (_class: Class) => {
                         let _copyClass: Class = new Class(_class.name);
                         _copyClass.copy(_class);
-                        _association.addClass(_copyClass);                        
+                        _association.addClass(_copyClass);
                     }
                 );
                 this._associations.push(_association);
@@ -195,10 +208,10 @@ export class Class {
             (composition: Composition) => {
                 let _composition: Composition = new Composition();
                 composition.getClasses().forEach(
-                    (_class: Class) => {                        
+                    (_class: Class) => {
                         let _copyClass: Class = new Class(_class.name);
                         _copyClass.copy(_class);
-                        _composition.addClass(_copyClass);                        
+                        _composition.addClass(_copyClass);
                     }
                 );
                 this._compositions.push(_composition);
@@ -211,10 +224,10 @@ export class Class {
             (use: Use) => {
                 let _use: Use = new Use();
                 use.classes.forEach(
-                    (_class: Class) => {                        
+                    (_class: Class) => {
                         let _copyClass: Class = new Class(_class.name);
                         _copyClass.copy(_class);
-                        _use.addClass(_copyClass);                        
+                        _use.addClass(_copyClass);
                     }
                 );
                 this._uses.push(_use);
@@ -223,55 +236,55 @@ export class Class {
     }
 
     hasCompositionRelationWith(_classToSearch: Class): boolean {
-        let result: boolean = false;       
+        let result: boolean = false;
         this._compositions.forEach(
             (composition: Composition) => {
-               composition.getClasses().forEach(
-                (_class: Class) => {
-                   if (_class.name.trim() == _classToSearch.name.trim()) {
-                    result = true;
-                   }
-                }
-               )
+                composition.getClasses().forEach(
+                    (_class: Class) => {
+                        if (_class.name.trim() == _classToSearch.name.trim()) {
+                            result = true;
+                        }
+                    }
+                )
             }
         );
         return result;
     }
 
     hasAssociationRelationWith(_classToSearch: Class): boolean {
-        let result: boolean = false;        
+        let result: boolean = false;
         this._associations.forEach(
             (association: Association) => {
-               association.classes.forEach(
-                (_class: Class) => {                    
-                   if (_class.name.trim() == _classToSearch.name.trim()) {                    
-                     result = true;
-                   }
-                }
-               )
+                association.classes.forEach(
+                    (_class: Class) => {
+                        if (_class.name.trim() == _classToSearch.name.trim()) {
+                            result = true;
+                        }
+                    }
+                )
             }
         );
         return result;
     }
 
     hasUseRelationWith(_classToSearch: Class): boolean {
-        let result: boolean = false;       
+        let result: boolean = false;
         this._uses.forEach(
-          (use: Use) => {
-            use.classes.forEach(
-              (_class: Class) => {
-                if (_class.name == _classToSearch.name) {
-                  result = true;
-                }
-           }
-          )
-         }
+            (use: Use) => {
+                use.classes.forEach(
+                    (_class: Class) => {
+                        if (_class.name == _classToSearch.name) {
+                            result = true;
+                        }
+                    }
+                )
+            }
         );
         return result;
-    }    
+    }
 
     hasInheritRelationWith(_class: Class): boolean {
-        let result: boolean = false;       
+        let result: boolean = false;
         this._inherists.forEach(
             (inherit: Class) => {
                 if (inherit.name == _class.name) {
@@ -280,5 +293,5 @@ export class Class {
             }
         );
         return result;
-    } 
+    }
 }
