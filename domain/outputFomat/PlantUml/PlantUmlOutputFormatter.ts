@@ -1,12 +1,12 @@
-import { Association } from "../../domain/entities/Asociation";
-import { Attribute } from "../../domain/entities/Attribute";
-import { Class } from "../../domain/entities/Class";
-import { Composition } from "../../domain/entities/Composition";
-import { Model } from "../../domain/entities/Model";
-import { Identifier } from "../../domain/entities/Identifier";
-import { Method } from "../../domain/entities/Method";
-import { Parameter } from "../../domain/entities/Parameter";
-import { Use } from "../../domain/entities/Use";
+import { Association } from "../../entities/Asociation";
+import { Attribute } from "../../entities/Attribute";
+import { Class } from "../../entities/Class";
+import { Composition } from "../../entities/Composition";
+import { Model } from "../../entities/Model";
+import { Identifier } from "../../entities/Identifier";
+import { Method } from "../../entities/Method";
+import { Parameter } from "../../entities/Parameter";
+import { Use } from "../../entities/Use";
 import { OutputFormatter } from "../OutputFormatter";
 
 export class PlantUmlOutputFormatter extends OutputFormatter {

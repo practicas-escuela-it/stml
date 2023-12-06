@@ -1,7 +1,7 @@
 import { DiagramBuilder } from "../domain/builders/Diagram/DiagramBuilder";
 import { ModelBuilder } from "../domain/builders/ModelBuilder";
+import { OutputFormatType } from "../domain/outputFomat/OutputFormatType";
 import { Strings } from "../domain/utils/strings";
-import { OutputFormatType } from "../outputViews/OutputFormatType";
 
 describe("DiagramBuilder", () => {
     it("Given a model with only one empty class, when we request that class from the diagram's constructor, then we get the correct output", () => {        

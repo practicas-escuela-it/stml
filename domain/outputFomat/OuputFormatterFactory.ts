@@ -1,4 +1,4 @@
-import { Model } from "../domain/entities/Model";
+import { Model } from "../entities/Model";
 import { JavaOutputFormatter } from "./Java/JavaOutputFormatter";
 import { OutputFormatType } from "./OutputFormatType";
 import { OutputFormatter } from "./OutputFormatter";

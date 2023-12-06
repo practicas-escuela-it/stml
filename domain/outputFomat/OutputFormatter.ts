@@ -1,5 +1,4 @@
-import { Class } from "../domain/entities/Class";
-import { Model } from "../domain/entities/Model";
+import { Model } from "../entities/Model";
 
 export abstract class OutputFormatter {
 

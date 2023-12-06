@@ -1,6 +1,4 @@
 import { Model } from "../../entities/Model";
-import { OutputFormatType } from '../../../outputViews/OutputFormatType';
-import { OutputFormatterFactory } from "../../../outputViews/OuputFormatterFactory";
 import { MetricFilter } from "./metrics/MetricFilter";
 import { ComparatorType } from "./types/ComparatorType";
 import { Class } from "../../entities/Class";
@@ -18,6 +16,8 @@ import { RelationType } from "./types/RelationType";
 import { AttributeFilter } from "./ClassElements/AttributeFilter";
 import { MethodFilter } from "./ClassElements/MethodFilter";
 import { Assert } from "../../utils/Assert";
+import { OutputFormatType } from "../../outputFomat/OutputFormatType";
+import { OutputFormatterFactory } from "../../outputFomat/OuputFormatterFactory";
 
 export class DiagramBuilder {           
 
