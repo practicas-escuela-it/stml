@@ -79,11 +79,33 @@ var Class = /** @class */ (function () {
     Class.prototype.addComposition = function (composition) {
         this._compositions.push(composition);
     };
+    Class.prototype.removeComposition = function (compositionToRemove) {
+        var _this = this;
+        var i = 0;
+        this._compositions.forEach(function (_composition) {
+            if (_composition.isEqualTo(compositionToRemove)) {
+                _this._compositions.splice(i, 1);
+                return;
+            }
+            i++;
+        });
+    };
     Class.prototype.addUse = function (use) {
         this._uses.push(use);
     };
     Class.prototype.addAsociation = function (association) {
         this._associations.push(association);
+    };
+    Class.prototype.removeAssociation = function (associationToRemove) {
+        var _this = this;
+        var i = 0;
+        this._associations.forEach(function (_association) {
+            if (_association.isEqualTo(associationToRemove)) {
+                _this._associations.splice(i, 1);
+                return;
+            }
+            i++;
+        });
     };
     Class.prototype.copy = function (_classToCopy) {
         this._copyIdentifier(_classToCopy._identifier);
@@ -127,31 +149,37 @@ var Class = /** @class */ (function () {
     Class.prototype._copyAssociations = function (associations) {
         var _this = this;
         associations.forEach(function (association) {
+            var _association = new Asociation_1.Association();
             association.classes.forEach(function (_class) {
-                var _association = new Asociation_1.Association();
-                _association.addClass(_class);
-                _this._associations.push(_association);
+                var _copyClass = new Class(_class.name);
+                _copyClass.copy(_class);
+                _association.addClass(_copyClass);
             });
+            _this._associations.push(_association);
         });
     };
     Class.prototype._copyCompositions = function (compositions) {
         var _this = this;
         compositions.forEach(function (composition) {
+            var _composition = new Composition_1.Composition();
             composition.getClasses().forEach(function (_class) {
-                var _composition = new Composition_1.Composition();
-                _composition.addClass(_class);
-                _this._compositions.push(_composition);
+                var _copyClass = new Class(_class.name);
+                _copyClass.copy(_class);
+                _composition.addClass(_copyClass);
             });
+            _this._compositions.push(_composition);
         });
     };
     Class.prototype._copyUses = function (uses) {
         var _this = this;
         uses.forEach(function (use) {
+            var _use = new Use_1.Use();
             use.classes.forEach(function (_class) {
-                var _use = new Use_1.Use();
-                _use.addClass(_class);
-                _this._uses.push(_use);
+                var _copyClass = new Class(_class.name);
+                _copyClass.copy(_class);
+                _use.addClass(_copyClass);
             });
+            _this._uses.push(_use);
         });
     };
     Class.prototype.hasCompositionRelationWith = function (_classToSearch) {

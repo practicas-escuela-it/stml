@@ -15,12 +15,12 @@ export class AfferentAssociationRelation extends Relation {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {                
-                if (_class.name != this._modelClass.name && _class.hasAssociationRelationWith(this._modelClass) == true) {
+                if (_class.name != this._modelClass.name && _class.hasAssociationRelationWith(this._modelClass)) {
                     console.log("Class afferente " + _class.name)
                     _classes.push(_class);                    
                 }
             }
         );
-        return [this._diagramClass, ..._classes];
+        return _classes;
      }  
 }

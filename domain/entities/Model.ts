@@ -1,4 +1,7 @@
+import { Association } from "./Asociation";
 import { Class } from "./Class";
+import { Composition } from "./Composition";
+import { Use } from "./Use";
 
 export class Model {
 
@@ -31,8 +34,62 @@ export class Model {
     }
 
     addClass(_class: Class): void {
-        this._map.set(_class.name, _class);
-        this._classes.push(_class);
+        if (this._map.get(_class.name) == null) {
+           this._map.set(_class.name, _class);
+           this._classes.push(_class);
+        }
+    }
+
+    addRelationClassesOf(_class: Class): void {
+        let _refClass: Class = this._map.get(_class.name);
+        this.addAssociationRelationClassesOf(_refClass);
+        this.addCompositionRelationClassesOf(_refClass);
+        this.addUseRelationClassesOf(_refClass);
+        this.addInheritRelationClassesOf(_refClass);
+    }
+
+    private addAssociationRelationClassesOf(_class: Class): void {
+        _class.getAssociations().forEach(
+          (_association: Association) => {
+             _association.classes.forEach(
+                (_associationClass: Class) => {
+                    this.addClass(_associationClass);
+                }
+             )
+          }
+        );
+    }
+
+    private addCompositionRelationClassesOf(_class: Class): void {
+        _class.getCompositions().forEach(
+            (_composition: Composition) => {
+               _composition.getClasses().forEach(
+                (_compositionClass: Class) => {
+                    this.addClass(_compositionClass);
+                }
+               )
+            }
+        )
+    }
+
+    private addUseRelationClassesOf(_class: Class): void {
+        _class.getUses().forEach(
+            (_use: Use) => {
+               _use.classes.forEach(
+                (_useClass: Class) => {
+                    this.addClass(_useClass);
+                }
+               )
+            }
+        )
+    }
+
+    private addInheritRelationClassesOf(_class: Class): void {
+       _class.getInherits().forEach(
+         (_inheritClass: Class) => {
+            this.addClass(_inheritClass);
+         }
+       )
     }
 
     addClasses(_classes: Class[]): void {
@@ -49,8 +106,7 @@ export class Model {
          let _index: number = 0;        
          this._classes.forEach(
              (__class: Class) => {
-                 if (__class.name.indexOf(_class.name) >= 0) {  
-                                   
+                 if (__class.name.indexOf(_class.name) >= 0) {                                     
                      this._classes.splice(_index, 1);
                      this._map.delete(_class.name);
                      return;

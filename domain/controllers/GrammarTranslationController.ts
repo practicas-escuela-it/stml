@@ -1,13 +1,13 @@
 import *  as fs from "fs";
 import { ModelBuilder } from "../builders/ModelBuilder";
-import { OutputFormatter } from '../../outputViews/OutputFormatter';
 import { Model } from "../entities/Model";
-import { OutputFormatterFactory } from "../../outputViews/OuputFormatterFactory";
-import { OutputFormatType } from "../../outputViews/OutputFormatType";
 import { DiagramBuilder } from "../builders/Diagram/DiagramBuilder";
 import { Direction } from "../builders/Diagram/types/Direction";
 import { RelationType } from "../builders/Diagram/types/RelationType";
 import { ActionType } from "../builders/Diagram/ActionType";
+import { OutputFormatterFactory } from "../outputFomat/OuputFormatterFactory";
+import { OutputFormatter } from "../outputFomat/OutputFormatter";
+import { OutputFormatType } from "../outputFomat/OutputFormatType";
 
 export class GrammarTranslationController {
 
@@ -35,14 +35,14 @@ export class GrammarTranslationController {
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel); 
         
        plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)                            
-               .setClass("Car", ActionType.ADD)                               
-                  .coupling(Direction.EFFERENT, RelationType.INHERIT)
+               .setClass("Car", ActionType.REMOVE)                               
+                 // .coupling(Direction.EFFERENT, RelationType.INHERIT)
                   .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
-                  .coupling(Direction.AFFERENT, RelationType.INHERIT)
-                  .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
-                  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
-                  .coupling(Direction.AFFERENT, RelationType.USE)
-                  .attribute(["tipo"])  
+                //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
+                  .coupling(Direction.EFFERENT, RelationType.COMPOSITION)
+                //  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
+                //  .coupling(Direction.AFFERENT, RelationType.USE)
+                //  .attribute(["tipo"])  
                   .method(["run"])                                             
                 .build();                                     
 

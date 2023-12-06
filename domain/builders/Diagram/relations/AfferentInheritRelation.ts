@@ -20,7 +20,7 @@ export class AfferentInheritRelation extends Relation {
                 }
             }
         );
-        return [this._diagramClass, ..._classes];
+        return _classes;
      }  
 
 }

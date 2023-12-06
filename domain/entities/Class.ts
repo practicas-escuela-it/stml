@@ -91,12 +91,38 @@ export class Class {
         this._compositions.push(composition);
     }
 
+    removeComposition(compositionToRemove: Composition): void {
+        let i: number = 0;        
+        this._compositions.forEach(
+            (_composition: Composition) => {                
+                if (_composition.isEqualTo(compositionToRemove)) {                    
+                    this._compositions.splice(i, 1);
+                    return;
+                }
+                i++;
+            }
+        );        
+    }
+
     addUse(use: Use) {
         this._uses.push(use);
     }
 
     addAsociation(association: Association) {
         this._associations.push(association);
+    }
+
+    removeAssociation(associationToRemove: Association) {
+        let i: number = 0;        
+        this._associations.forEach(
+            (_association: Association) => {                
+                if (_association.isEqualTo(associationToRemove)) {                    
+                    this._associations.splice(i, 1);
+                    return;
+                }
+                i++;
+            }
+        );    
     }
 
     copy(_classToCopy: Class) {
@@ -151,13 +177,15 @@ export class Class {
     private _copyAssociations(associations: Association[]) {
         associations.forEach(
             (association: Association) => {
+                let _association: Association = new Association();
                 association.classes.forEach(
-                    (_class: Class) => {
-                        let _association: Association = new Association();
-                        _association.addClass(_class);
-                        this._associations.push(_association);
+                    (_class: Class) => {                        
+                        let _copyClass: Class = new Class(_class.name);
+                        _copyClass.copy(_class);
+                        _association.addClass(_copyClass);                        
                     }
-                )
+                );
+                this._associations.push(_association);
             }
         )
     }
@@ -165,13 +193,15 @@ export class Class {
     private _copyCompositions(compositions: Composition[]) {
         compositions.forEach(
             (composition: Composition) => {
+                let _composition: Composition = new Composition();
                 composition.getClasses().forEach(
-                    (_class: Class) => {
-                        let _composition: Composition = new Composition();
-                        _composition.addClass(_class);
-                        this._compositions.push(_composition);
+                    (_class: Class) => {                        
+                        let _copyClass: Class = new Class(_class.name);
+                        _copyClass.copy(_class);
+                        _composition.addClass(_copyClass);                        
                     }
-                )
+                );
+                this._compositions.push(_composition);
             }
         )
     }
@@ -179,13 +209,15 @@ export class Class {
     private _copyUses(uses: Use[]) {
         uses.forEach(
             (use: Use) => {
+                let _use: Use = new Use();
                 use.classes.forEach(
-                    (_class: Class) => {
-                        let _use: Use = new Use();
-                        _use.addClass(_class);
-                        this._uses.push(_use);
+                    (_class: Class) => {                        
+                        let _copyClass: Class = new Class(_class.name);
+                        _copyClass.copy(_class);
+                        _use.addClass(_copyClass);                        
                     }
-                )
+                );
+                this._uses.push(_use);
             }
         )
     }

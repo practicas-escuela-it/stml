@@ -52,17 +52,20 @@ export class DiagramBuilder {
     }       
     
     private setDiagramClass(actionType: ActionType): this  {
-      this._actionType = actionType;
+      this._actionType = actionType;      
       if (actionType == ActionType.ADD) {
          this._diagramClass = new Class(this._modelClass.name);
+         this._diagramModel.addClass(this._diagramClass);
       } else {
-         this._diagramClass.copy(this._modelClass); 
-      }
+         this._diagramClass.copy(this._modelClass);      
+         this._diagramModel.addClass(this._diagramClass);         
+         this._diagramModel.addRelationClassesOf(this._diagramClass);
+      }            
       return this;
     }   
 
     coupling(direction: Direction, relation: RelationType): this {
-        this._relations.push(new RelationClassesFactory(direction, relation, this._modelClass, this._model, this._diagramClass).instance());        
+        this._relations.push(new RelationClassesFactory(direction, relation, this._modelClass, this._model, this._diagramClass, this._actionType).instance());        
         return this;
     }
 
@@ -173,7 +176,7 @@ export class DiagramBuilder {
       );
    }
 
-   private _applyRelations(): void {           
+   private _applyRelations(): void {                 
       if (this._actionType == ActionType.ADD) {
          this._applyRelationsForAdd();  
       } else {
@@ -181,7 +184,7 @@ export class DiagramBuilder {
       }
    }
 
-   private _applyRelationsForAdd(): void {
+   private _applyRelationsForAdd(): void {      
       this._relations.forEach(
          (relation: Relation) => {              
             this._diagramModel.addClasses(relation.getRelationClasses());            
@@ -189,9 +192,9 @@ export class DiagramBuilder {
       ); 
    }
 
-   private _applyRelationsForRemove(): void {
+   private _applyRelationsForRemove(): void {      
       this._relations.forEach(
-         (relation: Relation) => {                        
+         (relation: Relation) => {                      
             this._diagramModel.removeClasses(relation.getRelationClasses())
          }
       );

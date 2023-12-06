@@ -11,6 +11,7 @@ import { EfferentInheritRelation } from "./EfferentInheritRelation";
 import { AfferentInheritRelation } from "./AfferentInheritRelation";
 import { Relation } from "./Relation";
 import { RelationType } from "../types/RelationType";
+import { ActionType } from "../ActionType";
 
 export class RelationClassesFactory {
 
@@ -19,13 +20,15 @@ export class RelationClassesFactory {
     private _modelClass: Class;
     private _model: Model;
     private _diagramClass: Class;
-
-    constructor(direction: Direction, relation: RelationType, _modelClass: Class, model: Model, diagramClass: Class) {
+    private _actionType: ActionType;
+    
+    constructor(direction: Direction, relation: RelationType, _modelClass: Class, model: Model, diagramClass: Class, _actionType: ActionType) {
        this._direction = direction;
        this._relation = relation;
        this._modelClass = _modelClass;
        this._model = model;
-       this._diagramClass = diagramClass;
+       this._diagramClass = diagramClass;       
+       this._actionType = _actionType;
     }
 
     instance(): Relation {
@@ -47,8 +50,8 @@ export class RelationClassesFactory {
 
     private getEfferentRelation(): Relation {
         switch (this._relation) {
-            case RelationType.COMPOSITION:  return new EfferentCompositionRelation(this._modelClass, this._diagramClass);
-            case RelationType.ASSOCIATION: return new EfferentAssociationRelation(this._modelClass, this._diagramClass);
+            case RelationType.COMPOSITION:  return new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType);
+            case RelationType.ASSOCIATION: return new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType);
             case RelationType.USE: return new EfferentUseRelation(this._modelClass, this._diagramClass);
             case RelationType.INHERIT: return new EfferentInheritRelation(this._modelClass, this._diagramClass);
          }

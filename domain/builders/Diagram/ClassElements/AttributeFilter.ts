@@ -32,15 +32,15 @@ export class AttributeFilter extends ElementFilter {
    protected override _add(names: string[]): void {
       names.forEach(
          (name: string) => {
-            let searchedAttribute: Attribute = this._getOriginalClassAttribute(name);
+            let searchedAttribute: Attribute = this._getModelClassAttribute(name);
             if (searchedAttribute.identifier.value != "") {
-               this._diagramClass.addAttribute(this._getOriginalClassAttribute(name));
+               this._diagramClass.addAttribute(this._getModelClassAttribute(name));
             }
          }
       )
    }
 
-   private _getOriginalClassAttribute(name: string): Attribute {
+   private _getModelClassAttribute(name: string): Attribute {
       let result: Attribute = new Attribute();
       this._modelClass.getAttributes.forEach(
          (attribute: Attribute) => {

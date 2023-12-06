@@ -16,7 +16,7 @@ export class EfferentInheritRelation extends Relation {
                 _classes.push(inherit);
                 this._diagramClass.addInherit(inherit);                
             });
-        return [this._diagramClass, ..._classes];
+        return _classes;
     }
 
 }

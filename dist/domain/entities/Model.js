@@ -26,8 +26,47 @@ var Model = /** @class */ (function () {
         return this._map.get(className);
     };
     Model.prototype.addClass = function (_class) {
-        this._map.set(_class.name, _class);
-        this._classes.push(_class);
+        if (this._map.get(_class.name) == null) {
+            this._map.set(_class.name, _class);
+            this._classes.push(_class);
+        }
+    };
+    Model.prototype.addRelationClassesOf = function (_class) {
+        var _refClass = this._map.get(_class.name);
+        this.addAssociationRelationClassesOf(_refClass);
+        this.addCompositionRelationClassesOf(_refClass);
+        this.addUseRelationClassesOf(_refClass);
+        this.addInheritRelationClassesOf(_refClass);
+    };
+    Model.prototype.addAssociationRelationClassesOf = function (_class) {
+        var _this = this;
+        _class.getAssociations().forEach(function (_association) {
+            _association.classes.forEach(function (_associationClass) {
+                _this.addClass(_associationClass);
+            });
+        });
+    };
+    Model.prototype.addCompositionRelationClassesOf = function (_class) {
+        var _this = this;
+        _class.getCompositions().forEach(function (_composition) {
+            _composition.getClasses().forEach(function (_compositionClass) {
+                _this.addClass(_compositionClass);
+            });
+        });
+    };
+    Model.prototype.addUseRelationClassesOf = function (_class) {
+        var _this = this;
+        _class.getUses().forEach(function (_use) {
+            _use.classes.forEach(function (_useClass) {
+                _this.addClass(_useClass);
+            });
+        });
+    };
+    Model.prototype.addInheritRelationClassesOf = function (_class) {
+        var _this = this;
+        _class.getInherits().forEach(function (_inheritClass) {
+            _this.addClass(_inheritClass);
+        });
     };
     Model.prototype.addClasses = function (_classes) {
         var _this = this;

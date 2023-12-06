@@ -18,6 +18,6 @@ export class EfferentUseRelation extends Relation {
                  });      
                this._diagramClass.addUse(use);         
            });                                
-         return [this._diagramClass, ..._classes];
+         return _classes;
      }  
 }

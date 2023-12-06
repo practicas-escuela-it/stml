@@ -15,6 +15,23 @@ var Association = /** @class */ (function () {
     Association.prototype.addClass = function (_class) {
         this._classes.push(_class);
     };
+    Association.prototype.isEqualTo = function (association) {
+        var _equals = true;
+        var _classNames = this.getClassNames();
+        association.classes.forEach(function (_class) {
+            if (_classNames.get(_class.name) == null) {
+                _equals = false;
+            }
+        });
+        return _equals;
+    };
+    Association.prototype.getClassNames = function () {
+        var _classNames = new Map();
+        this._classes.forEach(function (_class) {
+            _classNames.set(_class.name, _class);
+        });
+        return _classNames;
+    };
     return Association;
 }());
 exports.Association = Association;

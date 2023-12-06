@@ -21,6 +21,6 @@ export class AfferentCompositionRelation extends Relation {
                 }
             }
         );
-        return [this._diagramClass, ..._classes];
+        return _classes;
      }  
 }
