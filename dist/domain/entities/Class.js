@@ -70,11 +70,50 @@ var Class = /** @class */ (function () {
     Class.prototype.addAttribute = function (attribute) {
         this._attributes.push(attribute);
     };
+    Class.prototype.removeAttribute = function (attributeToRemove) {
+        this.removeAttributeByName(attributeToRemove.identifier.value);
+    };
+    Class.prototype.removeAttributeByName = function (attributeName) {
+        var _this = this;
+        var i = 0;
+        this._attributes.forEach(function (_attribute) {
+            if (_attribute.identifier.value == attributeName) {
+                _this._attributes.splice(i, 1);
+                return;
+            }
+            i++;
+        });
+    };
     Class.prototype.addInherit = function (_class) {
         this._inherists.push(_class);
     };
+    Class.prototype.removeInherit = function (_class) {
+        var _this = this;
+        var i = 0;
+        this._inherists.forEach(function (_inherit) {
+            if (_inherit.name == _class.name) {
+                _this._inherists.splice(i, 1);
+                return;
+            }
+            i++;
+        });
+    };
     Class.prototype.addMethod = function (method) {
         this._methods.push(method);
+    };
+    Class.prototype.removeMethod = function (method) {
+        this.removeMethodByName(method.identifier.value);
+    };
+    Class.prototype.removeMethodByName = function (methodName) {
+        var _this = this;
+        var i = 0;
+        this._methods.forEach(function (method) {
+            if (method.identifier.value == methodName) {
+                _this._methods.splice(i, 1);
+                return;
+            }
+            i++;
+        });
     };
     Class.prototype.addComposition = function (composition) {
         this._compositions.push(composition);
@@ -92,6 +131,17 @@ var Class = /** @class */ (function () {
     };
     Class.prototype.addUse = function (use) {
         this._uses.push(use);
+    };
+    Class.prototype.removeUse = function (useToRemove) {
+        var _this = this;
+        var i = 0;
+        this._uses.forEach(function (_use) {
+            if (_use.isEqualTo(useToRemove)) {
+                _this._uses.splice(i, 1);
+                return;
+            }
+            i++;
+        });
     };
     Class.prototype.addAsociation = function (association) {
         this._associations.push(association);

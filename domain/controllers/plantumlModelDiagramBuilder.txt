@@ -2,17 +2,8 @@
 
 class Car extends Vehicle { 
 -isStarted: bool
--tipo: int
 -conTipo: real
-+run(velocity: real, aceleration: void)
 +stop()
-+run()
-
-} 
-class Cylinder { 
-
-} 
-class Injector { 
 
 } 
 class Vehicle { 
@@ -20,8 +11,6 @@ class Vehicle {
 -cylinders: int
 
 } 
-Car ..> Cylinder
-Car ..> Injector
 Vehicle o--> Gas
 
 @enduml

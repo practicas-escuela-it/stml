@@ -38,11 +38,12 @@ export class GrammarTranslationController {
                .setClass("Car", ActionType.REMOVE)                               
                  // .coupling(Direction.EFFERENT, RelationType.INHERIT)
                   .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
+                  .coupling(Direction.EFFERENT, RelationType.USE)
                 //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
                   .coupling(Direction.EFFERENT, RelationType.COMPOSITION)
                 //  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
                 //  .coupling(Direction.AFFERENT, RelationType.USE)
-                //  .attribute(["tipo"])  
+                  .attribute(["tipo"])  
                   .method(["run"])                                             
                 .build();                                     
 

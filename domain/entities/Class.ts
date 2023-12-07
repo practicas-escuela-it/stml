@@ -79,6 +79,23 @@ export class Class {
         this._attributes.push(attribute);
     }
 
+    removeAttribute(attributeToRemove: Attribute): void {
+        this.removeAttributeByName(attributeToRemove.identifier.value);
+    }
+
+    removeAttributeByName(attributeName: string): void {
+        let i: number = 0;
+        this._attributes.forEach(
+            (_attribute: Attribute) => {
+               if (_attribute.identifier.value == attributeName) {
+                  this._attributes.splice(i, 1);
+                  return;
+               }
+               i++;
+            }
+        );
+    }
+
     addInherit(_class: Class) {
         this._inherists.push(_class);
     }
@@ -99,6 +116,23 @@ export class Class {
 
     addMethod(method: Method) {
         this._methods.push(method);
+    }
+
+    removeMethod(method: Method) {
+       this.removeMethodByName(method.identifier.value);
+    }
+
+    removeMethodByName(methodName: string) {
+        let i: number = 0;
+        this._methods.forEach(
+            (method: Method) => {
+                if (method.identifier.value == methodName) {                
+                   this._methods.splice(i, 1);
+                   return;         
+                }
+                i++;
+            }
+        );
     }
 
     addComposition(composition: Composition) {

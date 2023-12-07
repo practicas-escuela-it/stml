@@ -1,18 +1,27 @@
 import { Class } from "../../../entities/Class";
 import { Method } from "../../../entities/Method";
+import { ActionType } from "../ActionType";
 import { ElementFilter } from "./ElementFilter";
 
 export class MethodFilter extends ElementFilter {
 
-   constructor(names: string[], originalClass: Class, filteredClass: Class) {
-      super(names, originalClass, filteredClass)
+   constructor(names: string[], originalClass: Class, filteredClass: Class, actionType: ActionType) {
+      super(names, originalClass, filteredClass, actionType);
    }
 
    filter(): void {
-      if (this._names.length == 0) {
-         this._addAll();
+      if (this._actionType == ActionType.ADD) {
+         if (this._names.length == 0) {
+            this._addAll();
+         } else {
+            this._add(this._names);
+         }
       } else {
-         this._add(this._names);
+         if (this._names.length == 0) {
+            this._removeAll();
+         } else {
+            this._remove(this._names);
+         }
       }
    }
    protected _addAll(): void {
@@ -47,5 +56,21 @@ export class MethodFilter extends ElementFilter {
          }
       )
       return result;
+   }
+
+   protected _removeAll(): void {
+      this._modelClass.getMethods().forEach(
+         (method: Method) => {
+            if (method.identifier.value != "") {
+               this._diagramClass.removeMethod(method);
+            }
+         });
+   }
+   protected _remove(names: string[]): void {
+      names.forEach(
+         (name: string) => {
+            this._diagramClass.removeMethodByName(name);
+         }
+      )
    }
 }

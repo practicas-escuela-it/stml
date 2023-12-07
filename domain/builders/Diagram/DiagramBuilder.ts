@@ -70,12 +70,12 @@ export class DiagramBuilder {
     }
 
     attribute(names: string[] = []): this {
-      new AttributeFilter(names, this._modelClass, this._diagramClass).filter();
+      new AttributeFilter(names, this._modelClass, this._diagramClass, this._actionType).filter();
       return this;
     }   
 
     method(names: string[] = []): this {
-      new MethodFilter(names, this._modelClass, this._diagramClass).filter();
+      new MethodFilter(names, this._modelClass, this._diagramClass, this._actionType).filter();
       return this;
     }
 

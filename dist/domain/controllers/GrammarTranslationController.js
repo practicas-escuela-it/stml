@@ -32,11 +32,12 @@ var GrammarTranslationController = /** @class */ (function () {
             .setClass("Car", ActionType_1.ActionType.REMOVE)
             // .coupling(Direction.EFFERENT, RelationType.INHERIT)
             .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.ASSOCIATION)
+            .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.USE)
             //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
             .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.COMPOSITION)
             //  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
             //  .coupling(Direction.AFFERENT, RelationType.USE)
-            //  .attribute(["tipo"])  
+            .attribute(["tipo"])
             .method(["run"])
             .build();
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
