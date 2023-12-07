@@ -29,7 +29,7 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
-            .setClass("Car", ActionType_1.ActionType.REMOVE)
+            .setClass("Car", ActionType_1.ActionType.ADD)
             // .coupling(Direction.EFFERENT, RelationType.INHERIT)
             .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.ASSOCIATION)
             .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.USE)
