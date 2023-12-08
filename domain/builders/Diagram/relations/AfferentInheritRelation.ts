@@ -1,25 +1,26 @@
 import { Class } from "../../../entities/Class";
 import { Model } from "../../../entities/Model";
 import { Relation } from "./Relation"
+import { ActionType } from '../ActionType';
 
 export class AfferentInheritRelation extends Relation {
     private _model: Model;
 
-    constructor(_class: Class, model: Model, filteredClass: Class) {
-        super(_class, filteredClass);
+    constructor(_modelClass: Class, model: Model, diagramClass: Class, actionType: ActionType) {
+        super(_modelClass, diagramClass, actionType);
         this._model = model;
-     }
- 
-     getRelationClasses(): Class[] {
+    }
+
+    getRelationClasses(): Class[] {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
                 if (_class.name != this._modelClass.name && _class.hasInheritRelationWith(this._modelClass)) {
-                    _classes.push(_class);                    
+                    _classes.push(_class);
                 }
             }
         );
         return _classes;
-     }  
+    }
 
 }

@@ -38,14 +38,14 @@ export class DiagramBuilder {
       this._modelClass = new Class(""); 
       this._diagramClass = new Class("");
       this._relations = [];
-      this._actionType = ActionType.ADD;      
+      this._actionType = ActionType.ADD;            
    }   
 
    setClass(className: string, actionType: ActionType = ActionType.ADD): this {
       Assert.test(this._model.getClass(className) != null, "No puedes pasar una clase inexistente");
       let _class: Class | undefined = this._model.getClass(className)?? undefined;      
       if (_class != undefined) {           
-         this._modelClass = _class;                                  
+         this._modelClass = _class;
          this.setDiagramClass(actionType);
       }
       return this;
@@ -53,13 +53,12 @@ export class DiagramBuilder {
     
     private setDiagramClass(actionType: ActionType): this  {
       this._actionType = actionType;      
-      if (actionType == ActionType.ADD) {
-         this._diagramClass = new Class(this._modelClass.name);
-         this._diagramModel.addClass(this._diagramClass);
-      } else {
-         this._diagramClass.copy(this._modelClass);      
-         this._diagramModel.addClass(this._diagramClass);         
-         this._diagramModel.addRelationClassesOf(this._diagramClass);
+      this._diagramClass = new Class(this._modelClass.name);
+      this._diagramModel.addClass(this._diagramClass);         
+      if (actionType == ActionType.REMOVE) {                  
+         this._diagramClass.copy(this._modelClass);               
+         this._diagramModel.addEfferentClassesOf(this._diagramClass);
+         this._diagramModel.addClasses(this._model.getAfferentClassesOf(this._diagramClass));
       }            
       return this;
     }   
@@ -145,7 +144,7 @@ export class DiagramBuilder {
 
    build(): string {
       this._applyAddFilters();      
-      if (this._diagramModel.hasClasses()) {
+      if (this._diagramModel.hasClasses()) {         
          return new OutputFormatterFactory(this._outputFormatType).instance(this._diagramModel).format();
       } else {
          return new OutputFormatterFactory(this._outputFormatType).instance(this._model).format();

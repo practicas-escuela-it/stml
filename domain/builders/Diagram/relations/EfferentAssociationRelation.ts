@@ -5,8 +5,8 @@ import { Relation } from "./Relation";
 
 export class EfferentAssociationRelation extends Relation {
 
-    constructor(_class: Class, filteredClass: Class, _actionType: ActionType) {
-        super(_class, filteredClass, _actionType);
+    constructor(modelClass: Class, diagramClass: Class, _actionType: ActionType) {
+        super(modelClass, diagramClass, _actionType);
     }
 
     override getRelationClasses(): Class[] {

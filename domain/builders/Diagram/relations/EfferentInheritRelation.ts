@@ -5,8 +5,8 @@ import { Relation } from "./Relation";
 
 export class EfferentInheritRelation extends Relation {
 
-    constructor(_class: Class, _filteredClass: Class, actionType: ActionType) {
-        super(_class, _filteredClass, actionType);
+    constructor(_modelClass: Class, _diagramClass: Class, actionType: ActionType) {
+        super(_modelClass, _diagramClass, actionType);
         
     }
 

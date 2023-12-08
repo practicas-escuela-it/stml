@@ -20,6 +20,7 @@ var ModelBuilder = /** @class */ (function () {
         this.input = input;
         this.inputPointer = 0;
         this.clearSpaces();
+        ClassManager_1.ClassManager.getInstance().clear();
     }
     ModelBuilder.prototype.clearSpaces = function () {
         this.input = this.input.replace(/\s+/g, " ");

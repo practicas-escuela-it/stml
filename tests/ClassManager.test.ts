@@ -7,7 +7,7 @@ describe("ClassManager", () => {
        expect(classManager.getAllClasses().hasClasses()).toBeFalsy();
     });
 
-    it("Given class Manager , when we request a class from it, then it will return that class to us", () => {
+    it("Given classManager, when we request a class from it, then it will return that class to us", () => {
         let classManager: ClassManager = ClassManager.getInstance();
         let _class: Class | undefined = classManager.getClass("Car");
         if (_class != null)

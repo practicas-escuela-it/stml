@@ -31,14 +31,16 @@ var Model = /** @class */ (function () {
             this._classes.push(_class);
         }
     };
-    Model.prototype.addRelationClassesOf = function (_class) {
+    Model.prototype.addEfferentClassesOf = function (_class) {
         var _refClass = this._map.get(_class.name);
-        this.addAssociationRelationClassesOf(_refClass);
-        this.addCompositionRelationClassesOf(_refClass);
-        this.addUseRelationClassesOf(_refClass);
-        this.addInheritRelationClassesOf(_refClass);
+        if (_refClass) {
+            this._addEfferentAssociationClassesOf(_refClass);
+            this._addEfferentCompositionClassesOf(_refClass);
+            this._addEfferentUseClassesOf(_refClass);
+            this._addEfferentInheritClassesOf(_refClass);
+        }
     };
-    Model.prototype.addAssociationRelationClassesOf = function (_class) {
+    Model.prototype._addEfferentAssociationClassesOf = function (_class) {
         var _this = this;
         _class.getAssociations().forEach(function (_association) {
             _association.classes.forEach(function (_associationClass) {
@@ -46,7 +48,7 @@ var Model = /** @class */ (function () {
             });
         });
     };
-    Model.prototype.addCompositionRelationClassesOf = function (_class) {
+    Model.prototype._addEfferentCompositionClassesOf = function (_class) {
         var _this = this;
         _class.getCompositions().forEach(function (_composition) {
             _composition.getClasses().forEach(function (_compositionClass) {
@@ -54,7 +56,7 @@ var Model = /** @class */ (function () {
             });
         });
     };
-    Model.prototype.addUseRelationClassesOf = function (_class) {
+    Model.prototype._addEfferentUseClassesOf = function (_class) {
         var _this = this;
         _class.getUses().forEach(function (_use) {
             _use.classes.forEach(function (_useClass) {
@@ -62,11 +64,38 @@ var Model = /** @class */ (function () {
             });
         });
     };
-    Model.prototype.addInheritRelationClassesOf = function (_class) {
+    Model.prototype._addEfferentInheritClassesOf = function (_class) {
         var _this = this;
         _class.getInherits().forEach(function (_inheritClass) {
             _this.addClass(_inheritClass);
         });
+    };
+    Model.prototype.getAfferentClassesOf = function (_classToSearch) {
+        var _this = this;
+        var _afferentClasses = [];
+        var _refClass = this._map.get(_classToSearch.name);
+        if (_refClass) {
+            this._classes.forEach(function (_class) {
+                if (_class.hasAssociationRelationWith(_classToSearch)) {
+                    _this._addAfferenteClass(_class, _afferentClasses);
+                }
+                if (_class.hasCompositionRelationWith(_classToSearch)) {
+                    _this._addAfferenteClass(_class, _afferentClasses);
+                }
+                if (_class.hasUseRelationWith(_classToSearch)) {
+                    _this._addAfferenteClass(_class, _afferentClasses);
+                }
+                if (_class.hasInheritRelationWith(_classToSearch)) {
+                    _this._addAfferenteClass(_class, _afferentClasses);
+                }
+            });
+        }
+        return _afferentClasses;
+    };
+    Model.prototype._addAfferenteClass = function (_class, _afferentClasses) {
+        var _newClass = new Class_1.Class(_class.name);
+        _newClass.copy(_class);
+        _afferentClasses.push(_newClass);
     };
     Model.prototype.addClasses = function (_classes) {
         var _this = this;

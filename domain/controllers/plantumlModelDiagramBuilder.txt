@@ -1,33 +1,24 @@
 @startuml
 
-class Car { 
+class Vehicle { 
+-cylinders: int
+
+} 
+class Gas { 
+-price: real
+-amount: real
+
+} 
+class Car extends Vehicle { 
+-isStarted: bool
 -tipo: int
-+run()
+-conTipo: real
++run(velocity: real, aceleration: void)
++stop()
 
 } 
-class Batery { 
-
-} 
-class Panel { 
-
-} 
-class Engine { 
--piece: real
--bujia: int
-
-} 
-class Cylinder { 
-
-} 
-class Injector { 
-
-} 
-class Door { 
-
-} 
-class Roof { 
-
-} 
+Vehicle o--> Gas
+Gas *--> Door
 Car *--> Door
 Car *--> Roof
 Car ..> Cylinder
@@ -35,9 +26,5 @@ Car ..> Injector
 Car o--> Batery
 Car o--> Panel
 Car o--> Engine
-Engine *--> DistributionRun
-Engine *--> OilFilter
-Engine ..> Piston
-Engine o--> Batery
 
 @enduml

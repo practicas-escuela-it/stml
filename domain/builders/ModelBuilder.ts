@@ -26,6 +26,7 @@ export class ModelBuilder {
         this.input = input;
         this.inputPointer = 0;
         this.clearSpaces();
+        ClassManager.getInstance().clear();
     }
 
     private clearSpaces() {

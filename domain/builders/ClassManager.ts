@@ -1,7 +1,7 @@
 import { Class } from "../entities/Class";
 import { Model } from "../entities/Model";
 
-export class ClassManager {
+export class ClassManager {   
    
    private static _instance: ClassManager;
    
@@ -12,12 +12,16 @@ export class ClassManager {
       return this._instance;
    }
 
-   private _classes: Map<string, Class>;
+   private _classes: Map<string, Class> = new Map<string, Class>();
 
    private constructor() {
-      this._classes = new Map<string, Class>();
+      this.clear();
    } 
    
+   clear() {
+      this._classes = new Map<string, Class>();
+  }
+
    getClass(identifier: string): Class | undefined {
       if (this._classes.get(identifier.trim()) == undefined) {         
         this._classes.set(identifier.trim(), new Class(identifier.trim()));

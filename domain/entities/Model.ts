@@ -40,15 +40,17 @@ export class Model {
         }
     }
 
-    addRelationClassesOf(_class: Class): void {
-        let _refClass: Class = this._map.get(_class.name);
-        this.addAssociationRelationClassesOf(_refClass);
-        this.addCompositionRelationClassesOf(_refClass);
-        this.addUseRelationClassesOf(_refClass);
-        this.addInheritRelationClassesOf(_refClass);
+    addEfferentClassesOf(_class: Class): void {
+        let _refClass: Class | undefined = this._map.get(_class.name);
+        if (_refClass) {
+           this._addEfferentAssociationClassesOf(_refClass);
+           this._addEfferentCompositionClassesOf(_refClass);
+           this._addEfferentUseClassesOf(_refClass);
+           this._addEfferentInheritClassesOf(_refClass);
+        }
     }
 
-    private addAssociationRelationClassesOf(_class: Class): void {
+    private _addEfferentAssociationClassesOf(_class: Class): void {
         _class.getAssociations().forEach(
           (_association: Association) => {
              _association.classes.forEach(
@@ -60,7 +62,7 @@ export class Model {
         );
     }
 
-    private addCompositionRelationClassesOf(_class: Class): void {
+    private _addEfferentCompositionClassesOf(_class: Class): void {
         _class.getCompositions().forEach(
             (_composition: Composition) => {
                _composition.getClasses().forEach(
@@ -72,7 +74,7 @@ export class Model {
         )
     }
 
-    private addUseRelationClassesOf(_class: Class): void {
+    private _addEfferentUseClassesOf(_class: Class): void {
         _class.getUses().forEach(
             (_use: Use) => {
                _use.classes.forEach(
@@ -84,7 +86,7 @@ export class Model {
         )
     }
 
-    private addInheritRelationClassesOf(_class: Class): void {
+    private _addEfferentInheritClassesOf(_class: Class): void {
        _class.getInherits().forEach(
          (_inheritClass: Class) => {
             this.addClass(_inheritClass);
@@ -92,6 +94,36 @@ export class Model {
        )
     }
 
+    getAfferentClassesOf(_classToSearch: Class): Class[] {
+        let _afferentClasses: Class[] = [];
+        let _refClass: Class | undefined = this._map.get(_classToSearch.name);
+        if (_refClass) {
+            this._classes.forEach(
+                (_class: Class) => {
+                    if (_class.hasAssociationRelationWith(_classToSearch)) {
+                        this._addAfferenteClass(_class, _afferentClasses);
+                    }
+                    if (_class.hasCompositionRelationWith(_classToSearch)) {
+                        this._addAfferenteClass(_class, _afferentClasses);
+                    }
+                    if (_class.hasUseRelationWith(_classToSearch)) {
+                        this._addAfferenteClass(_class, _afferentClasses);
+                     }
+                    if (_class.hasInheritRelationWith(_classToSearch)) {
+                        this._addAfferenteClass(_class, _afferentClasses);
+                    }
+                }
+            );            
+        }
+        return _afferentClasses;
+    }
+
+    private _addAfferenteClass(_class: Class, _afferentClasses: Class[]) {
+        let _newClass: Class = new Class(_class.name);
+        _newClass.copy(_class);
+        _afferentClasses.push(_newClass);
+    }
+    
     addClasses(_classes: Class[]): void {
         _classes.forEach(
             (_class: Class) => {

@@ -5,8 +5,8 @@ import { ActionType } from '../ActionType';
 
 export class EfferentUseRelation extends Relation {
     
-    constructor(_class: Class, filteredClass: Class, actionType: ActionType) {
-        super(_class, filteredClass, actionType);
+    constructor(modelClass: Class, diagramClass: Class, actionType: ActionType) {
+        super(modelClass, diagramClass, actionType);
      }
  
      getRelationClasses(): Class[] {

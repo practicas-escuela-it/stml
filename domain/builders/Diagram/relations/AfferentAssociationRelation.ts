@@ -1,26 +1,27 @@
 import { Class } from "../../../entities/Class";
 import { Model } from "../../../entities/Model";
+import { ActionType } from "../ActionType";
 import { Relation } from "./Relation";
 
 export class AfferentAssociationRelation extends Relation {
-    
+
     private _model: Model;
 
-    constructor(_class: Class, model: Model, filteredClass: Class) {
-        super(_class, filteredClass);
+    constructor(modelClass: Class, model: Model, diagramClass: Class, _actionType: ActionType) {
+        super(modelClass, diagramClass, _actionType);
         this._model = model;
-     }
- 
-     getRelationClasses(): Class[] {
+    }
+
+    getRelationClasses(): Class[] {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
-            (_class: Class) => {                
+            (_class: Class) => {
                 if (_class.name != this._modelClass.name && _class.hasAssociationRelationWith(this._modelClass)) {
                     console.log("Class afferente " + _class.name)
-                    _classes.push(_class);                    
+                    _classes.push(_class);
                 }
             }
         );
         return _classes;
-     }  
+    }
 }

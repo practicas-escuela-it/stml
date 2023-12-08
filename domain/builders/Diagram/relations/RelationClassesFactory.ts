@@ -41,10 +41,10 @@ export class RelationClassesFactory {
 
     private getAfferentRelation(): Relation {
        switch (this._relation) {
-          case RelationType.COMPOSITION:  return new AfferentCompositionRelation(this._modelClass, this._model, this._diagramClass);
-          case RelationType.ASSOCIATION: return new AfferentAssociationRelation(this._modelClass, this._model, this._diagramClass);
-          case RelationType.USE: return new AfferentUseRelation(this._modelClass, this._model, this._diagramClass);
-          case RelationType.INHERIT: return new AfferentInheritRelation(this._modelClass, this._model, this._diagramClass);
+          case RelationType.COMPOSITION:  return new AfferentCompositionRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
+          case RelationType.ASSOCIATION: return new AfferentAssociationRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
+          case RelationType.USE: return new AfferentUseRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
+          case RelationType.INHERIT: return new AfferentInheritRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
        }
     }
 

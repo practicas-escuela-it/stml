@@ -1,15 +1,15 @@
 import { Class } from "../../../entities/Class";
 import { Model } from "../../../entities/Model";
+import { ActionType } from "../ActionType";
 import { Relation } from "./Relation";
 
 export class AfferentUseRelation extends Relation {
 
     private _model: Model;
 
-    constructor(_class: Class, model: Model, filteredClass: Class) {
-       super(_class, filteredClass);
-       this._model = model;
-       this._diagramClass = new Class(this._modelClass.name);
+    constructor(modelClass: Class, model: Model, diagramClass: Class, actionType: ActionType) {
+        super(modelClass, diagramClass, actionType);
+        this._model = model;
     }
 
     getRelationClasses(): Class[] {
@@ -22,6 +22,6 @@ export class AfferentUseRelation extends Relation {
             }
         );
         return _classes;
-    }   
-    
+    }
+
 }
