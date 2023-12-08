@@ -4,6 +4,8 @@ exports.GrammarTranslationController = void 0;
 var fs = require("fs");
 var ModelBuilder_1 = require("../builders/ModelBuilder");
 var DiagramBuilder_1 = require("../builders/Diagram/DiagramBuilder");
+var Direction_1 = require("../builders/Diagram/types/Direction");
+var RelationType_1 = require("../builders/Diagram/types/RelationType");
 var ActionType_1 = require("../builders/Diagram/ActionType");
 var OuputFormatterFactory_1 = require("../outputFomat/OuputFormatterFactory");
 var OutputFormatType_1 = require("../outputFomat/OutputFormatType");
@@ -31,8 +33,8 @@ var GrammarTranslationController = /** @class */ (function () {
             // .coupling(Direction.EFFERENT, RelationType.INHERIT)
             //  .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
             //  .coupling(Direction.EFFERENT, RelationType.USE)
-            //.coupling(Direction.AFFERENT, RelationType.INHERIT)
-            //  .coupling(Direction.EFFERENT, RelationType.COMPOSITION)
+            .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.INHERIT)
+            // .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
             //  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
             //  .coupling(Direction.AFFERENT, RelationType.USE)
             .attribute(["color"])

@@ -16,7 +16,7 @@ export class AfferentUseRelation extends Relation {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.hasUseRelationWith(this._modelClass)) {
+                if (_class.name != this._modelClass.name && _class.hasUseRelationWith(this._modelClass)) {
                     _classes.push(_class);
                 }
             }

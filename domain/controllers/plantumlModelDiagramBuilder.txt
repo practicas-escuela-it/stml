@@ -9,22 +9,7 @@ class Gas {
 -amount: real
 
 } 
-class Car extends Vehicle { 
--isStarted: bool
--tipo: int
--conTipo: real
-+run(velocity: real, aceleration: void)
-+stop()
-
-} 
 Vehicle o--> Gas
 Gas *--> Door
-Car *--> Door
-Car *--> Roof
-Car ..> Cylinder
-Car ..> Injector
-Car o--> Batery
-Car o--> Panel
-Car o--> Engine
 
 @enduml

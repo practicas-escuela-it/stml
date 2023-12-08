@@ -17,7 +17,7 @@ export class AfferentCompositionRelation extends Relation {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.hasCompositionRelationWith(this._modelClass)) {
+                if (_class.name != this._modelClass.name && _class.hasCompositionRelationWith(this._modelClass)) {
                     _classes.push(_class);
                 }
             }
