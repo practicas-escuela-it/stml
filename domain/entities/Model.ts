@@ -56,6 +56,10 @@ export class Model {
              _association.classes.forEach(
                 (_associationClass: Class) => {
                     this.addClass(_associationClass);
+                    this.addClasses(_associationClass.getAssociationClasses());
+                    this.addClasses(_associationClass.getCompositionClasses());
+                    this.addClasses(_associationClass.getUseClasses());
+                    this.addClasses(_associationClass.getInherits());
                 }
              )
           }
@@ -68,6 +72,10 @@ export class Model {
                _composition.getClasses().forEach(
                 (_compositionClass: Class) => {
                     this.addClass(_compositionClass);
+                    this.addClasses(_compositionClass.getAssociationClasses());
+                    this.addClasses(_compositionClass.getCompositionClasses());
+                    this.addClasses(_compositionClass.getUseClasses());
+                    this.addClasses(_compositionClass.getInherits());
                 }
                )
             }
@@ -80,6 +88,10 @@ export class Model {
                _use.classes.forEach(
                 (_useClass: Class) => {
                     this.addClass(_useClass);
+                    this.addClasses(_useClass.getAssociationClasses());
+                    this.addClasses(_useClass.getCompositionClasses());
+                    this.addClasses(_useClass.getUseClasses());
+                    this.addClasses(_useClass.getInherits());
                 }
                )
             }
@@ -93,7 +105,7 @@ export class Model {
             this.addClasses(_inheritClass.getAssociationClasses());
             this.addClasses(_inheritClass.getCompositionClasses());
             this.addClasses(_inheritClass.getUseClasses());
-            this.addClasses(_inheritClass.getInheritClasses());
+            this.addClasses(_inheritClass.getInherits());
          }
        )
     }

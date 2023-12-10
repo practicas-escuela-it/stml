@@ -58,7 +58,7 @@ export class Class {
     getInherits(): Class[] {
         return this._inherists;
     }
-
+    
     getMethods(): Method[] {
         return this._methods;
     }
