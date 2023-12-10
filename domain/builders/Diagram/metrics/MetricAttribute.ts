@@ -9,7 +9,7 @@ export class MetricAttribute extends Metric {
 
     constructor(model: Model) {
        super(model);
-       this._attributesByClass = new Map<string, string[]>;
+       this._attributesByClass = new Map<string, string[]>();
        this.calculate();
     }
 
