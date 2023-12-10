@@ -10,7 +10,6 @@ import { MetricParameter } from "./metrics/MetricParameter";
 import { Direction } from './types/Direction';
 import { ActionType } from "./ActionType";
 import { RelationClassesFactory } from "./relations/RelationClassesFactory";
-import { Attribute } from "../../entities/Attribute";
 import { Relation } from "./relations/Relation";
 import { RelationType } from "./types/RelationType";
 import { AttributeFilter } from "./ClassElements/AttributeFilter";
