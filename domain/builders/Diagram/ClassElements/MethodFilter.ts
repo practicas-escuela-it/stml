@@ -1,5 +1,6 @@
 import { Class } from "../../../entities/Class";
 import { Method } from "../../../entities/Method";
+import { Parameter } from "../../../entities/Parameter";
 import { ActionType } from "../ActionType";
 import { ElementFilter } from "./ElementFilter";
 
@@ -29,7 +30,12 @@ export class MethodFilter extends ElementFilter {
          (method: Method) => {
             if (method.identifier.value != "") {
                let _copyMethod: Method = new Method();
-               _copyMethod.setIdentifier(method.identifier.value);
+               _copyMethod.setIdentifier(method.identifier.value);               
+               method.parameters.forEach(
+                  (parameter: Parameter) => {                    
+                    _copyMethod.addParameter(parameter.identifier.value, parameter.type.value);
+                  }
+               )
                this._diagramClass.addMethod(_copyMethod);
             }
          }
@@ -51,6 +57,11 @@ export class MethodFilter extends ElementFilter {
       this._modelClass.getMethods().forEach(
          (method: Method) => {
             if (method.identifier.value == name) {
+               method.parameters.forEach(
+                  (parameter: Parameter) => {                    
+                    result.addParameter(parameter.identifier.value, parameter.type.value);
+                  }
+               )
                result.setIdentifier(method.identifier.value);
             }
          }

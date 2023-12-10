@@ -6,7 +6,7 @@ import { Method } from "./Method";
 import { Parameter } from "./Parameter";
 import { Use } from "./Use";
 
-export class Class {
+export class Class {   
 
     private _identifier: Identifier;
     private _inherists: Class[];
@@ -67,12 +67,42 @@ export class Class {
         return this._compositions;
     }
 
+    getCompositionClasses(): Class[] {
+        let _classes: Class[] = [];
+        this._compositions.forEach(
+            (_composition: Composition) => {
+                _classes.push(..._composition.getClasses());
+            }
+        );
+        return _classes;
+    }
+
     getUses(): Use[] {
         return this._uses;
     }
 
+    getUseClasses(): Class[] {
+        let _classes: Class[] = [];
+        this._uses.forEach(
+            (_use: Use) => {
+                _classes.push(..._use.classes);
+            }
+        );
+        return _classes;
+    }
+
     getAssociations(): Association[] {
         return this._associations;
+    }
+
+    getAssociationClasses(): Class[] {
+        let _classes: Class[] = [];
+        this._associations.forEach(
+            (_association: Association) => {
+                _classes.push(..._association.classes);
+            }
+        );
+        return _classes;
     }
 
     addAttribute(attribute: Attribute) {
@@ -200,12 +230,12 @@ export class Class {
         this._identifier = new Identifier(identifier.value);
     }
 
-    private _copyInherits(inherits: Class[]) {
-        inherits.forEach(
-            (_inherit: Class) => {
-                let inherit = new Class(_inherit.name);
-                inherit.copy(_inherit);
-                this._inherists.push(inherit);
+    private _copyInherits(inheritsToCopy: Class[]) {
+        inheritsToCopy.forEach(
+            (_classToCopy: Class) => {
+                let _class = new Class(_classToCopy.name);
+                _class.copy(_classToCopy);
+                this._inherists.push(_class);
             }
         )
     }
@@ -235,15 +265,15 @@ export class Class {
         )
     }
 
-    private _copyAssociations(associations: Association[]) {
-        associations.forEach(
-            (association: Association) => {
+    private _copyAssociations(associationsToCopy: Association[]) {
+        associationsToCopy.forEach(
+            (associationToCopy: Association) => {
                 let _association: Association = new Association();
-                association.classes.forEach(
-                    (_class: Class) => {
-                        let _copyClass: Class = new Class(_class.name);
-                        _copyClass.copy(_class);
-                        _association.addClass(_copyClass);
+                associationToCopy.classes.forEach(
+                    (_classToCopy: Class) => {
+                        let _class: Class = new Class(_classToCopy.name);
+                        _class.copy(_classToCopy);
+                        _association.addClass(_class);
                     }
                 );
                 this._associations.push(_association);

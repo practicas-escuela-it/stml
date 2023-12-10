@@ -57,8 +57,8 @@ export class DiagramBuilder {
       this._diagramModel.addClass(this._diagramClass);         
       if (actionType == ActionType.REMOVE) {                  
          this._diagramClass.copy(this._modelClass);               
-         this._diagramModel.addEfferentClassesOf(this._diagramClass);
-         this._diagramModel.addClasses(this._model.getAfferentClassesOf(this._diagramClass));
+         this._diagramModel.addEfferentClassesTo(this._diagramClass);
+         this._diagramModel.addClasses(this._model.getAfferentClassesTo(this._diagramClass));
       }            
       return this;
     }   

@@ -1,15 +1,17 @@
 @startuml
 
-class Vehicle { 
--cylinders: int
+class Car { 
+-isStarted: bool
++run(velocity: real, aceleration: void)
 
 } 
-class Gas { 
--price: real
--amount: real
+class Cylinder { 
 
 } 
-Vehicle o--> Gas
-Gas *--> Door
+class Injector { 
+
+} 
+Car ..> Cylinder
+Car ..> Injector
 
 @enduml

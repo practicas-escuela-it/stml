@@ -29,16 +29,16 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
-            .setClass("Vehicle", ActionType_1.ActionType.REMOVE)
+            .setClass("Car", ActionType_1.ActionType.ADD)
             // .coupling(Direction.EFFERENT, RelationType.INHERIT)
             //  .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
-            //  .coupling(Direction.EFFERENT, RelationType.USE)
-            .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.INHERIT)
+            .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.USE)
+            //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
             // .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
             //  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
             //  .coupling(Direction.AFFERENT, RelationType.USE)
-            .attribute(["color"])
-            //  .method([])                                             
+            .attribute(["isStarted"])
+            .method(["run"])
             .build();
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");
         console.log(plantUmlModel);

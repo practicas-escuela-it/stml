@@ -12,7 +12,7 @@ export class EfferentUseRelation extends Relation {
      getRelationClasses(): Class[] {
         let _classes: Class[] = [];
          this._modelClass.getUses().forEach(
-            (use: Use) => {               
+            (use: Use) => {                 
                let _copyUse: Use = new Use();
                use.classes.forEach(
                  (_class: Class) => {             
@@ -26,9 +26,9 @@ export class EfferentUseRelation extends Relation {
      }  
 
      private updateDiagram(_use: Use) {
-      if (this._actionType == ActionType.ADD) {
+      if (this._actionType == ActionType.ADD) {         
          this._diagramClass.addUse(_use);
-      } else {             
+      } else {                      
          this._diagramClass.removeUse(_use);
       }
    }

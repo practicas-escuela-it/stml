@@ -40,7 +40,7 @@ export class Model {
         }
     }
 
-    addEfferentClassesOf(_class: Class): void {
+    addEfferentClassesTo(_class: Class): void {
         let _refClass: Class | undefined = this._map.get(_class.name);
         if (_refClass) {
            this._addEfferentAssociationClassesOf(_refClass);
@@ -90,11 +90,15 @@ export class Model {
        _class.getInherits().forEach(
          (_inheritClass: Class) => {
             this.addClass(_inheritClass);
+            this.addClasses(_inheritClass.getAssociationClasses());
+            this.addClasses(_inheritClass.getCompositionClasses());
+            this.addClasses(_inheritClass.getUseClasses());
+            this.addClasses(_inheritClass.getInheritClasses());
          }
        )
     }
 
-    getAfferentClassesOf(_classToSearch: Class): Class[] {
+    getAfferentClassesTo(_classToSearch: Class): Class[] {
         let _afferentClasses: Class[] = [];
         let _refClass: Class | undefined = this._map.get(_classToSearch.name);
         if (_refClass) {
