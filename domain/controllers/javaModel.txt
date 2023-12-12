@@ -21,6 +21,8 @@ class A1 extends A0 {
 
 } 
 class A4 { 
+	private void a4_1;
+	private int a4_2;
 
 	A4() {}
 
@@ -60,11 +62,30 @@ class A5 {
 
 
 } 
+class B0 { 
+	private char b0_1;
+	private int b0_2;
+	private B1 b1;
+
+	B0(B1 b1) {}
+
+
+} 
 class B1 { 
 	private int b1_1;
 	private A1 a1;
+	private B2 b2;
 
-	B1(A1 a1) {}
+	B1(A1 a1, B2 b2) {}
+
+
+} 
+class B2 { 
+	private int b2_1;
+	private char b2_2;
+	private B3 b3;
+
+	B2(B3 b3) {}
 
 
 } 
@@ -78,14 +99,19 @@ class A6 {
 
 } 
 class A7 { 
+	private int a7_1;
 
 	A7() {}
 
 
 } 
 class A9 { 
+	private string a9_1;
+	private int a9_2;
 
 	A9() {}
+
+	void methodA9(int attr1) { }
 
 
 } 
@@ -95,15 +121,6 @@ class A10 {
 	A10() {}
 
 	void method1( void tipo) { }
-
-
-} 
-class B2 { 
-	private int b2_1;
-	private char b2_2;
-	private B3 b3;
-
-	B2(B3 b3) {}
 
 
 } 

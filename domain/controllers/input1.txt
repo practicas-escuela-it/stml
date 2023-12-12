@@ -17,9 +17,16 @@ class A3
   attribute a3 void 
   use A4
 
+class A4
+   attribute a4_1 void, a4_2 int
+
+class B0 
+   attribute b0_1 char, b0_2 int
+   association B1
+
 class B1 
    attribute b1_1 int   
-   association A1   
+   association A1, B2      
 
 class A5 
    attribute a5 void, a5_1 int
@@ -32,6 +39,13 @@ class A8
 class A6 
    attribute a6_1 int, a6_2 string
    association A10
+
+class A7
+   attribute a7_1 int
+
+class A9 
+   attribute a9_1, a9_2 int
+   method methodA9(attr1 int)
 
 class A10 
    attribute a10_1 int

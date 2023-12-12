@@ -1,12 +1,6 @@
 @startuml
 
-class A2 extends A3 { 
--a2: void
-
-} 
 class A5 { 
--a5: void
--a5_1: int
 
 } 
 class A6 { 
@@ -14,26 +8,12 @@ class A6 {
 -a6_2: string
 
 } 
-class A10 { 
--a10_1: int
-+method1(tipo: void)
-
-} 
 class A7 { 
+-a7_1: int
 
 } 
-class A8 { 
--a8_1: float
-
-} 
-class A9 { 
-
-} 
-class A3 { 
--a3: void
-
-} 
-class A4 { 
+class A2 extends A3 { 
+-a2: void
 
 } 
 class A1 extends A0 { 
@@ -45,15 +25,32 @@ class B1 {
 -b1_1: int
 
 } 
-A2 *--> A8
-A2 o--> A5
+class B0 { 
+-b0_1: char
+-b0_2: int
+
+} 
+class B3 { 
+-b3_1: int
++mb3(p1: void)
+
+} 
+class B2 { 
+-b2_1: int
+-b2_2: char
+
+} 
 A5 o--> A6
 A5 o--> A7
 A6 o--> A10
-A8 o--> A9
-A3 ..> A4
+A2 *--> A8
+A2 o--> A5
 A1 *--> A4
 A1 o--> A2
 B1 o--> A1
+B1 o--> B2
+B0 o--> B1
+B3 o--> A5
+B2 o--> B3
 
 @enduml

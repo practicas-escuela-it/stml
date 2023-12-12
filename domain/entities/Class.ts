@@ -251,7 +251,7 @@ export class Class {
         this._copyCompositions(_classToCopy._compositions);
         this._copyUses(_classToCopy._uses);
     }
-
+    
     private _copyIdentifier(identifier: Identifier) {
         this._identifier = new Identifier(identifier.value);
     }

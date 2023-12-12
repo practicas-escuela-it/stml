@@ -4,6 +4,9 @@ exports.GrammarTranslationController = void 0;
 var fs = require("fs");
 var ModelBuilder_1 = require("../builders/ModelBuilder");
 var DiagramBuilder_1 = require("../builders/Diagram/DiagramBuilder");
+var Direction_1 = require("../builders/Diagram/types/Direction");
+var RelationType_1 = require("../builders/Diagram/types/RelationType");
+var ActionType_1 = require("../builders/Diagram/ActionType");
 var OuputFormatterFactory_1 = require("../outputFomat/OuputFormatterFactory");
 var OutputFormatType_1 = require("../outputFomat/OutputFormatType");
 var GrammarTranslationController = /** @class */ (function () {
@@ -26,13 +29,13 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
-            .setClass("A2")
+            .setClass("A5", ActionType_1.ActionType.ADD)
             // .coupling(Direction.EFFERENT, RelationType.INHERIT)
-            //  .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
+            .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.ASSOCIATION)
             // .coupling(Direction.EFFERENT, RelationType.USE)
             //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
             // .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
-            //  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
+            .coupling(Direction_1.Direction.AFFERENT, RelationType_1.RelationType.ASSOCIATION)
             //  .coupling(Direction.AFFERENT, RelationType.USE)
             //  .attribute(["isStarted"])  
             //  .method(["run"])                                             

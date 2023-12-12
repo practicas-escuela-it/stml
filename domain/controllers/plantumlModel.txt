@@ -13,6 +13,8 @@ class A1 extends A0 {
 
 } 
 class A4 { 
+-a4_1: void
+-a4_2: int
 
 } 
 class A2 extends A3 { 
@@ -32,8 +34,18 @@ class A5 {
 -a5_1: int
 
 } 
+class B0 { 
+-b0_1: char
+-b0_2: int
+
+} 
 class B1 { 
 -b1_1: int
+
+} 
+class B2 { 
+-b2_1: int
+-b2_2: char
 
 } 
 class A6 { 
@@ -42,19 +54,18 @@ class A6 {
 
 } 
 class A7 { 
+-a7_1: int
 
 } 
 class A9 { 
+-a9_1: void
+-a9_2: int
++methodA9(attr1: int)
 
 } 
 class A10 { 
 -a10_1: int
 +method1(tipo: void)
-
-} 
-class B2 { 
--b2_1: int
--b2_2: char
 
 } 
 class B3 { 
@@ -74,9 +85,11 @@ A3 ..> A4
 A8 o--> A9
 A5 o--> A6
 A5 o--> A7
+B0 o--> B1
 B1 o--> A1
-A6 o--> A10
+B1 o--> B2
 B2 o--> B3
+A6 o--> A10
 B3 o--> A5
 
 @enduml

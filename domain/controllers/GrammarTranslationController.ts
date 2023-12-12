@@ -35,13 +35,13 @@ export class GrammarTranslationController {
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel); 
         
        plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)                            
-               .setClass("A2")                               
+               .setClass("A5", ActionType.ADD)                               
                  // .coupling(Direction.EFFERENT, RelationType.INHERIT)
-                //  .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
+                  .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
                  // .coupling(Direction.EFFERENT, RelationType.USE)
                 //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
                  // .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
-                //  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
+                  .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
                 //  .coupling(Direction.AFFERENT, RelationType.USE)
                 //  .attribute(["isStarted"])  
                 //  .method(["run"])                                             

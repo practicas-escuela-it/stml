@@ -23,5 +23,5 @@ export class AfferentCompositionRelation extends Relation {
             }
         );
         return _classes;
-    }
+    }   
 }
