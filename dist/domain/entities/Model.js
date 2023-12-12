@@ -31,8 +31,8 @@ var Model = /** @class */ (function () {
             this._classes.push(_class);
         }
     };
-    Model.prototype.addEfferentClassesOf = function (_class) {
-        var _refClass = this._map.get(_class.name);
+    Model.prototype.addEfferentHierarchyOf = function (_diagramClass) {
+        var _refClass = this._map.get(_diagramClass.name);
         if (_refClass) {
             this._addEfferentAssociationClassesOf(_refClass);
             this._addEfferentCompositionClassesOf(_refClass);
@@ -45,6 +45,7 @@ var Model = /** @class */ (function () {
         _class.getAssociations().forEach(function (_association) {
             _association.classes.forEach(function (_associationClass) {
                 _this.addClass(_associationClass);
+                _this.addClasses(_associationClass.getEfferentHierarchy());
             });
         });
     };
@@ -53,6 +54,7 @@ var Model = /** @class */ (function () {
         _class.getCompositions().forEach(function (_composition) {
             _composition.getClasses().forEach(function (_compositionClass) {
                 _this.addClass(_compositionClass);
+                _this.addClasses(_compositionClass.getEfferentHierarchy());
             });
         });
     };
@@ -61,6 +63,7 @@ var Model = /** @class */ (function () {
         _class.getUses().forEach(function (_use) {
             _use.classes.forEach(function (_useClass) {
                 _this.addClass(_useClass);
+                _this.addClasses(_useClass.getEfferentHierarchy());
             });
         });
     };
@@ -68,34 +71,24 @@ var Model = /** @class */ (function () {
         var _this = this;
         _class.getInherits().forEach(function (_inheritClass) {
             _this.addClass(_inheritClass);
+            _this.addClasses(_inheritClass.getEfferentHierarchy());
         });
     };
-    Model.prototype.getAfferentClassesOf = function (_classToSearch) {
+    Model.prototype.getAfferentHierarchyTo = function (_diagramClass) {
         var _this = this;
         var _afferentClasses = [];
-        var _refClass = this._map.get(_classToSearch.name);
+        var _refClass = this._map.get(_diagramClass.name);
         if (_refClass) {
             this._classes.forEach(function (_class) {
-                if (_class.hasAssociationRelationWith(_classToSearch)) {
-                    _this._addAfferenteClass(_class, _afferentClasses);
-                }
-                if (_class.hasCompositionRelationWith(_classToSearch)) {
-                    _this._addAfferenteClass(_class, _afferentClasses);
-                }
-                if (_class.hasUseRelationWith(_classToSearch)) {
-                    _this._addAfferenteClass(_class, _afferentClasses);
-                }
-                if (_class.hasInheritRelationWith(_classToSearch)) {
-                    _this._addAfferenteClass(_class, _afferentClasses);
+                if (_class.name != _diagramClass.name && _class.hasAnyRelationWith(_diagramClass)) {
+                    var _afferentClass = new Class_1.Class(_class.name);
+                    _afferentClass.copy(_class);
+                    _afferentClasses.push(_afferentClass);
+                    _afferentClasses.push.apply(_afferentClasses, _this.getAfferentHierarchyTo(_class));
                 }
             });
         }
         return _afferentClasses;
-    };
-    Model.prototype._addAfferenteClass = function (_class, _afferentClasses) {
-        var _newClass = new Class_1.Class(_class.name);
-        _newClass.copy(_class);
-        _afferentClasses.push(_newClass);
     };
     Model.prototype.addClasses = function (_classes) {
         var _this = this;

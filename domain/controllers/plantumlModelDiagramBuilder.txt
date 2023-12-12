@@ -1,17 +1,59 @@
 @startuml
 
-class Car { 
--isStarted: bool
-+run(velocity: real, aceleration: void)
+class A2 extends A3 { 
+-a2: void
 
 } 
-class Cylinder { 
+class A5 { 
+-a5: void
+-a5_1: int
 
 } 
-class Injector { 
+class A6 { 
+-a6_1: int
+-a6_2: string
 
 } 
-Car ..> Cylinder
-Car ..> Injector
+class A10 { 
+-a10_1: int
++method1(tipo: void)
+
+} 
+class A7 { 
+
+} 
+class A8 { 
+-a8_1: float
+
+} 
+class A9 { 
+
+} 
+class A3 { 
+-a3: void
+
+} 
+class A4 { 
+
+} 
+class A1 extends A0 { 
+-a1: void
+-a1_1: void
+
+} 
+class B1 { 
+-b1_1: int
+
+} 
+A2 *--> A8
+A2 o--> A5
+A5 o--> A6
+A5 o--> A7
+A6 o--> A10
+A8 o--> A9
+A3 ..> A4
+A1 *--> A4
+A1 o--> A2
+B1 o--> A1
 
 @enduml

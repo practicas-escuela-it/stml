@@ -1,101 +1,126 @@
-class Car extends Vehicle { 
-	private bool isStarted;
-	private int tipo;
-	private real conTipo;
-	private Door door;
-	private Roof roof;
-	private Batery batery;
-	private Panel panel;
-	private Engine engine;
+class A0 { 
+	private int a0_1;
+	private string a0_2;
 
-	Car(Batery batery, Panel panel, Engine engine) {}
+	A0() {}
 
-	void run(real velocity,  void aceleration) { }
+	void m1() { }
 
-	void stop() { }
+	void m2(int tipo) { }
 
 
 } 
-class Vehicle { 
-	private string color;
-	private int cylinders;
-	private Gas gas;
+class A1 extends A0 { 
+	private void a1;
+	private void a1_1;
+	private A4 a4;
+	private A2 a2;
 
-	Vehicle(Gas gas) {}
-
-
-} 
-class Door { 
-
-	Door() {}
+	A1(A2 a2) {}
 
 
 } 
-class Roof { 
+class A4 { 
 
-	Roof() {}
-
-
-} 
-class Cylinder { 
-
-	Cylinder() {}
+	A4() {}
 
 
 } 
-class Injector { 
+class A2 extends A3 { 
+	private void a2;
+	private A8 a8;
+	private A5 a5;
 
-	Injector() {}
-
-
-} 
-class Batery { 
-
-	Batery() {}
+	A2(A5 a5) {}
 
 
 } 
-class Panel { 
+class A3 { 
+	private void a3;
 
-	Panel() {}
-
-
-} 
-class Engine { 
-	private real piece;
-	private int bujia;
-	private DistributionRun distributionrun;
-	private OilFilter oilfilter;
-	private Batery batery;
-
-	Engine(Batery batery) {}
+	A3() {}
 
 
 } 
-class DistributionRun { 
+class A8 { 
+	private float a8_1;
+	private A9 a9;
 
-	DistributionRun() {}
-
-
-} 
-class OilFilter { 
-
-	OilFilter() {}
+	A8(A9 a9) {}
 
 
 } 
-class Piston { 
+class A5 { 
+	private void a5;
+	private int a5_1;
+	private A6 a6;
+	private A7 a7;
 
-	Piston() {}
+	A5(A6 a6, A7 a7) {}
 
 
 } 
-class Gas { 
-	private real price;
-	private real amount;
-	private Door door;
+class B1 { 
+	private int b1_1;
+	private A1 a1;
 
-	Gas() {}
+	B1(A1 a1) {}
+
+
+} 
+class A6 { 
+	private int a6_1;
+	private string a6_2;
+	private A10 a10;
+
+	A6(A10 a10) {}
+
+
+} 
+class A7 { 
+
+	A7() {}
+
+
+} 
+class A9 { 
+
+	A9() {}
+
+
+} 
+class A10 { 
+	private int a10_1;
+
+	A10() {}
+
+	void method1( void tipo) { }
+
+
+} 
+class B2 { 
+	private int b2_1;
+	private char b2_2;
+	private B3 b3;
+
+	B2(B3 b3) {}
+
+
+} 
+class B3 { 
+	private int b3_1;
+	private A5 a5;
+
+	B3(A5 a5) {}
+
+	void mb3( void p1) { }
+
+
+} 
+class A11 extends A3 { 
+	private int a11_1;
+
+	A11() {}
 
 
 } 

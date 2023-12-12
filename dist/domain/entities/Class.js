@@ -1,4 +1,13 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Class = void 0;
 var Asociation_1 = require("./Asociation");
@@ -53,6 +62,11 @@ var Class = /** @class */ (function () {
         return this._associations != null && this._associations.length > 0;
     };
     Class.prototype.getInherits = function () {
+        var _classes = [];
+        this._inherists.forEach(function (_class) {
+            _classes.push(_class);
+            _classes.push.apply(_classes, _class.getEfferentHierarchy());
+        });
         return this._inherists;
     };
     Class.prototype.getMethods = function () {
@@ -61,11 +75,44 @@ var Class = /** @class */ (function () {
     Class.prototype.getCompositions = function () {
         return this._compositions;
     };
+    Class.prototype.getEfferentHierarchy = function () {
+        return __spreadArray(__spreadArray(__spreadArray(__spreadArray([], this.getAssociationClasses(), true), this.getCompositionClasses(), true), this.getUseClasses(), true), this.getInherits(), true);
+    };
+    Class.prototype.getCompositionClasses = function () {
+        var _classes = [];
+        this._compositions.forEach(function (_composition) {
+            _composition.getClasses().forEach(function (_class) {
+                _classes.push(_class);
+                _classes.push.apply(_classes, _class.getEfferentHierarchy());
+            });
+        });
+        return _classes;
+    };
     Class.prototype.getUses = function () {
         return this._uses;
     };
+    Class.prototype.getUseClasses = function () {
+        var _classes = [];
+        this._uses.forEach(function (_use) {
+            _use.classes.forEach(function (_class) {
+                _classes.push(_class);
+                _classes.push.apply(_classes, _class.getEfferentHierarchy());
+            });
+        });
+        return _classes;
+    };
     Class.prototype.getAssociations = function () {
         return this._associations;
+    };
+    Class.prototype.getAssociationClasses = function () {
+        var _classes = [];
+        this._associations.forEach(function (_association) {
+            _association.classes.forEach(function (_class) {
+                _classes.push(_class);
+                _classes.push.apply(_classes, _class.getEfferentHierarchy());
+            });
+        });
+        return _classes;
     };
     Class.prototype.addAttribute = function (attribute) {
         this._attributes.push(attribute);
@@ -169,12 +216,12 @@ var Class = /** @class */ (function () {
     Class.prototype._copyIdentifier = function (identifier) {
         this._identifier = new Identifier_1.Identifier(identifier.value);
     };
-    Class.prototype._copyInherits = function (inherits) {
+    Class.prototype._copyInherits = function (inheritsToCopy) {
         var _this = this;
-        inherits.forEach(function (_inherit) {
-            var inherit = new Class(_inherit.name);
-            inherit.copy(_inherit);
-            _this._inherists.push(inherit);
+        inheritsToCopy.forEach(function (_classToCopy) {
+            var _class = new Class(_classToCopy.name);
+            _class.copy(_classToCopy);
+            _this._inherists.push(_class);
         });
     };
     Class.prototype._copyMethods = function (methods) {
@@ -196,14 +243,14 @@ var Class = /** @class */ (function () {
             _this._attributes.push(_attribute);
         });
     };
-    Class.prototype._copyAssociations = function (associations) {
+    Class.prototype._copyAssociations = function (associationsToCopy) {
         var _this = this;
-        associations.forEach(function (association) {
+        associationsToCopy.forEach(function (associationToCopy) {
             var _association = new Asociation_1.Association();
-            association.classes.forEach(function (_class) {
-                var _copyClass = new Class(_class.name);
-                _copyClass.copy(_class);
-                _association.addClass(_copyClass);
+            associationToCopy.classes.forEach(function (_classToCopy) {
+                var _class = new Class(_classToCopy.name);
+                _class.copy(_classToCopy);
+                _association.addClass(_class);
             });
             _this._associations.push(_association);
         });
@@ -231,6 +278,9 @@ var Class = /** @class */ (function () {
             });
             _this._uses.push(_use);
         });
+    };
+    Class.prototype.hasAnyRelationWith = function (_classToSearch) {
+        return this.hasAssociationRelationWith(_classToSearch) || this.hasCompositionRelationWith(_classToSearch) || this.hasInheritRelationWith(_classToSearch) || this.hasUseRelationWith(_classToSearch);
     };
     Class.prototype.hasCompositionRelationWith = function (_classToSearch) {
         var result = false;

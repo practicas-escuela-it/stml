@@ -3,7 +3,6 @@ import { Association } from "../entities/Asociation";
 import { Attribute } from "../entities/Attribute";
 import { Class } from "../entities/Class";
 import { Composition } from "../entities/Composition";
-import { Identifier } from "../entities/Identifier";
 import { Method } from "../entities/Method";
 import { Use } from "../entities/Use";
 import { ClassManager } from "./ClassManager";

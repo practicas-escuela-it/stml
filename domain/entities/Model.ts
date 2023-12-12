@@ -20,8 +20,8 @@ export class Model {
                 __classes.push(value);
                 // console.log("VALUE: " + entry[1]);
             }
-        }        
-       // return __classes; */
+        }
+        // return __classes; */
         return this._classes;
     }
 
@@ -29,55 +29,49 @@ export class Model {
         return this._classes.length > 0;
     }
 
-    getClass(className: string): Class {       
+    getClass(className: string): Class {
         return this._map.get(className) as Class;
     }
 
     addClass(_class: Class): void {
         if (this._map.get(_class.name) == null) {
-           this._map.set(_class.name, _class);
-           this._classes.push(_class);
+            this._map.set(_class.name, _class);
+            this._classes.push(_class);
         }
     }
 
-    addEfferentClassesTo(_class: Class): void {
-        let _refClass: Class | undefined = this._map.get(_class.name);
+    addEfferentHierarchyOf(_diagramClass: Class): void {
+        let _refClass: Class | undefined = this._map.get(_diagramClass.name);
         if (_refClass) {
-           this._addEfferentAssociationClassesOf(_refClass);
-           this._addEfferentCompositionClassesOf(_refClass);
-           this._addEfferentUseClassesOf(_refClass);
-           this._addEfferentInheritClassesOf(_refClass);
+            this._addEfferentAssociationClassesOf(_refClass);
+            this._addEfferentCompositionClassesOf(_refClass);
+            this._addEfferentUseClassesOf(_refClass);
+            this._addEfferentInheritClassesOf(_refClass);
         }
     }
 
     private _addEfferentAssociationClassesOf(_class: Class): void {
         _class.getAssociations().forEach(
-          (_association: Association) => {
-             _association.classes.forEach(
-                (_associationClass: Class) => {
-                    this.addClass(_associationClass);
-                    this.addClasses(_associationClass.getAssociationClasses());
-                    this.addClasses(_associationClass.getCompositionClasses());
-                    this.addClasses(_associationClass.getUseClasses());
-                    this.addClasses(_associationClass.getInherits());
-                }
-             )
-          }
+            (_association: Association) => {
+                _association.classes.forEach(
+                    (_associationClass: Class) => {
+                        this.addClass(_associationClass);
+                        this.addClasses(_associationClass.getEfferentHierarchy());
+                    }
+                )
+            }
         );
     }
 
     private _addEfferentCompositionClassesOf(_class: Class): void {
         _class.getCompositions().forEach(
             (_composition: Composition) => {
-               _composition.getClasses().forEach(
-                (_compositionClass: Class) => {
-                    this.addClass(_compositionClass);
-                    this.addClasses(_compositionClass.getAssociationClasses());
-                    this.addClasses(_compositionClass.getCompositionClasses());
-                    this.addClasses(_compositionClass.getUseClasses());
-                    this.addClasses(_compositionClass.getInherits());
-                }
-               )
+                _composition.getClasses().forEach(
+                    (_compositionClass: Class) => {
+                        this.addClass(_compositionClass);
+                        this.addClasses(_compositionClass.getEfferentHierarchy());
+                    }
+                )
             }
         )
     }
@@ -85,61 +79,43 @@ export class Model {
     private _addEfferentUseClassesOf(_class: Class): void {
         _class.getUses().forEach(
             (_use: Use) => {
-               _use.classes.forEach(
-                (_useClass: Class) => {
-                    this.addClass(_useClass);
-                    this.addClasses(_useClass.getAssociationClasses());
-                    this.addClasses(_useClass.getCompositionClasses());
-                    this.addClasses(_useClass.getUseClasses());
-                    this.addClasses(_useClass.getInherits());
-                }
-               )
+                _use.classes.forEach(
+                    (_useClass: Class) => {
+                        this.addClass(_useClass);
+                        this.addClasses(_useClass.getEfferentHierarchy());
+                    }
+                )
             }
         )
     }
 
     private _addEfferentInheritClassesOf(_class: Class): void {
-       _class.getInherits().forEach(
-         (_inheritClass: Class) => {
-            this.addClass(_inheritClass);
-            this.addClasses(_inheritClass.getAssociationClasses());
-            this.addClasses(_inheritClass.getCompositionClasses());
-            this.addClasses(_inheritClass.getUseClasses());
-            this.addClasses(_inheritClass.getInherits());
-         }
-       )
+        _class.getInherits().forEach(
+            (_inheritClass: Class) => {
+                this.addClass(_inheritClass);
+                this.addClasses(_inheritClass.getEfferentHierarchy());
+            }
+        )
     }
 
-    getAfferentClassesTo(_classToSearch: Class): Class[] {
+    getAfferentHierarchyTo(_diagramClass: Class): Class[] {             
         let _afferentClasses: Class[] = [];
-        let _refClass: Class | undefined = this._map.get(_classToSearch.name);
+        let _refClass: Class | undefined = this._map.get(_diagramClass.name);
         if (_refClass) {
             this._classes.forEach(
-                (_class: Class) => {
-                    if (_class.hasAssociationRelationWith(_classToSearch)) {
-                        this._addAfferenteClass(_class, _afferentClasses);
-                    }
-                    if (_class.hasCompositionRelationWith(_classToSearch)) {
-                        this._addAfferenteClass(_class, _afferentClasses);
-                    }
-                    if (_class.hasUseRelationWith(_classToSearch)) {
-                        this._addAfferenteClass(_class, _afferentClasses);
-                     }
-                    if (_class.hasInheritRelationWith(_classToSearch)) {
-                        this._addAfferenteClass(_class, _afferentClasses);
+                (_class: Class) => {                    
+                    if (_class.name != _diagramClass.name && _class.hasAnyRelationWith(_diagramClass)) {
+                        let _afferentClass: Class = new Class(_class.name);
+                        _afferentClass.copy(_class);                        
+                       _afferentClasses.push(_afferentClass);                       
+                       _afferentClasses.push(...this.getAfferentHierarchyTo(_class));
                     }
                 }
-            );            
+            );
         }
         return _afferentClasses;
-    }
+    }        
 
-    private _addAfferenteClass(_class: Class, _afferentClasses: Class[]) {
-        let _newClass: Class = new Class(_class.name);
-        _newClass.copy(_class);
-        _afferentClasses.push(_newClass);
-    }
-    
     addClasses(_classes: Class[]): void {
         _classes.forEach(
             (_class: Class) => {
@@ -151,17 +127,17 @@ export class Model {
     }
 
     removeClass(_class: Class): void {
-         let _index: number = 0;        
-         this._classes.forEach(
-             (__class: Class) => {
-                 if (__class.name.indexOf(_class.name) >= 0) {                                     
-                     this._classes.splice(_index, 1);
-                     this._map.delete(_class.name);
-                     return;
-                 }
-                 _index++;
-             }
-         )         
+        let _index: number = 0;
+        this._classes.forEach(
+            (__class: Class) => {
+                if (__class.name.indexOf(_class.name) >= 0) {
+                    this._classes.splice(_index, 1);
+                    this._map.delete(_class.name);
+                    return;
+                }
+                _index++;
+            }
+        )
     }
 
     removeClasses(_classes: Class[]): void {

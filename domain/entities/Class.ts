@@ -6,7 +6,7 @@ import { Method } from "./Method";
 import { Parameter } from "./Parameter";
 import { Use } from "./Use";
 
-export class Class {   
+export class Class {    
 
     private _identifier: Identifier;
     private _inherists: Class[];
@@ -56,9 +56,16 @@ export class Class {
     }
 
     getInherits(): Class[] {
+       let _classes: Class[] = [];
+       this._inherists.forEach(
+        (_class: Class) => {
+          _classes.push(_class);
+          _classes.push(..._class.getEfferentHierarchy());
+        }
+       )
         return this._inherists;
     }
-    
+
     getMethods(): Method[] {
         return this._methods;
     }
@@ -67,11 +74,20 @@ export class Class {
         return this._compositions;
     }
 
+    getEfferentHierarchy(): Class[] {
+      return [...this.getAssociationClasses(), ...this.getCompositionClasses(), ...this.getUseClasses(), ...this.getInherits()];
+    }
+
     getCompositionClasses(): Class[] {
         let _classes: Class[] = [];
         this._compositions.forEach(
             (_composition: Composition) => {
-                _classes.push(..._composition.getClasses());
+               _composition.getClasses().forEach(
+                (_class: Class) => {
+                  _classes.push(_class);
+                  _classes.push(..._class.getEfferentHierarchy());
+                }
+               )
             }
         );
         return _classes;
@@ -85,7 +101,12 @@ export class Class {
         let _classes: Class[] = [];
         this._uses.forEach(
             (_use: Use) => {
-                _classes.push(..._use.classes);
+               _use.classes.forEach(
+                (_class: Class) => {
+                   _classes.push(_class);
+                   _classes.push(..._class.getEfferentHierarchy());
+                }
+               )
             }
         );
         return _classes;
@@ -99,7 +120,12 @@ export class Class {
         let _classes: Class[] = [];
         this._associations.forEach(
             (_association: Association) => {
-                _classes.push(..._association.classes);
+              _association.classes.forEach(
+                (_class: Class) => {
+                  _classes.push(_class);
+                  _classes.push(..._class.getEfferentHierarchy());
+                }
+              )
             }
         );
         return _classes;
@@ -139,7 +165,7 @@ export class Class {
                 return;
              }
              i++;
-           } 
+           }
         )
 
     }
@@ -156,9 +182,9 @@ export class Class {
         let i: number = 0;
         this._methods.forEach(
             (method: Method) => {
-                if (method.identifier.value == methodName) {                
+                if (method.identifier.value == methodName) {
                    this._methods.splice(i, 1);
-                   return;         
+                   return;
                 }
                 i++;
             }
@@ -279,7 +305,7 @@ export class Class {
                 this._associations.push(_association);
             }
         )
-    }
+    }    
 
     private _copyCompositions(compositions: Composition[]) {
         compositions.forEach(
@@ -311,6 +337,10 @@ export class Class {
                 this._uses.push(_use);
             }
         )
+    }
+
+    hasAnyRelationWith(_classToSearch: Class): boolean {
+        return this.hasAssociationRelationWith(_classToSearch) || this.hasCompositionRelationWith(_classToSearch) || this.hasInheritRelationWith(_classToSearch) || this.hasUseRelationWith(_classToSearch);
     }
 
     hasCompositionRelationWith(_classToSearch: Class): boolean {

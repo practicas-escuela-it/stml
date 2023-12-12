@@ -40,7 +40,7 @@ export class DiagramBuilder {
       this._actionType = ActionType.ADD;            
    }   
 
-   setClass(className: string, actionType: ActionType = ActionType.ADD): this {
+   setClass(className: string, actionType: ActionType = ActionType.REMOVE): this {
       Assert.test(this._model.getClass(className) != null, "No puedes pasar una clase inexistente");
       let _class: Class | undefined = this._model.getClass(className)?? undefined;      
       if (_class != undefined) {           
@@ -56,8 +56,8 @@ export class DiagramBuilder {
       this._diagramModel.addClass(this._diagramClass);         
       if (actionType == ActionType.REMOVE) {                  
          this._diagramClass.copy(this._modelClass);               
-         this._diagramModel.addEfferentClassesTo(this._diagramClass);
-         this._diagramModel.addClasses(this._model.getAfferentClassesTo(this._diagramClass));
+         this._diagramModel.addEfferentHierarchyOf(this._diagramClass);
+         this._diagramModel.addClasses(this._model.getAfferentHierarchyTo(this._diagramClass));
       }            
       return this;
     }   

@@ -1,67 +1,82 @@
 @startuml
 
-class Car extends Vehicle { 
--isStarted: bool
--tipo: int
--conTipo: real
-+run(velocity: real, aceleration: void)
-+stop()
+class A0 { 
+-a0_1: int
+-a0_2: string
++m1()
++m2(tipo: int)
 
 } 
-class Vehicle { 
--color: void
--cylinders: int
+class A1 extends A0 { 
+-a1: void
+-a1_1: void
 
 } 
-class Door { 
+class A4 { 
 
 } 
-class Roof { 
+class A2 extends A3 { 
+-a2: void
 
 } 
-class Cylinder { 
+class A3 { 
+-a3: void
 
 } 
-class Injector { 
+class A8 { 
+-a8_1: float
 
 } 
-class Batery { 
+class A5 { 
+-a5: void
+-a5_1: int
 
 } 
-class Panel { 
+class B1 { 
+-b1_1: int
 
 } 
-class Engine { 
--piece: real
--bujia: int
+class A6 { 
+-a6_1: int
+-a6_2: string
 
 } 
-class DistributionRun { 
+class A7 { 
 
 } 
-class OilFilter { 
+class A9 { 
 
 } 
-class Piston { 
+class A10 { 
+-a10_1: int
++method1(tipo: void)
 
 } 
-class Gas { 
--price: real
--amount: real
+class B2 { 
+-b2_1: int
+-b2_2: char
 
 } 
-Car *--> Door
-Car *--> Roof
-Car ..> Cylinder
-Car ..> Injector
-Car o--> Batery
-Car o--> Panel
-Car o--> Engine
-Vehicle o--> Gas
-Engine *--> DistributionRun
-Engine *--> OilFilter
-Engine ..> Piston
-Engine o--> Batery
-Gas *--> Door
+class B3 { 
+-b3_1: int
++mb3(p1: void)
+
+} 
+class A11 extends A3 { 
+-a11_1: int
+
+} 
+A1 *--> A4
+A1 o--> A2
+A2 *--> A8
+A2 o--> A5
+A3 ..> A4
+A8 o--> A9
+A5 o--> A6
+A5 o--> A7
+B1 o--> A1
+A6 o--> A10
+B2 o--> B3
+B3 o--> A5
 
 @enduml
