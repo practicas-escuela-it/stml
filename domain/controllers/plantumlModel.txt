@@ -48,13 +48,13 @@ class B2 {
 -b2_2: char
 
 } 
+class A7 { 
+-a7_1: int
+
+} 
 class A6 { 
 -a6_1: int
 -a6_2: string
-
-} 
-class A7 { 
--a7_1: int
 
 } 
 class A9 { 
@@ -83,8 +83,8 @@ A2 *--> A8
 A2 o--> A5
 A3 ..> A4
 A8 o--> A9
+A5 *--> A7
 A5 o--> A6
-A5 o--> A7
 B0 o--> B1
 B1 o--> A1
 B1 o--> B2

@@ -30,8 +30,7 @@ export class AttributeFilter extends ElementFilter {
          (attribute: Attribute) => {
             if (attribute.identifier.value != "") {
                let _copyAttr: Attribute = new Attribute();
-               _copyAttr.set(attribute.identifier.value, attribute.identifier.value);
-               // _copyAttr.set(attribute.identifier.value, attribute.type.value);
+               _copyAttr.set(attribute.identifier.value, attribute.identifier.value);               
                this._diagramClass.addAttribute(_copyAttr);
             }
          }

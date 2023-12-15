@@ -170,6 +170,7 @@ var Class = /** @class */ (function () {
         var i = 0;
         this._compositions.forEach(function (_composition) {
             if (_composition.isEqualTo(compositionToRemove)) {
+                _composition.removeClasses();
                 _this._compositions.splice(i, 1);
                 return;
             }

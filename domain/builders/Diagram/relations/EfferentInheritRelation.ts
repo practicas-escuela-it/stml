@@ -5,9 +5,11 @@ import { Relation } from "./Relation";
 
 export class EfferentInheritRelation extends Relation {
 
-    constructor(_modelClass: Class, _diagramClass: Class, actionType: ActionType) {
-        super(_modelClass, _diagramClass, actionType);
-        
+    private _model: Model;
+
+    constructor(modelClass: Class, diagramClass: Class, actionType: ActionType, model: Model) {
+        super(modelClass, diagramClass, actionType);
+        this._model = model;
     }
 
     override getRelationClasses(): Class[] {
@@ -17,7 +19,8 @@ export class EfferentInheritRelation extends Relation {
                 let _copyInherit: Class = new Class(inherit.name);     
                 _copyInherit.copy(inherit);
                 _classes.push(_copyInherit);
-                this.updateDiagram(_copyInherit);                
+                this.updateDiagram(_copyInherit);     
+                _classes.push(...this._model.getEfferentAssociationsOf(inherit));           
             });
         return _classes;
     }

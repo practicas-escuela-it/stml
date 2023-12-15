@@ -4,44 +4,41 @@ import { Composition } from "./Composition";
 import { Use } from "./Use";
 
 export class Model {
+    
+    private _classes: Map<string, Class>;
 
-    private _classes: Class[];
-    private _map: Map<string, Class>;
-
-    constructor() {
-        this._classes = [];
-        this._map = new Map<string, Class>();
+    constructor() {        
+        this._classes = new Map<string, Class>();
     }
 
     getClasses(): Class[] {
-        let __classes: Class[] = []
-        if (this._map.size > 0) {
-            for (let value of this._map.values()) {
-                __classes.push(value);
-                // console.log("VALUE: " + entry[1]);
-            }
+        let _classes: Class[] = []
+        if (this._classes.size > 0) {
+            this._classes.forEach(
+                (value: Class, key: string) => {
+                  _classes.push(value);
+                }
+            ); 
         }
-        // return __classes; */
-        return this._classes;
+         return _classes;        
     }
 
     hasClasses(): boolean {
-        return this._classes.length > 0;
+        return this._classes.size > 0;
     }
 
     getClass(className: string): Class {
-        return this._map.get(className) as Class;
+        return this._classes.get(className) as Class;
     }
 
     addClass(_class: Class): void {
-        if (this._map.get(_class.name) == null) {
-            this._map.set(_class.name, _class);
-            this._classes.push(_class);
+        if (!this._classes.has(_class.name)) {
+            this._classes.set(_class.name, _class);           
         }
     }
 
     addEfferentHierarchyOf(_diagramClass: Class): void {
-        let _refClass: Class | undefined = this._map.get(_diagramClass.name);
+        let _refClass: Class | undefined = this._classes.get(_diagramClass.name);
         if (_refClass) {
             this._addEfferentAssociationClassesOf(_refClass);
             this._addEfferentCompositionClassesOf(_refClass);
@@ -98,9 +95,71 @@ export class Model {
         )
     }
 
+    getEfferentHierarchyOf(_settedClass: Class) {
+        let _afferentClasses: Class[] = [];
+        let _refClass: Class | undefined = this._classes.get(_settedClass.name);
+        if (_refClass) {
+            this._classes.forEach(
+                (_class: Class) => {  
+                    _afferentClasses.push(...this.getEfferentAssociationsOf(_class));
+                    _afferentClasses.push(...this.getEfferentCompositionsOf(_class));
+                    _afferentClasses.push(...this.getEfferentUsesOf(_class));
+                    _afferentClasses.push(...this.getEfferentInheritsOf(_class));
+                }
+            );
+        }
+        return _afferentClasses;
+    }
+
+    getEfferentAssociationsOf(_class: Class): Class[] {
+        let _afferentClasses: Class[] = [];
+        _class.getAssociations().forEach(
+          (association: Association) => {
+            association.classes.forEach(
+                (_class: Class) => {
+                    _afferentClasses.push(_class);
+                }
+            )
+          }
+        );
+        return _afferentClasses;
+    }
+
+    getEfferentCompositionsOf(_class: Class): Class[] {
+        let _afferentClasses: Class[] = [];
+        _class.getCompositions().forEach(
+          (composition: Composition) => {
+            composition.getClasses().forEach(
+                (_class: Class) => {
+                    _afferentClasses.push(_class);
+                }
+            )
+          }
+        );
+        return _afferentClasses;
+    }
+
+    getEfferentUsesOf(_class: Class): Class[] {
+        let _afferentClasses: Class[] = [];
+        _class.getUses().forEach(
+          (use: Use) => {
+            use.classes.forEach(
+                (_class: Class) => {
+                    _afferentClasses.push(_class);
+                }
+            )
+          }
+        );
+        return _afferentClasses;
+    }
+
+    getEfferentInheritsOf(_class: Class): Class[] {        
+        return _class.getInherits();        
+    }
+
     getAfferentHierarchyTo(_diagramClass: Class): Class[] {             
         let _afferentClasses: Class[] = [];
-        let _refClass: Class | undefined = this._map.get(_diagramClass.name);
+        let _refClass: Class | undefined = this._classes.get(_diagramClass.name);
         if (_refClass) {
             this._classes.forEach(
                 (_class: Class) => {                    
@@ -119,7 +178,7 @@ export class Model {
     addClasses(_classes: Class[]): void {
         _classes.forEach(
             (_class: Class) => {
-                if (!this._map.has(_class.name)) {
+                if (!this._classes.has(_class.name)) {
                     this.addClass(_class);
                 }
             }
@@ -128,16 +187,9 @@ export class Model {
 
     removeClass(_class: Class): void {
         let _index: number = 0;
-        this._classes.forEach(
-            (__class: Class) => {
-                if (__class.name.indexOf(_class.name) >= 0) {
-                    this._classes.splice(_index, 1);
-                    this._map.delete(_class.name);
-                    return;
-                }
-                _index++;
-            }
-        )
+        if (this._classes.has(_class.name)) {
+            this._classes.delete(_class.name);
+        }        
     }
 
     removeClasses(_classes: Class[]): void {
@@ -149,23 +201,15 @@ export class Model {
     }
 
     existsClass(className: string): boolean {
-        let result: boolean = false;
-        this._classes.forEach(
-            (_class: Class) => {
-                if (_class.name.trim().indexOf(className.trim()) >= 0) {
-                    result = true;
-                }
-            });
-        return result;
+        return this._classes.has(className);        
     }
 
     copy(model: Model) {
         model.getClasses().forEach(
             (_classToCopy: Class) => {
                 let _class = new Class(_classToCopy.name);
-                _class.copy(_classToCopy);
-                this._classes.push(_class);
-                this._map.set(_class.name, _class);
+                _class.copy(_classToCopy);                
+                this._classes.set(_class.name, _class);
             }
         )
     }

@@ -30,7 +30,8 @@ class B1
 
 class A5 
    attribute a5 void, a5_1 int
-   association A6, A7
+   composition A7
+   association A6
 
 class A8 
    attribute a8_1 float

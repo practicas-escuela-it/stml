@@ -62,8 +62,8 @@ export class DiagramBuilder {
       return this;
     }   
 
-    coupling(direction: Direction, relation: RelationType): this {
-        this._relations.push(new RelationClassesFactory(direction, relation, this._modelClass, this._model, this._diagramClass, this._actionType).instance());        
+    coupling(direction: Direction, relation: RelationType = RelationType.ALL): this {        
+        this._relations.push(new RelationClassesFactory(direction, relation, this._modelClass, this._model, this._diagramClass, this._actionType).instance());               
         return this;
     }
 

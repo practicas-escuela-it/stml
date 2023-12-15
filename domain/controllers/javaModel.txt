@@ -55,10 +55,10 @@ class A8 {
 class A5 { 
 	private void a5;
 	private int a5_1;
-	private A6 a6;
 	private A7 a7;
+	private A6 a6;
 
-	A5(A6 a6, A7 a7) {}
+	A5(A6 a6) {}
 
 
 } 
@@ -89,19 +89,19 @@ class B2 {
 
 
 } 
+class A7 { 
+	private int a7_1;
+
+	A7() {}
+
+
+} 
 class A6 { 
 	private int a6_1;
 	private string a6_2;
 	private A10 a10;
 
 	A6(A10 a10) {}
-
-
-} 
-class A7 { 
-	private int a7_1;
-
-	A7() {}
 
 
 } 

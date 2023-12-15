@@ -12,6 +12,8 @@ import { AfferentInheritRelation } from "./AfferentInheritRelation";
 import { Relation } from "./Relation";
 import { RelationType } from "../types/RelationType";
 import { ActionType } from "../ActionType";
+import { EfferentRelation } from "./EfferentRelation";
+import { AfferentRelation } from "./AfferentRelation";
 
 export class RelationClassesFactory {
 
@@ -45,15 +47,17 @@ export class RelationClassesFactory {
           case RelationType.ASSOCIATION: return new AfferentAssociationRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
           case RelationType.USE: return new AfferentUseRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
           case RelationType.INHERIT: return new AfferentInheritRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
+          case RelationType.ALL: return new AfferentRelation(this._modelClass, this._model, this._diagramClass, this._actionType);
        }
     }
 
     private getEfferentRelation(): Relation {
         switch (this._relation) {
-            case RelationType.COMPOSITION:  return new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType);
-            case RelationType.ASSOCIATION: return new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType);
-            case RelationType.USE: return new EfferentUseRelation(this._modelClass, this._diagramClass, this._actionType);
-            case RelationType.INHERIT: return new EfferentInheritRelation(this._modelClass, this._diagramClass, this._actionType);
+            case RelationType.COMPOSITION:  return new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType, this._model);
+            case RelationType.ASSOCIATION: return new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType, this._model);
+            case RelationType.USE: return new EfferentUseRelation(this._modelClass, this._diagramClass, this._actionType, this._model);
+            case RelationType.INHERIT: return new EfferentInheritRelation(this._modelClass, this._diagramClass, this._actionType, this._model);
+            case RelationType.ALL: return new EfferentRelation(this._modelClass, this._diagramClass, this._actionType, this._model);
          }
     }
 }

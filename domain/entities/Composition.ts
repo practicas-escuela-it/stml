@@ -29,6 +29,11 @@ export class Composition {
         return _equals;
     }
 
+    removeClasses(): void {
+        this._classes.splice(0, this._classes.length);
+        this._classes = [];
+    }
+
     private getClassNames(): Map<string, Class> {
         let _classNames: Map<string, Class> = new Map<string, Class>();
         this._classes.forEach(

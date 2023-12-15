@@ -13,12 +13,17 @@ export class AfferentCompositionRelation extends Relation {
         this._model = model;
     }
 
-    getRelationClasses(): Class[] {
+    getRelationClasses(): Class[] {                
+        return this._getAfferentClassesTo(this._modelClass);        
+    }
+
+    private _getAfferentClassesTo(_settedClass: Class): Class[] {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.name != this._modelClass.name && _class.hasCompositionRelationWith(this._modelClass)) {
+                if (_class.name != _settedClass.name && _class.hasCompositionRelationWith(_settedClass)) {
                     _classes.push(_class);
+                    _classes.push(...this._getAfferentClassesTo(_class));
                 }
             }
         );

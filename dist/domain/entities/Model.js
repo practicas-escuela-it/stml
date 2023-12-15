@@ -4,35 +4,30 @@ exports.Model = void 0;
 var Class_1 = require("./Class");
 var Model = /** @class */ (function () {
     function Model() {
-        this._classes = [];
-        this._map = new Map();
+        this._classes = new Map();
     }
     Model.prototype.getClasses = function () {
-        var __classes = [];
-        if (this._map.size > 0) {
-            for (var _i = 0, _a = this._map.values(); _i < _a.length; _i++) {
-                var value = _a[_i];
-                __classes.push(value);
-                // console.log("VALUE: " + entry[1]);
-            }
+        var _classes = [];
+        if (this._classes.size > 0) {
+            this._classes.forEach(function (value, key) {
+                _classes.push(value);
+            });
         }
-        // return __classes; */
-        return this._classes;
+        return _classes;
     };
     Model.prototype.hasClasses = function () {
-        return this._classes.length > 0;
+        return this._classes.size > 0;
     };
     Model.prototype.getClass = function (className) {
-        return this._map.get(className);
+        return this._classes.get(className);
     };
     Model.prototype.addClass = function (_class) {
-        if (this._map.get(_class.name) == null) {
-            this._map.set(_class.name, _class);
-            this._classes.push(_class);
+        if (!this._classes.has(_class.name)) {
+            this._classes.set(_class.name, _class);
         }
     };
     Model.prototype.addEfferentHierarchyOf = function (_diagramClass) {
-        var _refClass = this._map.get(_diagramClass.name);
+        var _refClass = this._classes.get(_diagramClass.name);
         if (_refClass) {
             this._addEfferentAssociationClassesOf(_refClass);
             this._addEfferentCompositionClassesOf(_refClass);
@@ -74,10 +69,54 @@ var Model = /** @class */ (function () {
             _this.addClasses(_inheritClass.getEfferentHierarchy());
         });
     };
+    Model.prototype.getEfferentHierarchyOf = function (_settedClass) {
+        var _this = this;
+        var _afferentClasses = [];
+        var _refClass = this._classes.get(_settedClass.name);
+        if (_refClass) {
+            this._classes.forEach(function (_class) {
+                _afferentClasses.push.apply(_afferentClasses, _this.getEfferentAssociationsOf(_class));
+                _afferentClasses.push.apply(_afferentClasses, _this.getEfferentCompositionsOf(_class));
+                _afferentClasses.push.apply(_afferentClasses, _this.getEfferentUsesOf(_class));
+                _afferentClasses.push.apply(_afferentClasses, _this.getEfferentInheritsOf(_class));
+            });
+        }
+        return _afferentClasses;
+    };
+    Model.prototype.getEfferentAssociationsOf = function (_class) {
+        var _afferentClasses = [];
+        _class.getAssociations().forEach(function (association) {
+            association.classes.forEach(function (_class) {
+                _afferentClasses.push(_class);
+            });
+        });
+        return _afferentClasses;
+    };
+    Model.prototype.getEfferentCompositionsOf = function (_class) {
+        var _afferentClasses = [];
+        _class.getCompositions().forEach(function (composition) {
+            composition.getClasses().forEach(function (_class) {
+                _afferentClasses.push(_class);
+            });
+        });
+        return _afferentClasses;
+    };
+    Model.prototype.getEfferentUsesOf = function (_class) {
+        var _afferentClasses = [];
+        _class.getUses().forEach(function (use) {
+            use.classes.forEach(function (_class) {
+                _afferentClasses.push(_class);
+            });
+        });
+        return _afferentClasses;
+    };
+    Model.prototype.getEfferentInheritsOf = function (_class) {
+        return _class.getInherits();
+    };
     Model.prototype.getAfferentHierarchyTo = function (_diagramClass) {
         var _this = this;
         var _afferentClasses = [];
-        var _refClass = this._map.get(_diagramClass.name);
+        var _refClass = this._classes.get(_diagramClass.name);
         if (_refClass) {
             this._classes.forEach(function (_class) {
                 if (_class.name != _diagramClass.name && _class.hasAnyRelationWith(_diagramClass)) {
@@ -93,22 +132,16 @@ var Model = /** @class */ (function () {
     Model.prototype.addClasses = function (_classes) {
         var _this = this;
         _classes.forEach(function (_class) {
-            if (!_this._map.has(_class.name)) {
+            if (!_this._classes.has(_class.name)) {
                 _this.addClass(_class);
             }
         });
     };
     Model.prototype.removeClass = function (_class) {
-        var _this = this;
         var _index = 0;
-        this._classes.forEach(function (__class) {
-            if (__class.name.indexOf(_class.name) >= 0) {
-                _this._classes.splice(_index, 1);
-                _this._map.delete(_class.name);
-                return;
-            }
-            _index++;
-        });
+        if (this._classes.has(_class.name)) {
+            this._classes.delete(_class.name);
+        }
     };
     Model.prototype.removeClasses = function (_classes) {
         var _this = this;
@@ -117,21 +150,14 @@ var Model = /** @class */ (function () {
         });
     };
     Model.prototype.existsClass = function (className) {
-        var result = false;
-        this._classes.forEach(function (_class) {
-            if (_class.name.trim().indexOf(className.trim()) >= 0) {
-                result = true;
-            }
-        });
-        return result;
+        return this._classes.has(className);
     };
     Model.prototype.copy = function (model) {
         var _this = this;
         model.getClasses().forEach(function (_classToCopy) {
             var _class = new Class_1.Class(_classToCopy.name);
             _class.copy(_classToCopy);
-            _this._classes.push(_class);
-            _this._map.set(_class.name, _class);
+            _this._classes.set(_class.name, _class);
         });
     };
     return Model;

@@ -200,6 +200,7 @@ export class Class {
         this._compositions.forEach(
             (_composition: Composition) => {
                 if (_composition.isEqualTo(compositionToRemove)) {
+                    _composition.removeClasses();
                     this._compositions.splice(i, 1);
                     return;
                 }

@@ -13,19 +13,19 @@ export class AfferentAssociationRelation extends Relation {
     }
 
     getRelationClasses(): Class[] {                
-        return this._getRelationClasses(this._modelClass);        
+        return this._getAfferentClassesTo(this._modelClass);        
     }
 
-    private _getRelationClasses(_settedClass: Class): Class[] {
+    private _getAfferentClassesTo(_settedClass: Class): Class[] {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
                 if (_class.name != _settedClass.name && _class.hasAssociationRelationWith(_settedClass)) {            
                     _classes.push(_class);
-                    _classes.push(...this._getRelationClasses(_class));
+                    _classes.push(...this._getAfferentClassesTo(_class));
                 }
             }
-        );       
+        );               
         return _classes;
     }
 

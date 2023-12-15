@@ -2,13 +2,17 @@ import { Class } from "../../../entities/Class";
 import { Use } from "../../../entities/Use";
 import { Relation } from "./Relation";
 import { ActionType } from '../ActionType';
+import { Model } from "../../../entities/Model";
 
 export class EfferentUseRelation extends Relation {
-    
-    constructor(modelClass: Class, diagramClass: Class, actionType: ActionType) {
+         
+   private _model: Model;
+
+    constructor(modelClass: Class, diagramClass: Class, actionType: ActionType, model: Model) {
         super(modelClass, diagramClass, actionType);
-     }
- 
+        this._model = model;
+    }
+
      getRelationClasses(): Class[] {
         let _classes: Class[] = [];
          this._modelClass.getUses().forEach(
@@ -19,6 +23,7 @@ export class EfferentUseRelation extends Relation {
                     let _copyClass: Class = new Class(_class.name);       
                     _classes.push(_copyClass);   
                     _copyUse.addClass(_copyClass);  
+                    _classes.push(...this._model.getEfferentUsesOf(_class));
                  });      
               this.updateDiagram(_copyUse);        
            });                                

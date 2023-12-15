@@ -21,6 +21,10 @@ var Composition = /** @class */ (function () {
         });
         return _equals;
     };
+    Composition.prototype.removeClasses = function () {
+        this._classes.splice(0, this._classes.length);
+        this._classes = [];
+    };
     Composition.prototype.getClassNames = function () {
         var _classNames = new Map();
         this._classes.forEach(function (_class) {

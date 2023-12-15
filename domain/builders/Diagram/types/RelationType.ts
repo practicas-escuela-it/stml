@@ -2,5 +2,6 @@ export enum RelationType {
     COMPOSITION,
     ASSOCIATION,
     USE,
-    INHERIT
+    INHERIT,
+    ALL
 }
