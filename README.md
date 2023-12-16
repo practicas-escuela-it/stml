@@ -1,27 +1,52 @@
-# UmlGen
+[# Referencia] https://es.wikipedia.org/wiki/Notaci%C3%B3n_de_Backus-Naur
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.7.
+# Use
+## To run the angular app:  
+ - npm run start
+## To run the old basic application to display results via console:     
+ - npm run startc
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Class Diagram
+## Sentences
 
-## Code scaffolding
+\<creation> ::= \<action> [visibility] \<object> \<object-name>
+- create class Vehicle
+- create public class Car
+- create public class Engine
+- create interface Startable
+  
+\<responsabilities> ::= \<object-name> \<verb> \<object-name>
+- Car can SpeedUp (crea método)
+- Car can Stop (create método)
+- Car knows isStarted (create atributo de lista)
+- Car is Vehicle (aplica herencia)
+- Car implements Startable (aplica implementación por interface)
+- Car has Seats (relación por agregación)
+- Car is asociated with Wheels
+- Car uses MusicSource (relación por uso, por ej Pendrive, CD)
+- Car is composed of Engine (relación por composición)
+  
+\<scoope> ::= \<object-name> \<verb> [visibility]
+- Car is public
+- wheel is private
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Example 1
+Car is Vehicle -> Vehicle <|-- Car
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Car has Seats -> Car o-- Seats : aggregation
 
-## Running unit tests
+## Example 2
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+create class Car
 
-## Running end-to-end tests
+can SpeedUp
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+can Stop
 
-## Further help
+end
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# Diagrama de clases de software de nuestra aplicación
+
+![PlantUml model](https://planttext.com/api/plantuml/png/bLJBReCm4BplLrYS-X2elLOfIfegKYf5pI7v00USnfMnaRrKYjB-UsqWmN4XKGy8c9tTdMN7Z0rIZLKX0391ZI4BbJD13a08WPyMc-TC8jzofidXY2sffWL37veWQhwfa7NGWk5EvTtxL1MbCXovaXsuDbx6n1YLSNfa-AfUAYvorz2AYpzi-uBgkImhj4A1oQeWxnNQrvdI1KKhRRKl6QdffQ0IruKWpoHQji-HnJ_f5tMOkqTmQlVAgQk_qbGQKMkPAebQ2T6s9_UbLXapvkQsomgwpsY6IkyjtpBeng2s0EcbrfEUpNWNnsapTHjeaEWnIMH4fgx84ncDweSqXVhUKXxEANEvOvgZO_NGJZk3RdjrlDlvSCILH_kD0m6DncRrq3eWhEd3hPIJew3pLfWs6EcNujaDVElvRRtgNgPdG_0jUJtJkXcSemUOzbZPAzp_w3kEoT6OGN28_cOz6r811aoO96bOPOWQ2xR5-0_T7QPBrOVKNqZfdI2SjJi85q-bg-UVeEliiFD_4zf90CPCvlOF-Wi0)
