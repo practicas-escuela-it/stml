@@ -29,15 +29,19 @@ var GrammarTranslationController = /** @class */ (function () {
         console.log(javaModel);
         fs.writeFileSync("domain/controllers/javaModel.txt", javaModel);
         plantUmlModel = new DiagramBuilder_1.DiagramBuilder(model, OutputFormatType_1.OutputFormatType.PlantUml)
-            .setClass("A2", ActionType_1.ActionType.REMOVE)
+            /*  .addClass("A2")
+              .addCoupling(new Axis(Direction.EFFERENT, RelationType.INHERIT, 2))
+              .removeCoupling(Direction.EFFERENT, RelationType.COMPOSITION)
+              .removeClass("Z") */
+            .setClass("A2", ActionType_1.ActionType.ADD)
             // .coupling(Direction.EFFERENT, RelationType.INHERIT)
             // .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
             //  .coupling(Direction.EFFERENT)
             .coupling(Direction_1.Direction.EFFERENT, RelationType_1.RelationType.COMPOSITION)
-            // .coupling(Direction.EFFERENT, RelationType.USE)
+            //  .coupling(Direction.EFFERENT, RelationType.USE)
             //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
             // .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
-            // .coupling(Direction.AFFERENT)
+            // .coupling(Direction.AFFEa RENT)
             // .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
             //  .coupling(Direction.AFFERENT, RelationType.USE)
             .attribute()

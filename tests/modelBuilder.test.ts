@@ -27,7 +27,7 @@ describe("ModelBuilder", () => {
     });
 
     it("An entry with a single class with 1 untyped attribute", () => {
-        let model: Model = new ModelBuilder("class Car attribute isStarted").build();
+        let model: Model = new ModelBuilder("class Car attribute isStarted, attr2").build();
         let _carClass: Class = model.getClass("Car");
         let _existsAttribute: boolean = false;
         _carClass.getAttributes.forEach(
