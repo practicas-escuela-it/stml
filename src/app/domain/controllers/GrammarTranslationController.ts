@@ -8,14 +8,11 @@ import { ActionType } from "../builders/Diagram/ActionType";
 import { OutputFormatterFactory } from "../outputFomat/OuputFormatterFactory";
 import { OutputFormatter } from "../outputFomat/OutputFormatter";
 import { OutputFormatType } from "../outputFomat/OutputFormatType";
+import { Axis } from "../builders/Diagram/relations/Axis";
 
 export class GrammarTranslationController {
 
     readonly _basePath: string = "src/app/";
-
-    constructor() {
-
-    }
 
     process(fileName: string) {
         let fileContent: string = fs.readFileSync(fileName, "utf8");
@@ -41,19 +38,20 @@ export class GrammarTranslationController {
             .addCoupling(new Axis(Direction.EFFERENT, RelationType.INHERIT, 2))
             .removeCoupling(Direction.EFFERENT, RelationType.COMPOSITION)
             .removeClass("Z") */
-               .setClass("A2", ActionType.ADD)
+               .addClass("A2")
                  // .coupling(Direction.EFFERENT, RelationType.INHERIT)
                  // .coupling(Direction.EFFERENT, RelationType.ASSOCIATION)
                 //  .coupling(Direction.EFFERENT)
-                  .coupling(Direction.EFFERENT, RelationType.COMPOSITION)
+                 // .withCoupling(new Axis(Direction.ALL, RelationType.ALL))
+                  .withCoupling(new Axis(Direction.EFFERENT, RelationType.ASSOCIATION))
                  // .coupling(Direction.EFFERENT, RelationType.USE)
                 //  .coupling(Direction.AFFERENT, RelationType.INHERIT)
                 // .coupling(Direction.AFFERENT, RelationType.COMPOSITION)
                 // .coupling(Direction.AFFERENT)
                 // .coupling(Direction.AFFERENT, RelationType.ASSOCIATION)
                 //  .coupling(Direction.AFFERENT, RelationType.USE)
-                  .attribute()
-                  .method()
+                  .withAttribute()
+                  .withMethod()
                 .build();
 
         console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");

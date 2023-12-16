@@ -17,6 +17,7 @@ import { MethodFilter } from "./ClassElements/MethodFilter";
 import { Assert } from "../../utils/Assert";
 import { OutputFormatType } from "../../outputFomat/OutputFormatType";
 import { OutputFormatterFactory } from "../../outputFomat/OuputFormatterFactory";
+import { Axis } from "./relations/Axis";
 
 export class DiagramBuilder {
 
@@ -49,12 +50,12 @@ export class DiagramBuilder {
      this._relations = [];
    }
 
-   setClass(className: string, actionType: ActionType = ActionType.REMOVE): this {
+   addClass(className: string): this {
       Assert.test(this._model.getClass(className) != null, "No puedes pasar una clase inexistente");
       let _class: Class | undefined = this._model.getClass(className)?? undefined;
       if (_class != undefined) {
          this._modelClass = _class;
-         this.setDiagramClass(actionType);
+         this.setDiagramClass(ActionType.ADD);
       }
       return this;
     }
@@ -63,26 +64,46 @@ export class DiagramBuilder {
       this._actionType = actionType;
       this._diagramClass = new Class(this._modelClass.name);
       this._diagramModel.addClass(this._diagramClass);
-      if (actionType == ActionType.REMOVE) {
+   /*   if (actionType == ActionType.REMOVE) {
          this._diagramClass.copy(this._modelClass);
          this._diagramModel.addEfferentHierarchyOf(this._diagramClass);
          this._diagramModel.addClasses(this._model.getAfferentHierarchyTo(this._diagramClass));
-      }
+      } */
       return this;
     }
 
-    coupling(direction: Direction, relation: RelationType = RelationType.ALL): this {
+    withCoupling(axis: Axis): this {
+      this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, ActionType.ADD).instance());
+      return this;
+    }
+
+  /*  coupling(direction: Direction, relation: RelationType = RelationType.ALL): this {
         this._relations.push(new RelationClassesFactory(direction, relation, this._modelClass, this._model, this._diagramClass, this._actionType).instance());
         return this;
-    }
+    }  */
 
-    attribute(names: string[] = []): this {
-      new AttributeFilter(names, this._modelClass, this._diagramClass, this._actionType).filter();
+    withoutCoupling(axis: Axis): this {
+      this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, ActionType.REMOVE).instance());
       return this;
     }
 
-    method(names: string[] = []): this {
-      new MethodFilter(names, this._modelClass, this._diagramClass, this._actionType).filter();
+    withAttribute(names: string[] = []): this {
+      new AttributeFilter(names, this._modelClass, this._diagramClass, ActionType.ADD).filter();
+      return this;
+    }
+
+    withoutAttribute(names: string[] = []): this {
+      new AttributeFilter(names, this._modelClass, this._diagramClass, ActionType.REMOVE).filter();
+      return this;
+    }
+
+    withMethod(names: string[] = []): this {
+      new MethodFilter(names, this._modelClass, this._diagramClass, ActionType.ADD).filter();
+      return this;
+    }
+
+    withoutMethod(names: string[] = []): this {
+      new MethodFilter(names, this._modelClass, this._diagramClass, ActionType.REMOVE).filter();
       return this;
     }
 

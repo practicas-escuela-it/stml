@@ -4,11 +4,19 @@ class A2 {
 -a2: a2
 
 } 
-class A8 { 
--a8_1: float
+class A5 { 
+-a5: void
+-a5_1: int
 
 } 
-A2 *--> A8
-A8 o--> A9
+class A6 { 
+-a6_1: int
+-a6_2: string
+
+} 
+A2 o--> A5
+A5 *--> A7
+A5 o--> A6
+A6 o--> A10
 
 @enduml
