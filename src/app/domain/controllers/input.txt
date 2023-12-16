@@ -1,0 +1,23 @@
+class Car inherits Vehicle 
+    attribute isStarted bool,
+    tipo int,    conTipo real  
+    method run (velocity real, aceleration ) 
+    method stop() 
+    composition Door, Roof 
+    use Cylinder, Injector 
+    association Batery, Panel, Engine
+
+class Engine
+   attribute piece real, bujia int 
+   composition DistributionRun, OilFilter 
+   use Piston 
+   association Batery 
+             
+class Gas 
+       attribute price real, amount real
+       composition Door
+       
+
+class Vehicle 
+   attribute color, cylinders int  
+   association Gas

@@ -1,0 +1,113 @@
+<p>
+  <label>Introduce the grammar model</label>
+</p>
+<div class="row">
+  <div class="col-3">
+
+    <div class="d-flex column mb-5">
+      <button class="btn btn-primary me-5" (click)="this.build()">Model
+        build</button>
+      <button class="btn btn-danger" (click)="this.reset()">Reset</button>
+    </div>
+    <div class="mb-3">
+      <input type="checkbox" class="me-2" [(ngModel)]="this.fullModel">Modelo completo
+    </div>
+
+    <div class="row" *ngIf="!this.fullModel">
+      <div class="col">
+        <label class="me-2">Class Name:</label>
+
+        <select class="mb-3" [(ngModel)]="this.selectedClass" (change)="changeClass()">
+          <option *ngFor="let class of this.getClasses()">
+            {{ class.name }}
+          </option>
+        </select>
+      </div>
+      <ng-container *ngIf="this.selectedClass">
+        <div class="row mb-3">
+          <div class="col">
+            <div class="d-flex column">
+              <div class="me-3">
+                <input type="checkbox" (click)="this.clickAdd()" [checked]="this.forAdd" /> Add
+              </div>
+              <div class="me-2">
+                <input type="checkbox" (click)="this.clickRemove()" [checked]="this.forRemove" /> Remove
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="this.forAdd || this.forRemove">
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" [(ngModel)]="this.showAttributes" (click)="this.clickAttributes()">Attributes
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" [(ngModel)]="this.showMethods" (click)="this.clickMethods()">Methods
+          </div>
+        </div>
+        <div class="mb-2"></div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickEfferent()">Efferent Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickEfferentAssociation()">Efferent Association Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickEfferentComposition()">Efferent Composition Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickEfferentUse()">Efferent Use Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickEfferentInherit()">Efferent Inherit Context
+          </div>
+        </div>
+        <div class="mb-2"></div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickAfferent()">Afferent Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickAfferentAssociation()">Afferent Association Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickAfferentComposition()">Afferent Composition Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickAfferentUse()">Efferent Use Context
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input type="checkbox" class="mb-2" (click)="this.clickAfferentInherit()">Efferent Inherit Context
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <p>
+      <textarea [disabled]="this.isBuildedModel()" [(ngModel)]="this.fileContent"></textarea>
+    </p>
+
+  </div>
+  <div class="col">
+    <app-diagram [diagramUml]="this.diagramUml"></app-diagram>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+@startuml
+
+class A2 { 
+-a2: a2
+
+} 
+class A8 { 
+-a8_1: float
+
+} 
+A2 *--> A8
+A8 o--> A9
+
+@enduml

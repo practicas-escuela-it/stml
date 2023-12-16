@@ -1,0 +1,95 @@
+@startuml
+
+class A0 { 
+-a0_1: int
+-a0_2: string
++m1()
++m2(tipo: int)
+
+} 
+class A1 extends A0 { 
+-a1: void
+-a1_1: void
+
+} 
+class A4 { 
+-a4_1: void
+-a4_2: int
+
+} 
+class A2 extends A3 { 
+-a2: void
+
+} 
+class A3 { 
+-a3: void
+
+} 
+class A8 { 
+-a8_1: float
+
+} 
+class A5 { 
+-a5: void
+-a5_1: int
+
+} 
+class B0 { 
+-b0_1: char
+-b0_2: int
+
+} 
+class B1 { 
+-b1_1: int
+
+} 
+class B2 { 
+-b2_1: int
+-b2_2: char
+
+} 
+class A7 { 
+-a7_1: int
+
+} 
+class A6 { 
+-a6_1: int
+-a6_2: string
+
+} 
+class A9 { 
+-a9_1: void
+-a9_2: int
++methodA9(attr1: int)
+
+} 
+class A10 { 
+-a10_1: int
++method1(tipo: void)
+
+} 
+class B3 { 
+-b3_1: int
++mb3(p1: void)
+
+} 
+class A11 extends A3 { 
+-a11_1: int
+
+} 
+A1 *--> A4
+A1 o--> A2
+A2 *--> A8
+A2 o--> A5
+A3 ..> A4
+A8 o--> A9
+A5 *--> A7
+A5 o--> A6
+B0 o--> B1
+B1 o--> A1
+B1 o--> B2
+B2 o--> B3
+A6 o--> A10
+B3 o--> A5
+
+@enduml
