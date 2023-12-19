@@ -8,24 +8,23 @@ export class EfferentAssociationRelation extends Relation {
 
   private _model: Model;
 
-  constructor(modelClass: Class, diagramClass: Class, actionType: ActionType, model: Model) {
-    super(modelClass, diagramClass, actionType);
+  constructor(modelClass: Class, diagramClass: Class, actionType: ActionType, model: Model, diagramModel: Model) {
+    super(modelClass, diagramClass, actionType, diagramModel);
     this._model = model;
   }
 
-  override getRelationClasses(): Class[] {
-    let _associationClasses: Class[] = [];
+  override applyRelation(): void {
     if (this._actionType == ActionType.ADD) {
-      _associationClasses = this._getEfferentClassesOf(this._modelClass);
-      _associationClasses.forEach(
+      this._diagramModel.addClasses(this._getEfferentClassesOf(this._modelClass));
+      this._diagramModel.getClasses().forEach(
         (_class: Class) => {
-          _associationClasses.push(..._class.getEfferentHierarchy());
+          this._diagramModel.addEfferentHierarchyOf(_class);
+          // this._diagramModel.addClasses(_class.getEfferentHierarchy());
         }
       );
     } else {
-      this._diagramClass.removeAssociations();
+      this._diagramModel.removeAssociationsOf(this._diagramClass)
     }
-    return _associationClasses;
   }
 
   private _getEfferentClassesOf(_settedClass: Class): Class[] {
@@ -37,7 +36,7 @@ export class EfferentAssociationRelation extends Relation {
           (_class: Class) => {
             let _copyClass: Class = new Class(_class.name);
             _copyClass.copy(_class);
-            _copyAssociation.addClass(_class);
+            _copyAssociation.addClass(_copyClass);
             _associationClasses.push(_copyClass);
           });
           this._diagramClass.addAsociation(_copyAssociation);

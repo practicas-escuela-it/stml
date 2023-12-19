@@ -230,7 +230,7 @@ export class Class {
         this._associations.push(association);
     }
 
-    remove(): void {
+    removeEfferentHierarchy(): void {
       this.removeAssociations();
       this.removeCompositions();
       this.removeUses();
@@ -238,33 +238,11 @@ export class Class {
     }
 
     removeAssociations(): void {
-      this._associations.forEach(
-        (_association: Association) => {
-          _association.classes.forEach(
-            (_class: Class) => {
-              _class.remove();
-            }
-          );
-          _association.classes.splice(0, _association.classes.length);
-          _association.remove();
-        }
-      );
       this._associations.splice(0, this._associations.length);
       this._associations = [];
     }
 
     removeCompositions(): void {
-      this._compositions.forEach(
-        (_composition: Composition) => {
-          _composition.getClasses().forEach(
-            (_class: Class) => {
-              _class.remove();
-            }
-          );
-          _composition.getClasses().splice(0, _composition.getClasses().length);
-          _composition.remove();
-        }
-      );
       this._compositions.splice(0, this._compositions.length);
       this._compositions = [];
     }
@@ -274,7 +252,7 @@ export class Class {
         (_use: Use) => {
           _use.classes.forEach(
             (_class: Class) => {
-              _class.remove();
+              _class.removeEfferentHierarchy();
             }
           );
           _use.classes.splice(0, _use.classes.length);
@@ -288,7 +266,7 @@ export class Class {
     removeInherits(): void {
       this._inherists.forEach(
         (_class: Class) => {
-          _class.remove();
+          _class.removeEfferentHierarchy();
         }
       );
       this._inherists.splice(0, this._inherists.length);

@@ -8,12 +8,12 @@ export class EfferentUseRelation extends Relation {
 
    private _model: Model;
 
-    constructor(modelClass: Class, diagramClass: Class, actionType: ActionType, model: Model) {
-        super(modelClass, diagramClass, actionType);
+    constructor(modelClass: Class, diagramClass: Class, actionType: ActionType, model: Model, diagramModel: Model) {
+        super(modelClass, diagramClass, actionType, diagramModel);
         this._model = model;
     }
 
-    override getRelationClasses(): Class[] {
+    override applyRelation(): Class[] {
       let _useClasses: Class[] = [];
       _useClasses = this._getModelEfferentClasses();
       _useClasses.forEach(

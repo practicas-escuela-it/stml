@@ -1,6 +1,6 @@
 @startuml
 
-class A2 extends A3 { 
+class A2 { 
 -a2: a2
 
 } 
@@ -23,30 +23,9 @@ class A7 {
 -a7_1: int
 
 } 
-class A8 { 
--a8_1: float
-
-} 
-class A9 { 
--a9_1: void
--a9_2: int
-+methodA9(attr1: int)
-
-} 
-class A3 { 
--a3: void
-
-} 
-class A4 { 
--a4_1: void
--a4_2: int
-
-} 
-A2 *--> A8
+A2 o--> A5
 A5 *--> A7
 A5 o--> A6
 A6 o--> A10
-A8 o--> A9
-A3 ..> A4
 
 @enduml

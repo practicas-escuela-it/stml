@@ -12,7 +12,7 @@ export class AfferentUseRelation extends Relation {
         this._model = model;
     }
 
-    getRelationClasses(): Class[] {
+    applyRelation(): Class[] {
         return this._getAfferentClassesTo(this._modelClass);
     }
 

@@ -37,6 +37,49 @@ export class Model {
     }
   }
 
+  removeAssociationsOf(_settedClass: Class): void {
+    let _classesToRemove: Class[] = [];
+    let _refClass: Class | undefined = this._classes.get(_settedClass.name);
+    if (_refClass) {
+      _refClass.getAssociations().forEach(
+        (_association: Association) => {
+          _association.classes.forEach(
+            (_class: Class) => {
+              this._setClassesToRemove(_class, _classesToRemove);
+            }
+          );
+        }
+        );
+        _refClass.removeAssociations();
+      this.removeClasses(_classesToRemove);
+    }
+  }
+
+  private _setClassesToRemove(_class: Class, _classesToRemove: Class[]) {
+    _classesToRemove.push(_class);
+    _classesToRemove.push(..._class.getEfferentHierarchy());
+  }
+
+  removeCompositionsOf(_settedClass: Class) {
+    let _classesToRemove: Class[] = [];
+    let _refClass: Class | undefined = this._classes.get(_settedClass.name);
+    if (_refClass) {
+      _refClass.getCompositions().forEach(
+        (_composition: Composition) => {
+          _composition.getClasses().forEach(
+            (_class: Class) => {
+              this._setClassesToRemove(_class, _classesToRemove);
+            }
+          )
+        }
+      );
+      _refClass.removeCompositions();
+      this.removeClasses(_classesToRemove);
+    }
+  }
+
+
+
   addEfferentHierarchyOf(_diagramClass: Class): void {
     let _refClass: Class | undefined = this._classes.get(_diagramClass.name);
     if (_refClass) {

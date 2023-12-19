@@ -73,7 +73,7 @@ export class DiagramBuilder {
     }
 
     withCoupling(axis: Axis): this {
-      this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, ActionType.ADD).instance());
+      this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, this._diagramModel, ActionType.ADD).instance());
       return this;
     }
 
@@ -83,7 +83,7 @@ export class DiagramBuilder {
     }  */
 
     withoutCoupling(axis: Axis): this {
-      this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, ActionType.REMOVE).instance());
+      this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, this._diagramModel, ActionType.REMOVE).instance());
       return this;
     }
 
@@ -215,7 +215,8 @@ export class DiagramBuilder {
    private _applyRelationsForAdd(): void {
       this._relations.forEach(
          (relation: Relation) => {
-            this._diagramModel.addClasses(relation.getRelationClasses());
+           // this._diagramModel.addClasses(relation.applyRelation());
+           relation.applyRelation();
          }
       );
    }
@@ -223,7 +224,8 @@ export class DiagramBuilder {
    private _applyRelationsForRemove(): void {
       this._relations.forEach(
          (relation: Relation) => {
-            this._diagramModel.removeClasses(relation.getRelationClasses())
+          //  this._diagramModel.removeClasses(relation.applyRelation())
+           relation.applyRelation();
          }
       );
    }

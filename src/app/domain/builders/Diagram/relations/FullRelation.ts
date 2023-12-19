@@ -20,7 +20,7 @@ export class FullRelation extends Relation {
     this._model = model;
  }
 
-  getRelationClasses(): Class[] {
+  applyRelation(): Class[] {
       let _relatedClasses: Class[] = [
         ...this._getEfferentRelationClases(),
         ...this._getAfferentRelationClasses()
@@ -30,19 +30,19 @@ export class FullRelation extends Relation {
 
   private _getEfferentRelationClases(): Class[] {
     let _relatedClasses: Class[] = [];
-      _relatedClasses.push(...new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType, this._model).getRelationClasses());
-      _relatedClasses.push(...new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType, this._model).getRelationClasses());
-      _relatedClasses.push(...new EfferentUseRelation(this._modelClass, this._diagramClass, this._actionType, this._model).getRelationClasses());
-      _relatedClasses.push(...new EfferentInheritRelation(this._modelClass, this._diagramClass, this._actionType, this._model).getRelationClasses());
+      _relatedClasses.push(...new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType, this._model).applyRelation());
+      _relatedClasses.push(...new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType, this._model).applyRelation());
+      _relatedClasses.push(...new EfferentUseRelation(this._modelClass, this._diagramClass, this._actionType, this._model).applyRelation());
+      _relatedClasses.push(...new EfferentInheritRelation(this._modelClass, this._diagramClass, this._actionType, this._model).applyRelation());
       return _relatedClasses;
   }
 
   private _getAfferentRelationClasses(): Class[] {
     return [
-      ...new AfferentAssociationRelation(this._modelClass, this._model, this._diagramClass, this._actionType).getRelationClasses(),
-      ...new AfferentCompositionRelation(this._modelClass, this._model, this._diagramClass, this._actionType).getRelationClasses(),
-      ...new AfferentUseRelation(this._modelClass, this._model, this._diagramClass, this._actionType).getRelationClasses(),
-      ...new AfferentInheritRelation(this._modelClass, this._model, this._diagramClass, this._actionType).getRelationClasses()
+      ...new AfferentAssociationRelation(this._modelClass, this._model, this._diagramClass, this._actionType).applyRelation(),
+      ...new AfferentCompositionRelation(this._modelClass, this._model, this._diagramClass, this._actionType).applyRelation(),
+      ...new AfferentUseRelation(this._modelClass, this._model, this._diagramClass, this._actionType).applyRelation(),
+      ...new AfferentInheritRelation(this._modelClass, this._model, this._diagramClass, this._actionType).applyRelation()
   ];
   }
 }

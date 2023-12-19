@@ -13,8 +13,8 @@ export class AfferentCompositionRelation extends Relation {
         this._model = model;
     }
 
-    getRelationClasses(): Class[] {                
-        return this._getAfferentClassesTo(this._modelClass);        
+    applyRelation(): Class[] {
+        return this._getAfferentClassesTo(this._modelClass);
     }
 
     private _getAfferentClassesTo(_settedClass: Class): Class[] {
@@ -28,5 +28,5 @@ export class AfferentCompositionRelation extends Relation {
             }
         );
         return _classes;
-    }   
+    }
 }

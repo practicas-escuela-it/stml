@@ -12,22 +12,22 @@ export class AfferentAssociationRelation extends Relation {
         this._model = model;
     }
 
-    getRelationClasses(): Class[] {                
-        return this._getAfferentClassesTo(this._modelClass);        
+    applyRelation(): Class[] {
+        return this._getAfferentClassesTo(this._modelClass);
     }
 
     private _getAfferentClassesTo(_settedClass: Class): Class[] {
         let _classes: Class[] = [];
         this._model.getClasses().forEach(
             (_class: Class) => {
-                if (_class.name != _settedClass.name && _class.hasAssociationRelationWith(_settedClass)) {            
+                if (_class.name != _settedClass.name && _class.hasAssociationRelationWith(_settedClass)) {
                     _classes.push(_class);
                     _classes.push(...this._getAfferentClassesTo(_class));
                 }
             }
-        );               
+        );
         return _classes;
     }
 
-    
+
 }
