@@ -5,7 +5,7 @@ import { ActionType } from '../ActionType';
 import { Model } from "../../../entities/Model";
 
 export class EfferentUseRelation extends Relation {
-         
+
    private _model: Model;
 
     constructor(modelClass: Class, diagramClass: Class, actionType: ActionType, model: Model) {
@@ -13,27 +13,38 @@ export class EfferentUseRelation extends Relation {
         this._model = model;
     }
 
-     getRelationClasses(): Class[] {
+    override getRelationClasses(): Class[] {
+      let _useClasses: Class[] = [];
+      _useClasses = this._getModelEfferentClasses();
+      _useClasses.forEach(
+        (_class: Class) => {
+           _useClasses.push(..._class.getEfferentHierarchy());
+        }
+      )
+      return _useClasses;
+    }
+
+    private _getModelEfferentClasses(): Class[] {
         let _classes: Class[] = [];
          this._modelClass.getUses().forEach(
-            (use: Use) => {                 
+            (use: Use) => {
                let _copyUse: Use = new Use();
                use.classes.forEach(
-                 (_class: Class) => {             
-                    let _copyClass: Class = new Class(_class.name);       
-                    _classes.push(_copyClass);   
-                    _copyUse.addClass(_copyClass);  
-                    _classes.push(...this._model.getEfferentUsesOf(_class));
-                 });      
-              this.updateDiagram(_copyUse);        
-           });                                
+                 (_class: Class) => {
+                    let _copyClass: Class = new Class(_class.name);
+                    _copyClass.copy(_class);
+                    _classes.push(_copyClass);
+                    _copyUse.addClass(_copyClass);
+                 });
+              this.updateDiagram(_copyUse);
+           });
          return _classes;
-     }  
+     }
 
      private updateDiagram(_use: Use) {
-      if (this._actionType == ActionType.ADD) {         
+      if (this._actionType == ActionType.ADD) {
          this._diagramClass.addUse(_use);
-      } else {                      
+      } else {
          this._diagramClass.removeUse(_use);
       }
    }

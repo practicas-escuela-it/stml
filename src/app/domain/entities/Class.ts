@@ -6,7 +6,7 @@ import { Method } from "./Method";
 import { Parameter } from "./Parameter";
 import { Use } from "./Use";
 
-export class Class {    
+export class Class {
 
     private _identifier: Identifier;
     private _inherists: Class[];
@@ -230,6 +230,71 @@ export class Class {
         this._associations.push(association);
     }
 
+    remove(): void {
+      this.removeAssociations();
+      this.removeCompositions();
+      this.removeUses();
+      this.removeInherits();
+    }
+
+    removeAssociations(): void {
+      this._associations.forEach(
+        (_association: Association) => {
+          _association.classes.forEach(
+            (_class: Class) => {
+              _class.remove();
+            }
+          );
+          _association.classes.splice(0, _association.classes.length);
+          _association.remove();
+        }
+      );
+      this._associations.splice(0, this._associations.length);
+      this._associations = [];
+    }
+
+    removeCompositions(): void {
+      this._compositions.forEach(
+        (_composition: Composition) => {
+          _composition.getClasses().forEach(
+            (_class: Class) => {
+              _class.remove();
+            }
+          );
+          _composition.getClasses().splice(0, _composition.getClasses().length);
+          _composition.remove();
+        }
+      );
+      this._compositions.splice(0, this._compositions.length);
+      this._compositions = [];
+    }
+
+    removeUses(): void {
+      this._uses.forEach(
+        (_use: Use) => {
+          _use.classes.forEach(
+            (_class: Class) => {
+              _class.remove();
+            }
+          );
+          _use.classes.splice(0, _use.classes.length);
+          _use.remove();
+        }
+      );
+      this._uses.splice(0, this._uses.length);
+      this._uses = [];
+    }
+
+    removeInherits(): void {
+      this._inherists.forEach(
+        (_class: Class) => {
+          _class.remove();
+        }
+      );
+      this._inherists.splice(0, this._inherists.length);
+      this._inherists = [];
+    }
+
     removeAssociation(associationToRemove: Association) {
         let i: number = 0;
         this._associations.forEach(
@@ -252,7 +317,7 @@ export class Class {
         this._copyCompositions(_classToCopy._compositions);
         this._copyUses(_classToCopy._uses);
     }
-    
+
     private _copyIdentifier(identifier: Identifier) {
         this._identifier = new Identifier(identifier.value);
     }
@@ -306,7 +371,7 @@ export class Class {
                 this._associations.push(_association);
             }
         )
-    }    
+    }
 
     private _copyCompositions(compositions: Composition[]) {
         compositions.forEach(

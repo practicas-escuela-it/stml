@@ -19,8 +19,6 @@ import { FullRelation } from "./FullRelation";
 
 export class RelationClassesFactory {
 
-  //  private _direction: Direction;
-  //  private _relation: RelationType;
     private _axis: Axis;
     private _modelClass: Class;
     private _model: Model;
@@ -34,16 +32,6 @@ export class RelationClassesFactory {
       this._diagramClass = diagramClass;
       this._actionType = _actionType;
     }
-
-    /*
-    constructor(direction: Direction, relation: RelationType, _modelClass: Class, model: Model, diagramClass: Class, _actionType: ActionType) {
-       this._direction = direction;
-       this._relation = relation;
-       this._modelClass = _modelClass;
-       this._model = model;
-       this._diagramClass = diagramClass;
-       this._actionType = _actionType;
-    } */
 
     instance(): Relation {
         if (this._axis.direction == Direction.AFFERENT) {
