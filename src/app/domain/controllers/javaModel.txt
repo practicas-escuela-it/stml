@@ -76,7 +76,7 @@ class B1 {
 	private A1 a1;
 	private B2 b2;
 
-	B1(A1 a1, B2 b2) {}
+	B1(B2 b2) {}
 
 
 } 
@@ -128,7 +128,7 @@ class B3 {
 	private int b3_1;
 	private A5 a5;
 
-	B3(A5 a5) {}
+	B3() {}
 
 	void mb3( void p1) { }
 

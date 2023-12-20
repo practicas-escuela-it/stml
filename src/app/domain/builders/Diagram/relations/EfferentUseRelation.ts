@@ -13,39 +13,33 @@ export class EfferentUseRelation extends Relation {
         this._model = model;
     }
 
-    override applyRelation(): Class[] {
-      let _useClasses: Class[] = [];
-      _useClasses = this._getModelEfferentClasses();
-      _useClasses.forEach(
-        (_class: Class) => {
-           _useClasses.push(..._class.getEfferentHierarchy());
-        }
-      )
-      return _useClasses;
+    override applyRelation(): void {
+      if (this._actionType == ActionType.ADD) {
+        this._diagramModel.addClasses(this._getEfferentUseClasses());
+        this._diagramModel.getClasses().forEach(
+          (_class: Class) => {
+            this._diagramModel.addEfferentHierarchyOf(_class);
+          }
+        );
+      } else {
+        this._diagramModel.removeUsesOf(this._diagramClass)
+      }
     }
 
-    private _getModelEfferentClasses(): Class[] {
-        let _classes: Class[] = [];
-         this._modelClass.getUses().forEach(
-            (use: Use) => {
-               let _copyUse: Use = new Use();
-               use.classes.forEach(
-                 (_class: Class) => {
-                    let _copyClass: Class = new Class(_class.name);
-                    _copyClass.copy(_class);
-                    _classes.push(_copyClass);
-                    _copyUse.addClass(_copyClass);
-                 });
-              this.updateDiagram(_copyUse);
-           });
-         return _classes;
+    private _getEfferentUseClasses(): Class[] {
+      let _useClasses: Class[] = [];
+      this._modelClass.getUses().forEach(
+        (use: Use) => {
+          let _copyUse: Use = new Use();
+          use.classes.forEach(
+            (_class: Class) => {
+              let _copyClass: Class = new Class(_class.name);
+              _copyClass.copy(_class);
+              _copyUse.addClass(_copyClass);
+              _useClasses.push(_copyClass);
+            });
+            this._diagramClass.addUse(_copyUse);
+        });
+      return _useClasses;
      }
-
-     private updateDiagram(_use: Use) {
-      if (this._actionType == ActionType.ADD) {
-         this._diagramClass.addUse(_use);
-      } else {
-         this._diagramClass.removeUse(_use);
-      }
-   }
 }

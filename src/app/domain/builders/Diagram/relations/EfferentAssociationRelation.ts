@@ -15,11 +15,10 @@ export class EfferentAssociationRelation extends Relation {
 
   override applyRelation(): void {
     if (this._actionType == ActionType.ADD) {
-      this._diagramModel.addClasses(this._getEfferentClassesOf(this._modelClass));
+      this._diagramModel.addClasses(this._getEfferentAssociationClasses());
       this._diagramModel.getClasses().forEach(
         (_class: Class) => {
           this._diagramModel.addEfferentHierarchyOf(_class);
-          // this._diagramModel.addClasses(_class.getEfferentHierarchy());
         }
       );
     } else {
@@ -27,9 +26,9 @@ export class EfferentAssociationRelation extends Relation {
     }
   }
 
-  private _getEfferentClassesOf(_settedClass: Class): Class[] {
+  private _getEfferentAssociationClasses(): Class[] {
     let _associationClasses: Class[] = [];
-    _settedClass.getAssociations().forEach(
+    this._modelClass.getAssociations().forEach(
       (association: Association) => {
         let _copyAssociation: Association = new Association();
         association.classes.forEach(

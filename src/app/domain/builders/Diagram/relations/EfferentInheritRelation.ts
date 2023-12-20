@@ -12,34 +12,28 @@ export class EfferentInheritRelation extends Relation {
         this._model = model;
     }
 
-    override applyRelation(): Class[] {
-      let _inheritsClasses: Class[] = [];
-      _inheritsClasses = this._getModelClassEfferentClasses();
-      _inheritsClasses.forEach(
-        (_class: Class) => {
-           _inheritsClasses.push(..._class.getEfferentHierarchy());
-        }
-      )
-      return _inheritsClasses;
+    override applyRelation(): void {
+      if (this._actionType == ActionType.ADD) {
+        this._diagramModel.addClasses(this._getInheritEfferentClasses());
+        this._diagramModel.getClasses().forEach(
+          (_class: Class) => {
+            this._diagramModel.addEfferentHierarchyOf(_class);
+          }
+        );
+      } else {
+        this._diagramModel.removeInheritsOf(this._diagramClass)
+      }
     }
 
-    private _getModelClassEfferentClasses(): Class[] {
+    private _getInheritEfferentClasses(): Class[] {
       let _classes: Class[] = [];
       this._modelClass.getInherits().forEach(
           (inherit: Class) => {
               let _copyInherit: Class = new Class(inherit.name);
               _copyInherit.copy(inherit);
               _classes.push(_copyInherit);
-              this.updateDiagram(_copyInherit);
+              this._diagramClass.addInherit(_copyInherit);
           });
       return _classes;
     }
-
-    private updateDiagram(_inherit: Class) {
-        if (this._actionType == ActionType.ADD) {
-           this._diagramClass.addInherit(_inherit);
-        } else {
-           this._diagramClass.removeInherit(_inherit);
-        }
-     }
 }

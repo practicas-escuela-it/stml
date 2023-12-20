@@ -1,32 +1,37 @@
 import { Class } from "../../../entities/Class";
-import { Composition } from "../../../entities/Composition";
 import { Model } from "../../../entities/Model";
 import { ActionType } from "../ActionType";
 import { Relation } from "./Relation";
 
 export class AfferentCompositionRelation extends Relation {
 
-    private _model: Model;
+  private _model: Model;
 
-    constructor(_modelClass: Class, model: Model, diagramClass: Class, actionType: ActionType) {
-        super(_modelClass, diagramClass, actionType);
-        this._model = model;
-    }
+  constructor(modelClass: Class, model: Model, diagramClass: Class, actionType: ActionType, diagramModel: Model) {
+    super(modelClass, diagramClass, actionType, diagramModel);
+    this._model = model;
+  }
 
-    applyRelation(): Class[] {
-        return this._getAfferentClassesTo(this._modelClass);
+  override applyRelation(): void {
+    if (this._actionType == ActionType.ADD) {
+      this._diagramModel.addClasses(this._getAfferentClassesTo(this._modelClass));
+    } else {
+      this._diagramModel.removeClasses(this._getAfferentClassesTo(this._modelClass));
     }
+  }
 
-    private _getAfferentClassesTo(_settedClass: Class): Class[] {
-        let _classes: Class[] = [];
-        this._model.getClasses().forEach(
-            (_class: Class) => {
-                if (_class.name != _settedClass.name && _class.hasCompositionRelationWith(_settedClass)) {
-                    _classes.push(_class);
-                    _classes.push(...this._getAfferentClassesTo(_class));
-                }
-            }
-        );
-        return _classes;
-    }
+  private _getAfferentClassesTo(_settedClass: Class): Class[] {
+    let _classes: Class[] = [];
+    this._model.getClasses().forEach(
+      (_class: Class) => {
+        if (_class.name != _settedClass.name && _class.hasCompositionRelationWith(_settedClass)) {
+          let _copyClass: Class = new Class(_class.name);
+          _copyClass.copy(_class);
+          _classes.push(_copyClass);
+          _classes.push(...this._model.getAfferentHierarchyTo(_copyClass));
+        }
+      }
+    );
+    return _classes;
+  }
 }

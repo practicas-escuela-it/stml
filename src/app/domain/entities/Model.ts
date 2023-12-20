@@ -45,19 +45,21 @@ export class Model {
         (_association: Association) => {
           _association.classes.forEach(
             (_class: Class) => {
-              this._setClassesToRemove(_class, _classesToRemove);
+              _classesToRemove.push(...this._getClassesToRemove(_class));
             }
           );
         }
-        );
-        _refClass.removeAssociations();
+      );
+      _refClass.removeAssociations();
       this.removeClasses(_classesToRemove);
     }
   }
 
-  private _setClassesToRemove(_class: Class, _classesToRemove: Class[]) {
+  private _getClassesToRemove(_class: Class): Class[] {
+    let _classesToRemove: Class[] = [];
     _classesToRemove.push(_class);
     _classesToRemove.push(..._class.getEfferentHierarchy());
+    return _classesToRemove;
   }
 
   removeCompositionsOf(_settedClass: Class) {
@@ -68,7 +70,7 @@ export class Model {
         (_composition: Composition) => {
           _composition.getClasses().forEach(
             (_class: Class) => {
-              this._setClassesToRemove(_class, _classesToRemove);
+                _classesToRemove.push(...this._getClassesToRemove(_class));
             }
           )
         }
@@ -78,7 +80,37 @@ export class Model {
     }
   }
 
+  removeInheritsOf(_settedClass: Class): void {
+    let _classesToRemove: Class[] = [];
+    let _refClass: Class | undefined = this._classes.get(_settedClass.name);
+    if (_refClass) {
+      _refClass.getInherits().forEach(
+        (_class: Class) => {
+          _classesToRemove.push(...this._getClassesToRemove(_class));
+        }
+      );
+      _refClass.removeInherits();
+      this.removeClasses(_classesToRemove);
+    }
+  }
 
+  removeUsesOf(_settedClass: Class): void {
+    let _classesToRemove: Class[] = [];
+    let _refClass: Class | undefined = this._classes.get(_settedClass.name);
+    if (_refClass) {
+      _refClass.getUses().forEach(
+        (_use: Use) => {
+          _use.classes.forEach(
+            (_class: Class) => {
+                _classesToRemove.push(...this._getClassesToRemove(_class));
+            }
+          )
+        }
+      );
+      _refClass.removeUses();
+      this.removeClasses(_classesToRemove);
+    }
+  }
 
   addEfferentHierarchyOf(_diagramClass: Class): void {
     let _refClass: Class | undefined = this._classes.get(_diagramClass.name);
@@ -221,6 +253,10 @@ export class Model {
     return _afferentClasses;
   }
 
+  hasAfferentHierarchyTo(_settedClass: Class, count: number): boolean {
+    return this.getAfferentHierarchyTo(_settedClass).length == count;
+  }
+
   addClasses(_classes: Class[]): void {
     _classes.forEach(
       (_class: Class) => {
@@ -241,7 +277,7 @@ export class Model {
   removeClasses(_classes: Class[]): void {
     _classes.forEach(
       (_class: Class) => {
-        this.removeClass(_class);
+          this.removeClass(_class);
       }
     );
   }

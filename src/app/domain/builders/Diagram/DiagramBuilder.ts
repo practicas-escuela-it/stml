@@ -64,15 +64,10 @@ export class DiagramBuilder {
       this._actionType = actionType;
       this._diagramClass = new Class(this._modelClass.name);
       this._diagramModel.addClass(this._diagramClass);
-   /*   if (actionType == ActionType.REMOVE) {
-         this._diagramClass.copy(this._modelClass);
-         this._diagramModel.addEfferentHierarchyOf(this._diagramClass);
-         this._diagramModel.addClasses(this._model.getAfferentHierarchyTo(this._diagramClass));
-      } */
       return this;
     }
 
-    withCoupling(axis: Axis): this {
+    addCoupling(axis: Axis): this {
       this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, this._diagramModel, ActionType.ADD).instance());
       return this;
     }
@@ -82,7 +77,7 @@ export class DiagramBuilder {
         return this;
     }  */
 
-    withoutCoupling(axis: Axis): this {
+    removeCoupling(axis: Axis): this {
       this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, this._diagramModel, ActionType.REMOVE).instance());
       return this;
     }
@@ -205,29 +200,11 @@ export class DiagramBuilder {
    }
 
    private _applyRelations(): void {
-      if (this._actionType == ActionType.ADD) {
-         this._applyRelationsForAdd();
-      } else {
-         this._applyRelationsForRemove();
+    this._relations.forEach(
+      (relation: Relation) => {
+        relation.applyRelation();
       }
-   }
-
-   private _applyRelationsForAdd(): void {
-      this._relations.forEach(
-         (relation: Relation) => {
-           // this._diagramModel.addClasses(relation.applyRelation());
-           relation.applyRelation();
-         }
-      );
-   }
-
-   private _applyRelationsForRemove(): void {
-      this._relations.forEach(
-         (relation: Relation) => {
-          //  this._diagramModel.removeClasses(relation.applyRelation())
-           relation.applyRelation();
-         }
-      );
+   );
    }
 
    private _isConcreteClassToRemove(name: string): boolean {

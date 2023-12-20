@@ -16,12 +16,10 @@ export class EfferentRelation extends Relation {
       this._model = model;
    }
 
-    applyRelation(): Class[] {
-        let _relatedClasses: Class[] = [];
-        _relatedClasses.push(...new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation());
-        _relatedClasses.push(...new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation());
-        _relatedClasses.push(...new EfferentUseRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation());
-        _relatedClasses.push(...new EfferentInheritRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation());
-        return _relatedClasses;
+    override applyRelation(): void {
+        new EfferentAssociationRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation();
+        new EfferentCompositionRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation();
+        new EfferentUseRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation();
+        new EfferentInheritRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel).applyRelation();
     }
 }

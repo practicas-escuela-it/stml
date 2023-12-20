@@ -1,5 +1,6 @@
 import { ActionType } from "../domain/builders/Diagram/ActionType";
 import { DiagramBuilder } from "../domain/builders/Diagram/DiagramBuilder";
+import { Axis } from "../domain/builders/Diagram/relations/Axis";
 import { Direction } from "../domain/builders/Diagram/types/Direction";
 import { RelationType } from "../domain/builders/Diagram/types/RelationType";
 import { ModelBuilder } from "../domain/builders/ModelBuilder";
@@ -20,7 +21,7 @@ describe("DiagramBuilder", () => {
   testCases1.forEach(test => {
     it(`Given model '$_model', when we request REMOVE without filter, then we get '$_expected'`, () => {
       let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(test._model).build(), OutputFormatType.PlantUml);
-      let diagram: string = diagramBuilder.setClass(test._modelClass, ActionType.REMOVE).build();
+      let diagram: string = diagramBuilder.addClass(test._modelClass).build();
       diagram = new Strings().clearSpaces(diagram);
       console.log(diagram);
       expect(diagram.trim() == test._expected).toBeTruthy();

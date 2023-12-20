@@ -248,27 +248,11 @@ export class Class {
     }
 
     removeUses(): void {
-      this._uses.forEach(
-        (_use: Use) => {
-          _use.classes.forEach(
-            (_class: Class) => {
-              _class.removeEfferentHierarchy();
-            }
-          );
-          _use.classes.splice(0, _use.classes.length);
-          _use.remove();
-        }
-      );
       this._uses.splice(0, this._uses.length);
       this._uses = [];
     }
 
     removeInherits(): void {
-      this._inherists.forEach(
-        (_class: Class) => {
-          _class.removeEfferentHierarchy();
-        }
-      );
       this._inherists.splice(0, this._inherists.length);
       this._inherists = [];
     }
@@ -382,7 +366,7 @@ export class Class {
             }
         )
     }
-
+   
     hasAnyRelationWith(_classToSearch: Class): boolean {
         return this.hasAssociationRelationWith(_classToSearch) || this.hasCompositionRelationWith(_classToSearch) || this.hasInheritRelationWith(_classToSearch) || this.hasUseRelationWith(_classToSearch);
     }

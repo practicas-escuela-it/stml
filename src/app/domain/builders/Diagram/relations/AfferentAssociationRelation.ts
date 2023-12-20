@@ -5,29 +5,35 @@ import { Relation } from "./Relation";
 
 export class AfferentAssociationRelation extends Relation {
 
-    private _model: Model;
+  private _model: Model;
 
-    constructor(modelClass: Class, model: Model, diagramClass: Class, _actionType: ActionType) {
-        super(modelClass, diagramClass, _actionType);
-        this._model = model;
-    }
+  constructor(modelClass: Class, model: Model, diagramClass: Class, _actionType: ActionType, _diagramModel: Model) {
+    super(modelClass, diagramClass, _actionType, _diagramModel);
+    this._model = model;
+  }
 
-    applyRelation(): Class[] {
-        return this._getAfferentClassesTo(this._modelClass);
+  override applyRelation(): void {
+    if (this._actionType == ActionType.ADD) {
+      this._diagramModel.addClasses(this._getAfferentClassesTo(this._modelClass));
+    } else {
+      this._diagramModel.removeClasses(this._getAfferentClassesTo(this._modelClass));
     }
+  }
 
-    private _getAfferentClassesTo(_settedClass: Class): Class[] {
-        let _classes: Class[] = [];
-        this._model.getClasses().forEach(
-            (_class: Class) => {
-                if (_class.name != _settedClass.name && _class.hasAssociationRelationWith(_settedClass)) {
-                    _classes.push(_class);
-                    _classes.push(...this._getAfferentClassesTo(_class));
-                }
-            }
-        );
-        return _classes;
-    }
+  private _getAfferentClassesTo(_settedClass: Class): Class[] {
+    let _classes: Class[] = [];
+    this._model.getClasses().forEach(
+      (_class: Class) => {
+        if (_class.name != _settedClass.name && _class.hasAssociationRelationWith(_settedClass)) {
+          let _copyClass: Class = new Class(_class.name);
+          _copyClass.copy(_class);
+          _classes.push(_copyClass);
+          _classes.push(...this._model.getAfferentHierarchyTo(_copyClass));
+        }
+      }
+    );
+    return _classes;
+  }
 
 
 }

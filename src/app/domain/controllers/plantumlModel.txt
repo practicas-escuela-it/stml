@@ -86,10 +86,10 @@ A8 o--> A9
 A5 *--> A7
 A5 o--> A6
 B0 o--> B1
-B1 o--> A1
+B1 *--> A1
 B1 o--> B2
 B2 o--> B3
 A6 o--> A10
-B3 o--> A5
+B3 *--> A5
 
 @enduml
