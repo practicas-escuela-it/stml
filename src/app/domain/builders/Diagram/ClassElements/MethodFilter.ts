@@ -5,11 +5,7 @@ import { ActionType } from "../ActionType";
 import { ElementFilter } from "./ElementFilter";
 
 export class MethodFilter extends ElementFilter {
-
-   constructor(names: string[], originalClass: Class, filteredClass: Class, actionType: ActionType) {
-      super(names, originalClass, filteredClass, actionType);
-   }
-
+   
    filter(): void {
       if (this._actionType == ActionType.ADD) {
          if (this._names.length == 0) {
@@ -30,9 +26,9 @@ export class MethodFilter extends ElementFilter {
          (method: Method) => {
             if (method.identifier.value != "") {
                let _copyMethod: Method = new Method();
-               _copyMethod.setIdentifier(method.identifier.value);               
+               _copyMethod.setIdentifier(method.identifier.value);
                method.parameters.forEach(
-                  (parameter: Parameter) => {                    
+                  (parameter: Parameter) => {
                     _copyMethod.addParameter(parameter.identifier.value, parameter.type.value);
                   }
                )
@@ -58,7 +54,7 @@ export class MethodFilter extends ElementFilter {
          (method: Method) => {
             if (method.identifier.value == name) {
                method.parameters.forEach(
-                  (parameter: Parameter) => {                    
+                  (parameter: Parameter) => {
                     result.addParameter(parameter.identifier.value, parameter.type.value);
                   }
                )

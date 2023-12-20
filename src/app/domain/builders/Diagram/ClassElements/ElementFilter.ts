@@ -7,10 +7,10 @@ export abstract class ElementFilter {
     protected _names: string[];
     protected _actionType: ActionType;
 
-    constructor(names: string[], originalClass: Class, filteredClass: Class, actionType: ActionType) {
+    constructor(names: string[], modelClass: Class, diagramClass: Class, actionType: ActionType) {
         this._names = names;
-        this._modelClass = originalClass;
-        this._diagramClass = filteredClass;
+        this._modelClass = modelClass;
+        this._diagramClass = diagramClass;
         this._actionType = actionType;
     }
 

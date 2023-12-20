@@ -3,12 +3,8 @@ import { Class } from "../../../entities/Class";
 import { ActionType } from "../ActionType";
 import { ElementFilter } from "./ElementFilter";
 
-export class AttributeFilter extends ElementFilter {   
-
-   constructor(names: string[], originalClass: Class, filteredClass: Class, actionType: ActionType) {
-      super(names, originalClass, filteredClass, actionType)
-   }
-
+export class AttributeFilter extends ElementFilter {
+   
    override filter(): void {
       if (this._actionType == ActionType.ADD) {
          if (this._names.length == 0) {
@@ -30,7 +26,7 @@ export class AttributeFilter extends ElementFilter {
          (attribute: Attribute) => {
             if (attribute.identifier.value != "") {
                let _copyAttr: Attribute = new Attribute();
-               _copyAttr.set(attribute.identifier.value, attribute.identifier.value);               
+               _copyAttr.set(attribute.identifier.value, attribute.identifier.value);
                this._diagramClass.addAttribute(_copyAttr);
             }
          }
@@ -46,7 +42,7 @@ export class AttributeFilter extends ElementFilter {
             }
          }
       )
-   }   
+   }
 
    private _getModelClassAttribute(name: string): Attribute {
       let result: Attribute = new Attribute();

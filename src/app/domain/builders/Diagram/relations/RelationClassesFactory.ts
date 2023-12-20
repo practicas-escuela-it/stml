@@ -66,6 +66,6 @@ export class RelationClassesFactory {
     }
 
     getAllRelation(): Relation {
-      return new FullRelation(this._modelClass, this._diagramClass, this._actionType, this._model);
+      return new FullRelation(this._modelClass, this._diagramClass, this._actionType, this._model, this._diagramModel);
     }
 }

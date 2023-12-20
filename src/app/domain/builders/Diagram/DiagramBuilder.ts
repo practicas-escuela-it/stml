@@ -18,6 +18,7 @@ import { Assert } from "../../utils/Assert";
 import { OutputFormatType } from "../../outputFomat/OutputFormatType";
 import { OutputFormatterFactory } from "../../outputFomat/OuputFormatterFactory";
 import { Axis } from "./relations/Axis";
+import { ClassFilter } from "./classFilters/ClassFilter";
 
 export class DiagramBuilder {
 
@@ -79,6 +80,11 @@ export class DiagramBuilder {
 
     removeCoupling(axis: Axis): this {
       this._relations.push(new RelationClassesFactory(axis, this._modelClass, this._model, this._diagramClass, this._diagramModel, ActionType.REMOVE).instance());
+      return this;
+    }
+
+    removeClass(className: string): this {
+      this._relations.push(new ClassFilter(this._model.getClass(className), this._diagramClass, this._diagramModel, ActionType.REMOVE));
       return this;
     }
 

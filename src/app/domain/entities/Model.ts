@@ -171,18 +171,18 @@ export class Model {
   }
 
   getEfferentHierarchyOf(_settedClass: Class) {
-    let _afferentClasses: Class[] = [];
+    let _efferentClasses: Class[] = [];
     let _refClass: Class | undefined = this._classes.get(_settedClass.name);
     if (_refClass) {
       let _class: Class | undefined = this._classes.get(_settedClass.name);
       if (_class != null) {
-        _afferentClasses.push(...this.getEfferentAssociationsOf(_class));
-        _afferentClasses.push(...this.getEfferentCompositionsOf(_class));
-        _afferentClasses.push(...this.getEfferentUsesOf(_class));
-        _afferentClasses.push(...this.getEfferentInheritsOf(_class));
+        _efferentClasses.push(...this.getEfferentAssociationsOf(_class));
+        _efferentClasses.push(...this.getEfferentCompositionsOf(_class));
+        _efferentClasses.push(...this.getEfferentUsesOf(_class));
+        _efferentClasses.push(...this.getEfferentInheritsOf(_class));
       }
     }
-    return _afferentClasses;
+    return _efferentClasses;
   }
 
   getEfferentAssociationsOf(_class: Class): Class[] {

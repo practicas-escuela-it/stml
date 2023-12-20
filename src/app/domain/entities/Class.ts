@@ -257,6 +257,76 @@ export class Class {
       this._inherists = [];
     }
 
+    removeEfferentClass(_classToRemove: Class) {
+      this.removeClassFromAssociations(_classToRemove);
+      this.removeClassFromCompositions(_classToRemove);
+      this.removeClassFromUses(_classToRemove);
+      this.removeClassFromInherits(_classToRemove);
+    }
+
+    removeClassFromAssociations(_classToRemove: Class): void {
+       this._associations.forEach(
+        (_association: Association) => {
+          let i: number = 0;
+          _association.classes.forEach(
+            (_class: Class) => {
+              if (_class.name == _classToRemove.name) {
+                 _association.classes.splice(i, 1);
+                 return;
+              }
+              i++;
+            }
+          )
+        }
+       )
+    }
+
+    removeClassFromCompositions(_classToRemove: Class): void {
+      this._compositions.forEach(
+       (_composition: Composition) => {
+         let i: number = 0;
+         _composition.getClasses().forEach(
+           (_class: Class) => {
+             if (_class.name == _classToRemove.name) {
+              _composition.getClasses().splice(i, 1);
+                return;
+             }
+             i++;
+           }
+         )
+       }
+      )
+   }
+
+   removeClassFromUses(_classToRemove: Class): void {
+    this._uses.forEach(
+     (_use: Use) => {
+       let i: number = 0;
+       _use.classes.forEach(
+         (_class: Class) => {
+           if (_class.name == _classToRemove.name) {
+            _use.classes.splice(i, 1);
+              return;
+           }
+           i++;
+         }
+       )
+     }
+    )
+ }
+
+    removeClassFromInherits(_classToRemove: Class): void {
+      let i: number = 0;
+      this._inherists.forEach(
+        (_class: Class) => {
+          if (_class.name == _classToRemove.name) {
+             this._inherists.splice(i, 1);
+             return;
+          }
+          i++;
+        });
+    }
+
     removeAssociation(associationToRemove: Association) {
         let i: number = 0;
         this._associations.forEach(
@@ -366,7 +436,7 @@ export class Class {
             }
         )
     }
-   
+
     hasAnyRelationWith(_classToSearch: Class): boolean {
         return this.hasAssociationRelationWith(_classToSearch) || this.hasCompositionRelationWith(_classToSearch) || this.hasInheritRelationWith(_classToSearch) || this.hasUseRelationWith(_classToSearch);
     }

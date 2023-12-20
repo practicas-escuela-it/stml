@@ -6,7 +6,7 @@ export class Axis {
   private _relationType: RelationType;
   private _depth: number;
 
-  constructor(direction: Direction, relationType: RelationType, depth: number = 3) {
+  constructor(direction: Direction, relationType: RelationType = RelationType.ALL, depth: number = 3) {
     this._direction = direction;
     this._relationType = relationType;
     this._depth = depth;

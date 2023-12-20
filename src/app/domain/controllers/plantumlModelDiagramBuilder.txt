@@ -23,8 +23,14 @@ class A7 {
 -a7_1: int
 
 } 
-class A3 { 
--a3: void
+class A8 { 
+-a8_1: float
+
+} 
+class A9 { 
+-a9_1: void
+-a9_2: int
++methodA9(attr1: int)
 
 } 
 class A4 { 
@@ -46,11 +52,12 @@ class B0 {
 -b0_2: int
 
 } 
+A2 *--> A8
 A2 o--> A5
 A5 *--> A7
 A5 o--> A6
 A6 o--> A10
-A3 ..> A4
+A8 o--> A9
 A1 *--> A4
 A1 o--> A2
 B1 *--> A1
