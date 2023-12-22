@@ -88,22 +88,22 @@ export class DiagramBuilder {
       return this;
     }
 
-    withAttribute(names: string[] = []): this {
+    addAttribute(names: string[] = []): this {
       new AttributeFilter(names, this._modelClass, this._diagramClass, ActionType.ADD).filter();
       return this;
     }
 
-    withoutAttribute(names: string[] = []): this {
+    removeAttribute(names: string[] = []): this {
       new AttributeFilter(names, this._modelClass, this._diagramClass, ActionType.REMOVE).filter();
       return this;
     }
 
-    withMethod(names: string[] = []): this {
+    addMethod(names: string[] = []): this {
       new MethodFilter(names, this._modelClass, this._diagramClass, ActionType.ADD).filter();
       return this;
     }
 
-    withoutMethod(names: string[] = []): this {
+    removeMethod(names: string[] = []): this {
       new MethodFilter(names, this._modelClass, this._diagramClass, ActionType.REMOVE).filter();
       return this;
     }

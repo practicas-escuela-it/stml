@@ -34,14 +34,16 @@ export class GrammarTranslationController {
     fs.writeFileSync(this._basePath + "domain/controllers/javaModel.txt", javaModel);
 
     plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUml)
-      .addClass("A2")
+      .addClass("A1")
       //.addCoupling(new Axis(Direction.EFFERENT, RelationType.ALL))
       //.addCoupling(new Axis(Direction.AFFERENT, RelationType.ALL))
       .addCoupling(new Axis(Direction.ALL))
       //.removeCoupling(new Axis(Direction.EFFERENT, RelationType.COMPOSITION))
-      .removeClass("A3")
-      .withAttribute()
-      .withMethod()
+      // .removeCoupling(new Axis(Direction.AFFERENT, RelationType.COMPOSITION))
+     // .removeClass("A0")
+     // .removeClass("A8")
+      .addAttribute()
+      .addMethod()
       .build();
 
     console.log("\nGramática formateada para plantUml, utilizando DIAGRAM BUILDER\n\n");

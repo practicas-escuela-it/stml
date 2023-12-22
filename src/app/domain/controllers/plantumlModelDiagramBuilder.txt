@@ -1,7 +1,12 @@
 @startuml
 
+class A1 extends A0 { 
+-a1: a1
+-a1_1: a1_1
+
+} 
 class A2 extends A3 { 
--a2: a2
+-a2: void
 
 } 
 class A5 { 
@@ -33,14 +38,20 @@ class A9 {
 +methodA9(attr1: int)
 
 } 
+class A3 { 
+-a3: void
+
+} 
 class A4 { 
 -a4_1: void
 -a4_2: int
 
 } 
-class A1 extends A0 { 
--a1: void
--a1_1: void
+class A0 { 
+-a0_1: int
+-a0_2: string
++m1()
++m2(tipo: int)
 
 } 
 class B1 { 
@@ -52,14 +63,15 @@ class B0 {
 -b0_2: int
 
 } 
+A1 *--> A4
+A1 o--> A2
 A2 *--> A8
 A2 o--> A5
 A5 *--> A7
 A5 o--> A6
 A6 o--> A10
 A8 o--> A9
-A1 *--> A4
-A1 o--> A2
+A3 ..> A4
 B1 *--> A1
 B1 o--> B2
 B0 o--> B1

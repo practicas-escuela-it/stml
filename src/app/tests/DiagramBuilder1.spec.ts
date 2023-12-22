@@ -42,7 +42,7 @@ describe("DiagramBuilder", () => {
   testCases2.forEach(test => {
     it(`Given model '$_model', when we request REMOVE '$_operation', then we get '$_expected'`, () => {
       let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(test._model).build(), OutputFormatType.PlantUml);
-      let diagram: string = diagramBuilder.setClass(test._modelClass, ActionType.REMOVE)
+      let diagram: string = diagramBuilder.addClass(test._modelClass, ActionType.REMOVE)
         .coupling(test._direction, test._relationType)
         .build();
       diagram = new Strings().clearSpaces(diagram);

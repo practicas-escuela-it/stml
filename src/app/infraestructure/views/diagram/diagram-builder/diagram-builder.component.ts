@@ -10,6 +10,7 @@ import { OutputFormatterFactory } from 'src/app/domain/outputFomat/OuputFormatte
 import { ActionType } from 'src/app/domain/builders/Diagram/ActionType';
 import { Direction } from 'src/app/domain/builders/Diagram/types/Direction';
 import { RelationType } from 'src/app/domain/builders/Diagram/types/RelationType';
+import { Axis } from 'src/app/domain/builders/Diagram/relations/Axis';
 
 
 @Component({
@@ -47,28 +48,29 @@ export class DiagramBuilderComponent implements OnInit {
   ngOnInit(): void {
     console.log("ngOnInit");
     this._model = new Model();
-    this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.PlantUml);
     this.fileContent = input1;
-    this.build();
+    if (this.fileContent != null) {
+      this._model = new ModelBuilder(this.fileContent).build();
+      this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.PlantUml);
+      this.diagramBuilder.addAttribute().addMethod();
+      this.build();
+    }
   }
 
   build(): void {
-    if (this.fileContent != null) {
-      this._model = new ModelBuilder(this.fileContent).build();
-      if (this.fullModel) {
-        let outputFormatter: OutputFormatter = new OutputFormatterFactory(OutputFormatType.PlantUml).instance(this._model);
-        this.diagramUml = outputFormatter.format();
-      } else {
-        console.log("aplicando")
-        this.diagramBuilder.setModel(this._model);
-        this._applyCommands();
-      }
+    if (this.fullModel) {
+      let outputFormatter: OutputFormatter = new OutputFormatterFactory(OutputFormatType.PlantUml).instance(this._model);
+      this.diagramUml = outputFormatter.format();
+    } else {
+      console.log("aplicando")
+      this._applyCommands();
     }
   }
 
   _applyCommands(): void {
     this.diagramUml = this.diagramBuilder.build();
-    this.reset();
+    this.diagramBuilder.clear();
+    //this.reset();
   }
 
   reset(): void {
@@ -89,14 +91,22 @@ export class DiagramBuilderComponent implements OnInit {
   }
 
   changeClass(): void {
-     this.forRemove = false;
-     this.clickAdd();
+    this.forRemove = false;
+    this.clickAdd();
   }
 
   clickAdd(): void {
-     this.forAdd = !this.forAdd;
-     this.forRemove = false;
-     this._initFilter(ActionType.ADD);
+    this.forAdd = !this.forAdd;
+    this.forRemove = false;
+    this._initFilter(ActionType.ADD);
+  }
+
+  clickAddEfferentContext(): void {
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
+  }
+
+  clickRemoveEfferentContext(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
   }
 
   clickRemove(): void {
@@ -108,54 +118,54 @@ export class DiagramBuilderComponent implements OnInit {
   private _initFilter(actionType: ActionType): void {
     this.showAttributes = this.showMethods = false;
     console.log("Clase selecionada: " + this.selectedClass)
-    this.diagramBuilder.setClass(this.selectedClass, actionType);
+    this.diagramBuilder.addClass(this.selectedClass);
   }
 
   clickAttributes(): void {
-    this.diagramBuilder.attribute();
+    this.diagramBuilder.addAttribute();
   }
 
   clickMethods(): void {
-    this.diagramBuilder.method();
+    this.diagramBuilder.addMethod();
   }
 
   clickEfferent(): void {
-    this.diagramBuilder.coupling(Direction.EFFERENT);
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
   }
 
   clickEfferentAssociation(): void {
-    this.diagramBuilder.coupling(Direction.EFFERENT, RelationType.ASSOCIATION);
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ASSOCIATION));
   }
 
   clickEfferentComposition(): void {
-    this.diagramBuilder.coupling(Direction.EFFERENT, RelationType.COMPOSITION);
- }
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.COMPOSITION));
+  }
 
   clickEfferentUse(): void {
-    this.diagramBuilder.coupling(Direction.EFFERENT, RelationType.USE);
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.USE));
   }
 
   clickEfferentInherit(): void {
-    this.diagramBuilder.coupling(Direction.EFFERENT, RelationType.INHERIT);
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.INHERIT));
   }
 
   clickAfferent(): void {
-    this.diagramBuilder.coupling(Direction.AFFERENT)
- }
+    this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.ALL));
+  }
 
   clickAfferentAssociation(): void {
-    this.diagramBuilder.coupling(Direction.AFFERENT, RelationType.ASSOCIATION);
+    this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.ASSOCIATION));
   }
 
   clickAfferentComposition(): void {
-    this.diagramBuilder.coupling(Direction.AFFERENT, RelationType.COMPOSITION);
+    this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.COMPOSITION));
   }
 
   clickAfferentUse(): void {
-    this.diagramBuilder.coupling(Direction.AFFERENT, RelationType.USE);
+    this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.USE));
   }
 
   clickAfferentInherit(): void {
-    this.diagramBuilder.coupling(Direction.AFFERENT, RelationType.INHERIT);
+    this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.INHERIT));
   }
 }

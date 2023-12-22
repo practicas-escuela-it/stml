@@ -6,24 +6,32 @@ import { Relation } from "../relations/Relation";
 export class ClassFilter extends Relation {
 
 
-  constructor(_modelClass: Class, diagramClass: Class, diagramModel: Model, actionType: ActionType) {
-    super(_modelClass, diagramClass, actionType, diagramModel);
+  constructor(_classToRemove: Class, diagramClass: Class, diagramModel: Model, actionType: ActionType) {
+    super(_classToRemove, diagramClass, actionType, diagramModel);
   }
 
   override applyRelation(): void {
-      let _classToRemove: Class = this._diagramModel.getClass(this._modelClass.name);
-      console.log("POR AQUI")
-      _classToRemove.removeAssociations();
-      _classToRemove.removeCompositions();
-      _classToRemove.removeUses();
-      _classToRemove.removeInherits();
-      let _afferentClasses: Class[] = this._diagramModel.getAfferentHierarchyTo(_classToRemove);
-      _afferentClasses.forEach(
-        (_class: Class) => {
-          // Aqui buscar la class a remove y quitarla de la lista de clase efferente
-          _class.removeEfferentClass(_classToRemove);
-        }
-      )
+      let _classToRemove: Class = this._modelClass;
+      this._removeEfferentRelationsOf(_classToRemove);
+      this._removeAfferentRelationsTorward(_classToRemove);
       this._diagramModel.removeClass(_classToRemove);
+    }
+
+    private _removeEfferentRelationsOf(_classToRemove: Class): void {
+      this._diagramModel.removeAssociationsOf(_classToRemove);
+      this._diagramModel.removeCompositionsOf(_classToRemove);
+      this._diagramModel.removeUsesOf(_classToRemove);
+      this._diagramModel.removeInheritsOf(_classToRemove);
+    }
+
+    private _removeAfferentRelationsTorward(_classToRemove: Class): void {
+      this._diagramModel.getClasses().forEach(
+        (_class: Class) => {
+          if (_class.name != _classToRemove.name) {
+              _class.removeEfferentClass(_classToRemove);
+
+          }
+        }
+      );
     }
 }

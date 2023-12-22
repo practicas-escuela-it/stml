@@ -26,19 +26,12 @@
       <ng-container *ngIf="this.selectedClass">
         <div class="row mb-3">
           <div class="col">
-            <div class="d-flex column">
-              <div class="me-3">
-                <input type="checkbox" (click)="this.clickAdd()" [checked]="this.forAdd" /> Add
-              </div>
-              <div class="me-2">
-                <input type="checkbox" (click)="this.clickRemove()" [checked]="this.forRemove" /> Remove
-              </div>
-            </div>
+
           </div>
         </div>
       </ng-container>
       <ng-container *ngIf="this.forAdd || this.forRemove">
-        <div class="row">
+      <!--  <div class="row">
           <div class="col">
             <input type="checkbox" class="mb-2" [(ngModel)]="this.showAttributes" (click)="this.clickAttributes()">Attributes
           </div>
@@ -47,11 +40,21 @@
           <div class="col">
             <input type="checkbox" class="mb-2" [(ngModel)]="this.showMethods" (click)="this.clickMethods()">Methods
           </div>
-        </div>
+        </div> -->
         <div class="mb-2"></div>
         <div class="row">
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickEfferent()">Efferent Context
+            <div class="d-flex column">
+              <div class="me-3">
+                - <input type="radio" name="radioEfferentContext" (click)="this.clickRemoveEfferentContext()" [checked]="this.forRemove" />
+              </div>
+              <div class="me-3">
+                <input type="checkbox" class="mb-2" (click)="this.clickEfferent()">Efferent Context
+              </div>
+              <div class="me-3">
+                <input type="radio" name="radioEfferentContext" (click)="this.clickAddEfferentContext()" [checked]="this.forAdd" /> +
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
