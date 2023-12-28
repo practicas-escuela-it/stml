@@ -27,6 +27,7 @@ export class EfferentInheritRelation extends Relation {
 
     private _getInheritEfferentClasses(): Class[] {
       let _classes: Class[] = [];
+      this._diagramClass.removeInherits();
       this._modelClass.getInherits().forEach(
           (inherit: Class) => {
               let _copyInherit: Class = new Class(inherit.name);

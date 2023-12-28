@@ -26,11 +26,7 @@ export class DiagramBuilderComponent implements OnInit {
   private _model: Model;
   fullModel: boolean;
   selectedClass: string;
-  showAttributes: boolean;
-  showMethods: boolean;
-  forAdd: boolean;
-  forRemove: boolean;
-
+  classToRemove: string;
 
   constructor() {
     this.fileContent = "";
@@ -39,10 +35,7 @@ export class DiagramBuilderComponent implements OnInit {
     this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.PlantUml);
     this.fullModel = true;
     this.selectedClass = "";
-    this.showAttributes = false;
-    this.showMethods = false;
-    this.forRemove = false;
-    this.forAdd = false;
+    this.classToRemove = "";
   }
 
   ngOnInit(): void {
@@ -51,8 +44,7 @@ export class DiagramBuilderComponent implements OnInit {
     this.fileContent = input1;
     if (this.fileContent != null) {
       this._model = new ModelBuilder(this.fileContent).build();
-      this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.PlantUml);
-      this.diagramBuilder.addAttribute().addMethod();
+      this.reset();
       this.build();
     }
   }
@@ -63,23 +55,21 @@ export class DiagramBuilderComponent implements OnInit {
       this.diagramUml = outputFormatter.format();
     } else {
       console.log("aplicando")
-      this._applyCommands();
+      this.diagramBuilder.addAttribute().addMethod();
+      this.diagramUml = this.diagramBuilder.build();
     }
   }
 
-  _applyCommands(): void {
-    this.diagramUml = this.diagramBuilder.build();
-    this.diagramBuilder.clear();
-    //this.reset();
-  }
-
   reset(): void {
-    this.diagramBuilder.clear();
     this.diagramUml = "";
     this.selectedClass = "";
+    this.classToRemove = "";
     this.fullModel = true;
-    this.forAdd = this.forRemove = false;
-    this._initFilter(ActionType.ADD);
+    this._initDiagramBuilder();
+  }
+
+  private _initDiagramBuilder() {
+    this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.PlantUml);
   }
 
   isBuildedModel(): boolean {
@@ -91,34 +81,15 @@ export class DiagramBuilderComponent implements OnInit {
   }
 
   changeClass(): void {
-    this.forRemove = false;
-    this.clickAdd();
-  }
-
-  clickAdd(): void {
-    this.forAdd = !this.forAdd;
-    this.forRemove = false;
-    this._initFilter(ActionType.ADD);
-  }
-
-  clickAddEfferentContext(): void {
-    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
-  }
-
-  clickRemoveEfferentContext(): void {
-    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
-  }
-
-  clickRemove(): void {
-    this.forAdd = false;
-    this.forRemove = !this.forRemove;
-    this._initFilter(ActionType.REMOVE);
-  }
-
-  private _initFilter(actionType: ActionType): void {
-    this.showAttributes = this.showMethods = false;
-    console.log("Clase selecionada: " + this.selectedClass)
+    this.classToRemove = "";
+    this._initDiagramBuilder();
     this.diagramBuilder.addClass(this.selectedClass);
+    this.build();
+  }
+
+  clickFullModel(): void {
+     this.reset();
+     this.build();
   }
 
   clickAttributes(): void {
@@ -129,43 +100,127 @@ export class DiagramBuilderComponent implements OnInit {
     this.diagramBuilder.addMethod();
   }
 
-  clickEfferent(): void {
+  clickRemoveAllContext(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
+    this.diagramBuilder.removeCoupling(new Axis(Direction.AFFERENT, RelationType.ALL));
+    this.build();
+  }
+
+  clickAddAllContext(): void {
     this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
-  }
-
-  clickEfferentAssociation(): void {
-    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ASSOCIATION));
-  }
-
-  clickEfferentComposition(): void {
-    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.COMPOSITION));
-  }
-
-  clickEfferentUse(): void {
-    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.USE));
-  }
-
-  clickEfferentInherit(): void {
-    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.INHERIT));
-  }
-
-  clickAfferent(): void {
     this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.ALL));
+    this.build();
   }
 
-  clickAfferentAssociation(): void {
+  clickRemoveEfferentContext(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
+    this.build();
+  }
+
+  clickAddEfferentContext(): void {
+    console.log("Aplicando contexto efferente")
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ALL));
+    this.build();
+  }
+
+  clickRemoveEfferentAssociation(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.ASSOCIATION));
+    this.build();
+  }
+
+  clickAddEfferentAssociation(): void {
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.ASSOCIATION));
+    this.build();
+  }
+
+  clickAddEfferentComposition(): void {
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.COMPOSITION));
+    this.build();
+  }
+
+  clickRemoveEfferentComposition(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.COMPOSITION));
+    this.build();
+  }
+
+  clickRemoveEfferentUse(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.USE));
+    this.build();
+  }
+
+  clickAddEfferentUse(): void {
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.USE));
+    this.build();
+  }
+
+  clickRemoveEfferentInherit(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.EFFERENT, RelationType.INHERIT));
+    this.build();
+  }
+
+  clickAddEfferentInherit(): void {
+    this.diagramBuilder.addCoupling(new Axis(Direction.EFFERENT, RelationType.INHERIT));
+    this.build();
+  }
+
+  clickRemoveAfferentContext(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.AFFERENT, RelationType.ALL));
+    this.build();
+  }
+
+  clickAddAfferentContext(): void {
+    this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.ALL));
+    this.build();
+  }
+
+  clickRemoveAfferentAssociation(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.AFFERENT, RelationType.ASSOCIATION));
+    this.build();
+  }
+
+  clickAddAfferentAssociation(): void {
     this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.ASSOCIATION));
+    this.build();
   }
 
-  clickAfferentComposition(): void {
+  clickRemoveAfferentComposition(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.AFFERENT, RelationType.COMPOSITION));
+    this.build();
+  }
+
+  clickAddAfferentComposition(): void {
     this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.COMPOSITION));
+    this.build();
   }
 
-  clickAfferentUse(): void {
+  clickRemoveAfferentUse(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.AFFERENT, RelationType.USE));
+    this.build();
+  }
+
+  clickAddAfferentUse(): void {
     this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.USE));
+    this.build();
   }
 
-  clickAfferentInherit(): void {
+  clickRemoveAfferentInherit(): void {
+    this.diagramBuilder.removeCoupling(new Axis(Direction.AFFERENT, RelationType.INHERIT));
+    this.build();
+  }
+
+  clickAddAfferentInherit(): void {
     this.diagramBuilder.addCoupling(new Axis(Direction.AFFERENT, RelationType.INHERIT));
+    this.build();
+  }
+
+  getDiagramClasses(): Class[] {
+    return this.diagramBuilder.getClasses();
+  }
+
+  removeClass(): void {
+    if (this.classToRemove != "") {
+       this.diagramBuilder.removeClass(this.classToRemove);
+       this.build();
+    }
   }
 }

@@ -61,6 +61,10 @@ export class DiagramBuilder {
       return this;
     }
 
+    getClasses(): Class[] {
+      return this._diagramModel.getClasses();
+    }
+
     private setDiagramClass(actionType: ActionType): this  {
       this._actionType = actionType;
       this._diagramClass = new Class(this._modelClass.name);

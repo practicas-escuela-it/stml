@@ -2,7 +2,7 @@
   <label>Introduce the grammar model</label>
 </p>
 <div class="row">
-  <div class="col-3">
+  <div class="col-4">
 
     <div class="d-flex column mb-5">
       <button class="btn btn-primary me-5" (click)="this.build()">Model
@@ -10,7 +10,7 @@
       <button class="btn btn-danger" (click)="this.reset()">Reset</button>
     </div>
     <div class="mb-3">
-      <input type="checkbox" class="me-2" [(ngModel)]="this.fullModel">Modelo completo
+      <input type="checkbox" class="me-2" [(ngModel)]="this.fullModel" (click)="clickFullModel()">Modelo completo
     </div>
 
     <div class="row" *ngIf="!this.fullModel">
@@ -30,77 +30,143 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="this.forAdd || this.forRemove">
-      <!--  <div class="row">
-          <div class="col">
-            <input type="checkbox" class="mb-2" [(ngModel)]="this.showAttributes" (click)="this.clickAttributes()">Attributes
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <input type="checkbox" class="mb-2" [(ngModel)]="this.showMethods" (click)="this.clickMethods()">Methods
-          </div>
-        </div> -->
+      <ng-container *ngIf="this.selectedClass != ''">
         <div class="mb-2"></div>
         <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveAllContext()" />
+          </div>
           <div class="col">
-            <div class="d-flex column">
-              <div class="me-3">
-                - <input type="radio" name="radioEfferentContext" (click)="this.clickRemoveEfferentContext()" [checked]="this.forRemove" />
-              </div>
-              <div class="me-3">
-                <input type="checkbox" class="mb-2" (click)="this.clickEfferent()">Efferent Context
-              </div>
-              <div class="me-3">
-                <input type="radio" name="radioEfferentContext" (click)="this.clickAddEfferentContext()" [checked]="this.forAdd" /> +
-              </div>
-            </div>
+            All Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddAllContext()" /> +
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveEfferentContext()" />
+          </div>
+          <div class="col">
+            Efferent Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddEfferentContext()" /> +
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveEfferentAssociation()" />
+          </div>
+          <div class="col">
+            Efferent Association Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddEfferentAssociation()" /> +
           </div>
         </div>
         <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveEfferentComposition()" />
+          </div>
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickEfferentAssociation()">Efferent Association Context
+            Efferent Composition Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddEfferentComposition()" /> +
           </div>
         </div>
         <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveEfferentUse()" />
+          </div>
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickEfferentComposition()">Efferent Composition Context
+            Efferent Use Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddEfferentUse()" /> +
           </div>
         </div>
         <div class="row">
-          <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickEfferentUse()">Efferent Use Context
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveEfferentInherit()" />
           </div>
-        </div>
-        <div class="row">
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickEfferentInherit()">Efferent Inherit Context
+            Efferent Inherit Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddEfferentInherit()" /> +
           </div>
         </div>
         <div class="mb-2"></div>
+        <hr>
         <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveAfferentContext()" />
+          </div>
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickAfferent()">Afferent Context
+            Afferent Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddAfferentContext()" /> +
+          </div>
+        </div>
+        <br><br>
+        <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveAfferentAssociation()" />
+          </div>
+          <div class="col">
+            Afferent Association Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddAfferentAssociation()" /> +
           </div>
         </div>
         <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveAfferentComposition()" />
+          </div>
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickAfferentAssociation()">Afferent Association Context
+            Afferent Composition Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddAfferentComposition()" /> +
           </div>
         </div>
         <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveAfferentUse()" />
+          </div>
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickAfferentComposition()">Afferent Composition Context
+            Efferent Use Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddAfferentUse()" /> +
           </div>
         </div>
         <div class="row">
+          <div class="col-2">
+            - <input type="radio" name="radioOperation" (click)="this.clickRemoveAfferentInherit()" />
+          </div>
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickAfferentUse()">Efferent Use Context
+            Efferent Inherit Context
+          </div>
+          <div class="col-2">
+            <input type="radio" name="radioOperation" (click)="this.clickAddAfferentInherit()" /> +
           </div>
         </div>
+        <br><br>
         <div class="row">
           <div class="col">
-            <input type="checkbox" class="mb-2" (click)="this.clickAfferentInherit()">Efferent Inherit Context
+            <label class="me-2">Remove class:</label>
+            <select class="mb-3" [(ngModel)]="this.classToRemove" (change)="removeClass()">
+              <option *ngFor="let class of this.getDiagramClasses()">
+                {{ class.name }}
+              </option>
+            </select>
           </div>
         </div>
       </ng-container>

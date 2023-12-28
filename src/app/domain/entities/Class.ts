@@ -132,7 +132,9 @@ export class Class {
     }
 
     addAttribute(attribute: Attribute) {
-        this._attributes.push(attribute);
+        if (this._attributes.find((attr: Attribute) => attribute.identifier.value == attr.identifier.value) == null) {
+           this._attributes.push(attribute);
+        }
     }
 
     removeAttribute(attributeToRemove: Attribute): void {
@@ -171,7 +173,8 @@ export class Class {
     }
 
     addMethod(method: Method) {
-        this._methods.push(method);
+        if (this._methods.find((_method: Method) => _method.identifier.value == method.identifier.value) == null)
+           this._methods.push(method);
     }
 
     removeMethod(method: Method) {
@@ -226,8 +229,8 @@ export class Class {
         );
     }
 
-    addAsociation(association: Association) {
-        this._associations.push(association);
+    addAsociation(associationToAdd: Association) {
+      this._associations.push(associationToAdd);
     }
 
     removeEfferentHierarchy(): void {

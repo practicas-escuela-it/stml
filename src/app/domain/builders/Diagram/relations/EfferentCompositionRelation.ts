@@ -28,6 +28,7 @@ export class EfferentCompositionRelation extends Relation {
 
   private _getCompositionEfferentClasses(): Class[] {
     let _compositionClasses: Class[] = [];
+    this._diagramClass.removeCompositions();
     this._modelClass.getCompositions().forEach(
       (composition: Composition) => {
         let _copyComposition: Composition = new Composition();

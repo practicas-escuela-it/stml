@@ -28,6 +28,7 @@ export class EfferentAssociationRelation extends Relation {
 
   private _getEfferentAssociationClasses(): Class[] {
     let _associationClasses: Class[] = [];
+    this._diagramClass.removeAssociations();
     this._modelClass.getAssociations().forEach(
       (association: Association) => {
         let _copyAssociation: Association = new Association();

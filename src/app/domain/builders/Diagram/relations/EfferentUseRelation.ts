@@ -28,6 +28,7 @@ export class EfferentUseRelation extends Relation {
 
     private _getEfferentUseClasses(): Class[] {
       let _useClasses: Class[] = [];
+      this._diagramClass.removeUses();
       this._modelClass.getUses().forEach(
         (use: Use) => {
           let _copyUse: Use = new Use();

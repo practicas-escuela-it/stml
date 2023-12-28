@@ -11,6 +11,7 @@ class A1 inherits A0
 
 class A2 inherits A3
    attribute a2 void
+   method run_a2()
    composition A8
    association A5
 

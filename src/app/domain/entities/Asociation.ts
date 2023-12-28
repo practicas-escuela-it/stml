@@ -43,4 +43,17 @@ export class Association {
       this._classes.splice(0, this._classes.length);
       this._classes = [];
     }
+
+    hasClass(_classToFind: Class): boolean {
+      let result: boolean = false;
+      this._classes.forEach(
+        (_class: Class) => {
+          if (_class.name == _classToFind.name) {
+            result = true;
+          }
+        }
+      )
+      return result;
+      //return this._classes.find((_class: Class) => _class.name == _classToFind.name) != null;
+    }
 }
