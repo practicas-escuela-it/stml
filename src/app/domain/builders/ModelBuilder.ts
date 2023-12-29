@@ -7,9 +7,10 @@ import { Method } from "../entities/Method";
 import { Use } from "../entities/Use";
 import { ClassManager } from "./ClassManager";
 import { Model } from "../entities/Model";
+import { Multiplicity } from "../entities/Multiplicity";
 
 export class ModelBuilder {
-    
+
     private readonly KEYWORD_CLASS: RegExp = new RegExp(/\s*class\s+/);
     private readonly KEYWORD_INHERITS: RegExp = new RegExp(/^inherits\s+/);
     private readonly KEYWORD_ATTRIBUTE: RegExp = new RegExp(/^attribute\s+/);
@@ -18,7 +19,7 @@ export class ModelBuilder {
     private readonly KEYWORD_USE: RegExp = new RegExp(/^use\s+/);
     private readonly KEYWORD_ASSOCIATION: RegExp = new RegExp(/^association\s+/);
     private input: string;
-    private inputPointer: number;   
+    private inputPointer: number;
 
     constructor(input: string) {
         // this.classes = [];
@@ -33,7 +34,7 @@ export class ModelBuilder {
         this.input = this.input.replace(/\s*\(\s*/g, "(");
         this.input = this.input.replace(/\s*\)\s*/g, ") ");
         this.input = this.input.replace(/\s*,\s*/g, ",");
-    }   
+    }
 
     build(): Model {
         while (this.matchWord(this.KEYWORD_CLASS)) {
@@ -44,7 +45,7 @@ export class ModelBuilder {
 
     private analyzeClass(): void {
         let _class: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
-        if (_class != undefined) {            
+        if (_class != undefined) {
             this.analyzeInherit(_class);
             this.analyzeAttributes(_class);
             this.analyzeMethods(_class);
@@ -70,7 +71,7 @@ export class ModelBuilder {
                 }
             } while (this.hasMoreIdentifiers())
         }
-    }   
+    }
 
     private analyzeAttributes(_class: Class) {
         if (this.matchWord(this.KEYWORD_ATTRIBUTE)) {
@@ -89,6 +90,18 @@ export class ModelBuilder {
             this.advanceInputPointer(identifier);
         }
         return identifier;
+    }
+
+    private _getMatchedMultiplicity(): Multiplicity {
+      let multiplicity: Multiplicity = new Multiplicity();
+      if (/\d\.\.[\d|n]\s*/.test(this.input.substring(this.inputPointer))) {
+          let matchedResult: RegExpExecArray | null = /(\d)\.\.([\d|n])\s*/.exec(this.input.substring(this.inputPointer));
+          if (matchedResult != null) {
+             multiplicity = new Multiplicity(matchedResult[1], matchedResult[2]);
+             this.advanceInputPointer(matchedResult[0]);
+          }
+      }
+      return multiplicity;
     }
 
     private getMatchedType(): string {
@@ -142,7 +155,7 @@ export class ModelBuilder {
             } while (this.hasMoreIdentifiers());
         }
     }
-    
+
     getMethodParams(method: Method) {
         this.matchWord(/\(\s*/);
         do {
@@ -155,14 +168,18 @@ export class ModelBuilder {
         if (this.matchWord(this.KEYWORD_COMPOSITION)) {
             let composition: Composition = new Composition();
             do {
-                let compositionClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());                
+                let compositionClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (compositionClass != null) {
-                   composition.addClass(compositionClass);                
+                   composition.addClass(compositionClass);
+                }
+                let multiplicity: Multiplicity = this._getMatchedMultiplicity();
+                if (multiplicity.isValid()) {
+                   composition.addMultiplicity(compositionClass?.name, multiplicity);
                 }
             } while (this.hasMoreIdentifiers());
             _class.addComposition(composition);
         }
-    }   
+    }
 
     private analyzeUses(_class: Class) {
         if (this.matchWord(this.KEYWORD_USE)) {
@@ -176,7 +193,7 @@ export class ModelBuilder {
             _class.addUse(use);
         }
     }
-   
+
     private analyzeAssociations(_class: Class) {
         if (this.matchWord(this.KEYWORD_ASSOCIATION)) {
             let asociation: Association = new Association();

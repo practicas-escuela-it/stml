@@ -10,10 +10,10 @@ import { Use } from "../../entities/Use";
 import { OutputFormatter } from "../OutputFormatter";
 
 export class PlantUmlOutputFormatter extends OutputFormatter {
-    
+
     private _outputForClassesBody: string;
     private _outputForRelationsBetweenClasses: string;
-    
+
 
     constructor(model: Model) {
         super(model);
@@ -106,7 +106,11 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
             (composition: Composition) => {
                 composition.getClasses().forEach(
                     (compositionClass: Class) => {
-                        this._outputForRelationsBetweenClasses += _class.name + " *--> " + compositionClass.name + "\n";
+                        this._outputForRelationsBetweenClasses += _class.name + " *--> ";
+                        if (composition.hasMultiplicityWith(compositionClass.name)) {
+                          this._outputForRelationsBetweenClasses += "\"" + composition.getStartMultiplicity(compositionClass.name) + ".." + composition.getEndMultiplicity(compositionClass.name) + "\" ";
+                        }
+                        this._outputForRelationsBetweenClasses += compositionClass.name + "\n";
                     }
                 );
             }

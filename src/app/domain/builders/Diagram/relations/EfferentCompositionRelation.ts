@@ -1,3 +1,4 @@
+import { Multiplicity } from "src/app/domain/entities/Multiplicity";
 import { Class } from "../../../entities/Class";
 import { Composition } from "../../../entities/Composition";
 import { Model } from "../../../entities/Model";
@@ -38,9 +39,18 @@ export class EfferentCompositionRelation extends Relation {
             _copyClass.copy(_class);
             _copyComposition.addClass(_copyClass);
             _compositionClasses.push(_copyClass);
+            this._copyMultiplicity(composition, _copyComposition, _class.name);
           });
         this._diagramClass.addComposition(_copyComposition);
       });
     return _compositionClasses;
+  }
+
+  private _copyMultiplicity(composition: Composition, copyComposition: Composition, className: string) {
+    if (composition.hasMultiplicityWith(className)) {
+      let _multiplicity: Multiplicity = new Multiplicity();
+      _multiplicity.copy(composition.getMultiplicityWith(className));
+      copyComposition.addMultiplicity(className, _multiplicity);
+    }
   }
 }

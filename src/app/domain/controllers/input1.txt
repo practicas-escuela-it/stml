@@ -5,7 +5,7 @@ class A0
 
 class A1 inherits A0
    attribute a1 void, a1_1 void
-   composition A4
+   composition A4 
    association A2
 
 class A2 inherits A3

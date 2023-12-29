@@ -3,6 +3,7 @@ import { Attribute } from "./Attribute";
 import { Composition } from "./Composition";
 import { Identifier } from './Identifier';
 import { Method } from "./Method";
+import { Multiplicity } from "./Multiplicity";
 import { Parameter } from "./Parameter";
 import { Use } from "./Use";
 
@@ -417,6 +418,11 @@ export class Class {
                         let _copyClass: Class = new Class(_class.name);
                         _copyClass.copy(_class);
                         _composition.addClass(_copyClass);
+                        if (composition.hasMultiplicityWith(_class.name)) {
+                          let _multiplicity: Multiplicity = new Multiplicity();
+                          _multiplicity.copy(composition.getMultiplicityWith(_class.name));
+                          _composition.addMultiplicity(_class.name, _multiplicity);
+                        }
                     }
                 );
                 this._compositions.push(_composition);
