@@ -94,8 +94,8 @@ export class ModelBuilder {
 
     private _getMatchedMultiplicity(): Multiplicity {
       let multiplicity: Multiplicity = new Multiplicity();
-      if (/\d\.\.[\d|n]\s*/.test(this.input.substring(this.inputPointer))) {
-          let matchedResult: RegExpExecArray | null = /(\d)\.\.([\d|n])\s*/.exec(this.input.substring(this.inputPointer));
+      if (/\(\d-[\d|n]\)\s*/.test(this.input.substring(this.inputPointer))) {
+          let matchedResult: RegExpExecArray | null = /\((\d)-([\d|n])\)\s*/.exec(this.input.substring(this.inputPointer));
           if (matchedResult != null) {
              multiplicity = new Multiplicity(matchedResult[1], matchedResult[2]);
              this.advanceInputPointer(matchedResult[0]);
@@ -171,10 +171,10 @@ export class ModelBuilder {
                 let compositionClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (compositionClass != null) {
                    composition.addClass(compositionClass);
-                }
-                let multiplicity: Multiplicity = this._getMatchedMultiplicity();
-                if (multiplicity.isValid()) {
-                   composition.addMultiplicity(compositionClass?.name, multiplicity);
+                   let multiplicity: Multiplicity = this._getMatchedMultiplicity();
+                   if (multiplicity.isValid()) {
+                      composition.addMultiplicity(compositionClass?.name, multiplicity);
+                   }
                 }
             } while (this.hasMoreIdentifiers());
             _class.addComposition(composition);
@@ -201,6 +201,10 @@ export class ModelBuilder {
                 let associationClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (associationClass != null) {
                    asociation.addClass(associationClass);
+                   let multiplicity: Multiplicity = this._getMatchedMultiplicity();
+                   if (multiplicity.isValid()) {
+                    asociation.addMultiplicity(associationClass?.name, multiplicity);
+                   }
                 }
             } while (this.hasMoreIdentifiers());
             _class.addAsociation(asociation);

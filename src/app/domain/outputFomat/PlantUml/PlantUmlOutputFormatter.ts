@@ -134,7 +134,11 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
             (association: Association) => {
                 association.classes.forEach(
                     (_associationClass: Class) => {
-                        this._outputForRelationsBetweenClasses += _class.name + " o--> " + _associationClass.name + "\n";
+                        this._outputForRelationsBetweenClasses += _class.name + " o--> ";
+                        if (association.hasMultiplicityWith(_associationClass.name)) {
+                          this._outputForRelationsBetweenClasses += "\"" + association.getStartMultiplicity(_associationClass.name) + ".." + association.getEndMultiplicity(_associationClass.name) + "\" ";
+                        }
+                        this._outputForRelationsBetweenClasses += _associationClass.name + "\n";
                     }
                 );
             }

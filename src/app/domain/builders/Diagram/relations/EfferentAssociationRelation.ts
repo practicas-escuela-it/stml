@@ -1,3 +1,4 @@
+import { Multiplicity } from "src/app/domain/entities/Multiplicity";
 import { Association } from "../../../entities/Asociation";
 import { Class } from "../../../entities/Class";
 import { Model } from "../../../entities/Model";
@@ -38,10 +39,18 @@ export class EfferentAssociationRelation extends Relation {
             _copyClass.copy(_class);
             _copyAssociation.addClass(_copyClass);
             _associationClasses.push(_copyClass);
+            this._copyMultiplicity(association, _copyAssociation, _class.name);
           });
           this._diagramClass.addAsociation(_copyAssociation);
       });
     return _associationClasses;
   }
 
+  private _copyMultiplicity(association: Association, copyAssociation: Association, className: string) {
+    if (association.hasMultiplicityWith(className)) {
+      let _multiplicity: Multiplicity = new Multiplicity();
+      _multiplicity.copy(association.getMultiplicityWith(className));
+      copyAssociation.addMultiplicity(className, _multiplicity);
+    }
+  }
 }

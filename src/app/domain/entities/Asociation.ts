@@ -1,10 +1,13 @@
 import { Class } from "./Class";
+import { Multiplicity } from "./Multiplicity";
+import { Relation } from "./Relation";
 
-export class Association {
+export class Association extends Relation {
 
     private _classes: Class[];
 
     constructor() {
+      super();
         this._classes = [];
     }
 
@@ -56,4 +59,6 @@ export class Association {
       return result;
       //return this._classes.find((_class: Class) => _class.name == _classToFind.name) != null;
     }
+
+
 }
