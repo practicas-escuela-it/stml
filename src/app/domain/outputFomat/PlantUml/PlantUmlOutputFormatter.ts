@@ -11,8 +11,8 @@ import { OutputFormatter } from "../OutputFormatter";
 
 export class PlantUmlOutputFormatter extends OutputFormatter {
 
-    private _outputForClassesBody: string;
-    private _outputForRelationsBetweenClasses: string;
+    protected _outputForClassesBody: string;
+    protected _outputForRelationsBetweenClasses: string;
 
 
     constructor(model: Model) {
@@ -30,7 +30,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         return "@startuml\n\n" + this._outputForClassesBody + this._outputForRelationsBetweenClasses + "\n@enduml\n";
     }
 
-    private formatClass(_class: Class) {
+    protected formatClass(_class: Class) {
         this._outputForClassesBody += "class " + _class.name;
         if (_class.hasInherit()) {
             this._outputForClassesBody += " extends "
@@ -45,7 +45,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         this.formatAssociations(_class);
     }
 
-    private formatInherits(_class: Class) {
+    protected formatInherits(_class: Class) {
         _class.getInherits().forEach(
             (_class: Class) => {
                 this._outputForClassesBody += _class.name + ", ";
@@ -54,7 +54,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         this._outputForClassesBody = this._outputForClassesBody.substring(0, this._outputForClassesBody.length - 2);
     }
 
-    private formatAttributes(_class: Class) {
+    protected formatAttributes(_class: Class) {
         _class.getAttributes.forEach(
             (_attribute: Attribute) => {
                 this._outputForClassesBody += "-" + _attribute.identifier.value;
@@ -68,7 +68,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         );
     }
 
-    private formatMethods(_class: Class) {
+    protected formatMethods(_class: Class) {
         _class.getMethods().forEach(
             (_method: Method) => {
                 this._outputForClassesBody += "+" + _method.identifier.value + "(";
@@ -101,7 +101,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         }
     }
 
-    private formatCompositions(_class: Class) {
+    protected formatCompositions(_class: Class) {
         _class.getCompositions().forEach(
             (composition: Composition) => {
                 composition.getClasses().forEach(
@@ -117,7 +117,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         );
     }
 
-    private formatUses(_class: Class) {
+    protected formatUses(_class: Class) {
         _class.getUses().forEach(
             (use: Use) => {
                 use.classes.forEach(
@@ -129,7 +129,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
         );
     }
 
-    private formatAssociations(_class: Class) {
+    protected formatAssociations(_class: Class) {
         _class.getAssociations().forEach(
             (association: Association) => {
                 association.classes.forEach(
