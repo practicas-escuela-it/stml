@@ -1,7 +1,5 @@
-import { Association } from "./Asociation";
 import { Class } from "./Class";
-import { Composition } from "./Composition";
-import { Use } from "./Use";
+import { Relation } from "./Relation";
 
 export class Model {
 
@@ -42,8 +40,8 @@ export class Model {
     let _refClass: Class | undefined = this._classes.get(_settedClass.name);
     if (_refClass) {
       _refClass.getAssociations().forEach(
-        (_association: Association) => {
-          _association.classes.forEach(
+        (_association: Relation) => {
+          _association.getClasses().forEach(
             (_class: Class) => {
               _classesToRemove.push(...this._getClassesToRemove(_class));
             }
@@ -67,7 +65,7 @@ export class Model {
     let _refClass: Class | undefined = this._classes.get(_settedClass.name);
     if (_refClass) {
       _refClass.getCompositions().forEach(
-        (_composition: Composition) => {
+        (_composition: Relation) => {
           _composition.getClasses().forEach(
             (_class: Class) => {
                 _classesToRemove.push(...this._getClassesToRemove(_class));
@@ -99,8 +97,8 @@ export class Model {
     let _refClass: Class | undefined = this._classes.get(_settedClass.name);
     if (_refClass) {
       _refClass.getUses().forEach(
-        (_use: Use) => {
-          _use.classes.forEach(
+        (_use: Relation) => {
+          _use.getClasses().forEach(
             (_class: Class) => {
                 _classesToRemove.push(...this._getClassesToRemove(_class));
             }
@@ -124,8 +122,8 @@ export class Model {
 
   private _addEfferentAssociationClassesOf(_class: Class): void {
     _class.getAssociations().forEach(
-      (_association: Association) => {
-        _association.classes.forEach(
+      (_association: Relation) => {
+        _association.getClasses().forEach(
           (_associationClass: Class) => {
             this.addClass(_associationClass);
             this.addClasses(_associationClass.getEfferentHierarchy());
@@ -137,7 +135,7 @@ export class Model {
 
   private _addEfferentCompositionClassesOf(_class: Class): void {
     _class.getCompositions().forEach(
-      (_composition: Composition) => {
+      (_composition: Relation) => {
         _composition.getClasses().forEach(
           (_compositionClass: Class) => {
             this.addClass(_compositionClass);
@@ -150,8 +148,8 @@ export class Model {
 
   private _addEfferentUseClassesOf(_class: Class): void {
     _class.getUses().forEach(
-      (_use: Use) => {
-        _use.classes.forEach(
+      (_use: Relation) => {
+        _use.getClasses().forEach(
           (_useClass: Class) => {
             this.addClass(_useClass);
             this.addClasses(_useClass.getEfferentHierarchy());
@@ -188,8 +186,8 @@ export class Model {
   getEfferentAssociationsOf(_class: Class): Class[] {
     let _efferentClasses: Class[] = [];
     _class.getAssociations().forEach(
-      (association: Association) => {
-        association.classes.forEach(
+      (association: Relation) => {
+        association.getClasses().forEach(
           (_class: Class) => {
             let _copyClass: Class = new Class(_class.name);
             _copyClass.copy(_class);
@@ -204,7 +202,7 @@ export class Model {
   getEfferentCompositionsOf(_class: Class): Class[] {
     let _efferentClasses: Class[] = [];
     _class.getCompositions().forEach(
-      (composition: Composition) => {
+      (composition: Relation) => {
         composition.getClasses().forEach(
           (_class: Class) => {
             let _copyClass: Class = new Class(_class.name);
@@ -220,8 +218,8 @@ export class Model {
   getEfferentUsesOf(_class: Class): Class[] {
     let _afferentClasses: Class[] = [];
     _class.getUses().forEach(
-      (use: Use) => {
-        use.classes.forEach(
+      (use: Relation) => {
+        use.getClasses().forEach(
           (_class: Class) => {
             _afferentClasses.push(_class);
           }

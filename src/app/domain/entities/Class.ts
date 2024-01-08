@@ -1,11 +1,9 @@
-import { Association } from "./Asociation";
 import { Attribute } from "./Attribute";
-import { Composition } from "./Composition";
 import { Identifier } from './Identifier';
 import { Method } from "./Method";
 import { Multiplicity } from "./Multiplicity";
 import { Parameter } from "./Parameter";
-import { Use } from "./Use";
+import { Relation } from "./Relation";
 
 export class Class {
 
@@ -13,9 +11,9 @@ export class Class {
     private _inherists: Class[];
     private _attributes: Attribute[];
     private _methods: Method[];
-    private _compositions: Composition[];
-    private _uses: Use[];
-    private _associations: Association[];
+    private _compositions: Relation[];
+    private _uses: Relation[];
+    private _associations: Relation[];
 
     constructor(name: string) {
         this._identifier = new Identifier(name);
@@ -71,7 +69,7 @@ export class Class {
         return this._methods;
     }
 
-    getCompositions(): Composition[] {
+    getCompositions(): Relation[] {
         return this._compositions;
     }
 
@@ -82,7 +80,7 @@ export class Class {
     getCompositionClasses(): Class[] {
         let _classes: Class[] = [];
         this._compositions.forEach(
-            (_composition: Composition) => {
+            (_composition: Relation) => {
                _composition.getClasses().forEach(
                 (_class: Class) => {
                   _classes.push(_class);
@@ -94,15 +92,15 @@ export class Class {
         return _classes;
     }
 
-    getUses(): Use[] {
+    getUses(): Relation[] {
         return this._uses;
     }
 
     getUseClasses(): Class[] {
         let _classes: Class[] = [];
         this._uses.forEach(
-            (_use: Use) => {
-               _use.classes.forEach(
+            (_use: Relation) => {
+               _use.getClasses().forEach(
                 (_class: Class) => {
                    _classes.push(_class);
                    _classes.push(..._class.getEfferentHierarchy());
@@ -113,15 +111,15 @@ export class Class {
         return _classes;
     }
 
-    getAssociations(): Association[] {
+    getAssociations(): Relation[] {
         return this._associations;
     }
 
     getAssociationClasses(): Class[] {
         let _classes: Class[] = [];
         this._associations.forEach(
-            (_association: Association) => {
-              _association.classes.forEach(
+            (_association: Relation) => {
+              _association.getClasses().forEach(
                 (_class: Class) => {
                   _classes.push(_class);
                   _classes.push(..._class.getEfferentHierarchy());
@@ -195,10 +193,11 @@ export class Class {
         );
     }
 
-    addComposition(composition: Composition) {
+    addComposition(composition: Relation) {
         this._compositions.push(composition);
     }
 
+    /*
     removeComposition(compositionToRemove: Composition): void {
         let i: number = 0;
         this._compositions.forEach(
@@ -211,16 +210,16 @@ export class Class {
                 i++;
             }
         );
-    }
+    }  */
 
-    addUse(use: Use) {
+    addUse(use: Relation) {
         this._uses.push(use);
     }
 
-    removeUse(useToRemove: Use) {
+    removeUse(useToRemove: Relation) {
         let i: number = 0;
         this._uses.forEach(
-            (_use: Use) => {
+            (_use: Relation) => {
                 if (_use.isEqualTo(useToRemove)) {
                     this._uses.splice(i, 1);
                     return;
@@ -230,7 +229,7 @@ export class Class {
         );
     }
 
-    addAsociation(associationToAdd: Association) {
+    addAsociation(associationToAdd: Relation) {
       this._associations.push(associationToAdd);
     }
 
@@ -270,12 +269,12 @@ export class Class {
 
     removeClassFromAssociations(_classToRemove: Class): void {
        this._associations.forEach(
-        (_association: Association) => {
+        (_association: Relation) => {
           let i: number = 0;
-          _association.classes.forEach(
+          _association.getClasses().forEach(
             (_class: Class) => {
               if (_class.name == _classToRemove.name) {
-                 _association.classes.splice(i, 1);
+                 _association.getClasses().splice(i, 1);
                  return;
               }
               i++;
@@ -287,7 +286,7 @@ export class Class {
 
     removeClassFromCompositions(_classToRemove: Class): void {
       this._compositions.forEach(
-       (_composition: Composition) => {
+       (_composition: Relation) => {
          let i: number = 0;
          _composition.getClasses().forEach(
            (_class: Class) => {
@@ -304,12 +303,12 @@ export class Class {
 
    removeClassFromUses(_classToRemove: Class): void {
     this._uses.forEach(
-     (_use: Use) => {
+     (_use: Relation) => {
        let i: number = 0;
-       _use.classes.forEach(
+       _use.getClasses().forEach(
          (_class: Class) => {
            if (_class.name == _classToRemove.name) {
-            _use.classes.splice(i, 1);
+            _use.getClasses().splice(i, 1);
               return;
            }
            i++;
@@ -331,10 +330,10 @@ export class Class {
         });
     }
 
-    removeAssociation(associationToRemove: Association) {
+    removeAssociation(associationToRemove: Relation) {
         let i: number = 0;
         this._associations.forEach(
-            (_association: Association) => {
+            (_association: Relation) => {
                 if (_association.isEqualTo(associationToRemove)) {
                     this._associations.splice(i, 1);
                     return;
@@ -393,15 +392,20 @@ export class Class {
         )
     }
 
-    private _copyAssociations(associationsToCopy: Association[]) {
+    private _copyAssociations(associationsToCopy: Relation[]) {
         associationsToCopy.forEach(
-            (associationToCopy: Association) => {
-                let _association: Association = new Association();
-                associationToCopy.classes.forEach(
+            (associationToCopy: Relation) => {
+                let _association: Relation = new Relation();
+                associationToCopy.getClasses().forEach(
                     (_classToCopy: Class) => {
                         let _class: Class = new Class(_classToCopy.name);
                         _class.copy(_classToCopy);
                         _association.addClass(_class);
+                        if (associationToCopy.hasMultiplicityWith(_class.name)) {
+                          let _multiplicity: Multiplicity = new Multiplicity();
+                          _multiplicity.copy(associationToCopy.getMultiplicityWith(_class.name));
+                          _association.addMultiplicity(_class.name, _multiplicity);
+                        }
                     }
                 );
                 this._associations.push(_association);
@@ -409,10 +413,10 @@ export class Class {
         )
     }
 
-    private _copyCompositions(compositions: Composition[]) {
+    private _copyCompositions(compositions: Relation[]) {
         compositions.forEach(
-            (composition: Composition) => {
-                let _composition: Composition = new Composition();
+            (composition: Relation) => {
+                let _composition: Relation = new Relation();
                 composition.getClasses().forEach(
                     (_class: Class) => {
                         let _copyClass: Class = new Class(_class.name);
@@ -430,15 +434,20 @@ export class Class {
         )
     }
 
-    private _copyUses(uses: Use[]) {
+    private _copyUses(uses: Relation[]) {
         uses.forEach(
-            (use: Use) => {
-                let _use: Use = new Use();
-                use.classes.forEach(
+            (use: Relation) => {
+                let _use: Relation = new Relation();
+                use.getClasses().forEach(
                     (_class: Class) => {
                         let _copyClass: Class = new Class(_class.name);
                         _copyClass.copy(_class);
                         _use.addClass(_copyClass);
+                        if (use.hasMultiplicityWith(_class.name)) {
+                          let _multiplicity: Multiplicity = new Multiplicity();
+                          _multiplicity.copy(use.getMultiplicityWith(_class.name));
+                          _use.addMultiplicity(_class.name, _multiplicity);
+                        }
                     }
                 );
                 this._uses.push(_use);
@@ -453,7 +462,7 @@ export class Class {
     hasCompositionRelationWith(_classToSearch: Class): boolean {
         let result: boolean = false;
         this._compositions.forEach(
-            (composition: Composition) => {
+            (composition: Relation) => {
                 composition.getClasses().forEach(
                     (_class: Class) => {
                         if (_class.name.trim() == _classToSearch.name.trim()) {
@@ -469,8 +478,8 @@ export class Class {
     hasAssociationRelationWith(_classToSearch: Class): boolean {
         let result: boolean = false;
         this._associations.forEach(
-            (association: Association) => {
-                association.classes.forEach(
+            (association: Relation) => {
+                association.getClasses().forEach(
                     (_class: Class) => {
                         if (_class.name.trim() == _classToSearch.name.trim()) {
                             result = true;
@@ -485,8 +494,8 @@ export class Class {
     hasUseRelationWith(_classToSearch: Class): boolean {
         let result: boolean = false;
         this._uses.forEach(
-            (use: Use) => {
-                use.classes.forEach(
+            (use: Relation) => {
+                use.getClasses().forEach(
                     (_class: Class) => {
                         if (_class.name == _classToSearch.name) {
                             result = true;

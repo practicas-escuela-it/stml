@@ -1,8 +1,8 @@
 import { Multiplicity } from "src/app/domain/entities/Multiplicity";
-import { Association } from "../../../entities/Asociation";
 import { Class } from "../../../entities/Class";
 import { Model } from "../../../entities/Model";
 import { ActionType } from "../ActionType";
+import * as EntityRelation from '../../../entities/Relation';
 import { Relation } from "./Relation";
 
 export class EfferentAssociationRelation extends Relation {
@@ -31,9 +31,9 @@ export class EfferentAssociationRelation extends Relation {
     let _associationClasses: Class[] = [];
     this._diagramClass.removeAssociations();
     this._modelClass.getAssociations().forEach(
-      (association: Association) => {
-        let _copyAssociation: Association = new Association();
-        association.classes.forEach(
+      (association: EntityRelation.Relation) => {
+        let _copyAssociation: EntityRelation.Relation = new EntityRelation.Relation();
+        association.getClasses().forEach(
           (_class: Class) => {
             let _copyClass: Class = new Class(_class.name);
             _copyClass.copy(_class);
@@ -46,7 +46,7 @@ export class EfferentAssociationRelation extends Relation {
     return _associationClasses;
   }
 
-  private _copyMultiplicity(association: Association, copyAssociation: Association, className: string) {
+  private _copyMultiplicity(association: EntityRelation.Relation, copyAssociation: EntityRelation.Relation, className: string) {
     if (association.hasMultiplicityWith(className)) {
       let _multiplicity: Multiplicity = new Multiplicity();
       _multiplicity.copy(association.getMultiplicityWith(className));

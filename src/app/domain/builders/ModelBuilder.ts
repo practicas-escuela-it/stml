@@ -1,13 +1,10 @@
-import *  as fs from "fs";
-import { Association } from "../entities/Asociation";
 import { Attribute } from "../entities/Attribute";
 import { Class } from "../entities/Class";
-import { Composition } from "../entities/Composition";
 import { Method } from "../entities/Method";
-import { Use } from "../entities/Use";
 import { ClassManager } from "./ClassManager";
 import { Model } from "../entities/Model";
 import { Multiplicity } from "../entities/Multiplicity";
+import { Relation } from "../entities/Relation";
 
 export class ModelBuilder {
 
@@ -166,7 +163,7 @@ export class ModelBuilder {
 
     private analyzeCompositions(_class: Class) {
         if (this.matchWord(this.KEYWORD_COMPOSITION)) {
-            let composition: Composition = new Composition();
+            let composition: Relation = new Relation();
             do {
                 let compositionClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (compositionClass != null) {
@@ -183,7 +180,7 @@ export class ModelBuilder {
 
     private analyzeUses(_class: Class) {
         if (this.matchWord(this.KEYWORD_USE)) {
-            let use: Use = new Use();
+            let use: Relation = new Relation();
             do {
                 let useClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (useClass != null) {
@@ -196,7 +193,7 @@ export class ModelBuilder {
 
     private analyzeAssociations(_class: Class) {
         if (this.matchWord(this.KEYWORD_ASSOCIATION)) {
-            let asociation: Association = new Association();
+            let asociation: Relation = new Relation();
             do {
                 let associationClass: Class | undefined = ClassManager.getInstance().getClass(this.getMatchedIdentifier());
                 if (associationClass != null) {

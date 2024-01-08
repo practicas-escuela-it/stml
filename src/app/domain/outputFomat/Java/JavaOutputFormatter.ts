@@ -1,12 +1,9 @@
-import { Association } from "../../entities/Asociation";
 import { Attribute } from "../../entities/Attribute";
 import { Class } from "../../entities/Class";
-import { Composition } from "../../entities/Composition";
-import { Identifier } from "../../entities/Identifier";
 import { Method } from "../../entities/Method";
 import { Model } from "../../entities/Model";
 import { Parameter } from "../../entities/Parameter";
-import { Use } from "../../entities/Use";
+import { Relation } from "../../entities/Relation";
 import { OutputFormatter } from "../OutputFormatter";
 
 export class JavaOutputFormatter extends OutputFormatter {
@@ -34,7 +31,7 @@ export class JavaOutputFormatter extends OutputFormatter {
             this.formatInherits(_class);
         }
         this._output += " { \n";
-        this.formatAttributes(_class);                
+        this.formatAttributes(_class);
         this.formatCompositions(_class);
         // this.formatUses(_class);
         this.formatAssociations(_class);
@@ -56,7 +53,7 @@ export class JavaOutputFormatter extends OutputFormatter {
                 } else {
                     this._output += "string";
                 }
-                this._output += " " + _attribute.identifier.value + ";\n";                
+                this._output += " " + _attribute.identifier.value + ";\n";
             }
         );
     }
@@ -78,13 +75,13 @@ export class JavaOutputFormatter extends OutputFormatter {
         let _outputLengthBeforeParameters: number = this._output.length;
         _parameters.forEach(
             (_parameter: Parameter) => {
-                if (!_parameter.isEmpty()) {                                        
+                if (!_parameter.isEmpty()) {
                     if (_parameter.type != null && _parameter.type.value != "") {
                         this._output += _parameter.type.value + " ";
                     } else {
                         this._output += " void ";
                     }
-                    this._output += _parameter.identifier.value + ", ";                    
+                    this._output += _parameter.identifier.value + ", ";
                 }
             }
         );
@@ -95,9 +92,9 @@ export class JavaOutputFormatter extends OutputFormatter {
 
     private formatCompositions(_class: Class) {
         _class.getCompositions().forEach(
-            (composition: Composition) => {
+            (composition: Relation) => {
                 composition.getClasses().forEach(
-                    (identifier: Class) => {                        
+                    (identifier: Class) => {
                         this._output += "\tprivate " + identifier.name + " " + identifier.name.toLowerCase() + ";\n";
                     }
                 );
@@ -107,8 +104,8 @@ export class JavaOutputFormatter extends OutputFormatter {
 
     private formatUses(_class: Class) {
         _class.getUses().forEach(
-            (use: Use) => {
-                use.classes.forEach(
+            (use: Relation) => {
+                use.getClasses().forEach(
                     (_classUse: Class) => {
                         this._output += _class.name + " ..> " + _classUse.name + "\n";
                     }
@@ -120,9 +117,9 @@ export class JavaOutputFormatter extends OutputFormatter {
     private formatAssociations(_class: Class) {
         let _associationsInConstructor: string = "\t" + _class.name + "(";
         _class.getAssociations().forEach(
-            (association: Association) => {
-                association.classes.forEach(
-                    (_classAssociation: Class) => {                        
+            (association: Relation) => {
+                association.getClasses().forEach(
+                    (_classAssociation: Class) => {
                         this._output += "\tprivate " + _classAssociation.name + " " + _classAssociation.name.toLowerCase() + ";\n";
                         _associationsInConstructor += _classAssociation.name + " " + _classAssociation.name.toLowerCase() + ", ";
                     }

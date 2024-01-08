@@ -32,7 +32,7 @@ export class DiagramBuilderComponent implements OnInit {
     this.fileContent = "";
     this.diagramUml = "";
     this._model = new Model();
-    this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.PlantUmlDecorator);
+    this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.DiagramClassDecorator);
     this.fullModel = true;
     this.selectedClass = "";
     this.classToRemove = "";
@@ -69,7 +69,7 @@ export class DiagramBuilderComponent implements OnInit {
   }
 
   private _initDiagramBuilder() {
-    this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.PlantUmlDecorator);
+    this.diagramBuilder = new DiagramBuilder(this._model, OutputFormatType.DiagramClassDecorator);
   }
 
   isBuildedModel(): boolean {

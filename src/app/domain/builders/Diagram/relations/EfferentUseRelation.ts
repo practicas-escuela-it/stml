@@ -1,8 +1,9 @@
 import { Class } from "../../../entities/Class";
-import { Use } from "../../../entities/Use";
 import { Relation } from "./Relation";
+import * as EntityRelation from "../../../entities/Relation";
 import { ActionType } from '../ActionType';
 import { Model } from "../../../entities/Model";
+import { Multiplicity } from "src/app/domain/entities/Multiplicity";
 
 export class EfferentUseRelation extends Relation {
 
@@ -30,17 +31,26 @@ export class EfferentUseRelation extends Relation {
       let _useClasses: Class[] = [];
       this._diagramClass.removeUses();
       this._modelClass.getUses().forEach(
-        (use: Use) => {
-          let _copyUse: Use = new Use();
-          use.classes.forEach(
+        (use: EntityRelation.Relation) => {
+          let _copyUse: EntityRelation.Relation = new EntityRelation.Relation();
+          use.getClasses().forEach(
             (_class: Class) => {
               let _copyClass: Class = new Class(_class.name);
               _copyClass.copy(_class);
               _copyUse.addClass(_copyClass);
               _useClasses.push(_copyClass);
+              this._copyMultiplicity(use, _copyUse, _class.name);
             });
             this._diagramClass.addUse(_copyUse);
         });
       return _useClasses;
      }
+
+     private _copyMultiplicity(use: EntityRelation.Relation, copyUse: EntityRelation.Relation, className: string) {
+      if (use.hasMultiplicityWith(className)) {
+        let _multiplicity: Multiplicity = new Multiplicity();
+        _multiplicity.copy(use.getMultiplicityWith(className));
+        copyUse.addMultiplicity(className, _multiplicity);
+      }
+    }
 }

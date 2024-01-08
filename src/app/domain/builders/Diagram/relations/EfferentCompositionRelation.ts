@@ -1,9 +1,9 @@
 import { Multiplicity } from "src/app/domain/entities/Multiplicity";
 import { Class } from "../../../entities/Class";
-import { Composition } from "../../../entities/Composition";
 import { Model } from "../../../entities/Model";
 import { ActionType } from "../ActionType";
 import { Relation } from "./Relation";
+import * as EntityRelation from "../../../entities/Relation";
 
 export class EfferentCompositionRelation extends Relation {
 
@@ -31,8 +31,8 @@ export class EfferentCompositionRelation extends Relation {
     let _compositionClasses: Class[] = [];
     this._diagramClass.removeCompositions();
     this._modelClass.getCompositions().forEach(
-      (composition: Composition) => {
-        let _copyComposition: Composition = new Composition();
+      (composition: EntityRelation.Relation) => {
+        let _copyComposition: EntityRelation.Relation = new EntityRelation.Relation();
         composition.getClasses().forEach(
           (_class: Class) => {
             let _copyClass = new Class(_class.name);
@@ -46,7 +46,7 @@ export class EfferentCompositionRelation extends Relation {
     return _compositionClasses;
   }
 
-  private _copyMultiplicity(composition: Composition, copyComposition: Composition, className: string) {
+  private _copyMultiplicity(composition: EntityRelation.Relation, copyComposition: EntityRelation.Relation, className: string) {
     if (composition.hasMultiplicityWith(className)) {
       let _multiplicity: Multiplicity = new Multiplicity();
       _multiplicity.copy(composition.getMultiplicityWith(className));

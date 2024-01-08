@@ -1,5 +1,5 @@
 export enum OutputFormatType {
     PlantUml = "PlantUml",
-    PlantUmlDecorator = "PlantUmlDecorator",
+    DiagramClassDecorator = "PlantUmlDecorator",
     Java = "Java"
 }

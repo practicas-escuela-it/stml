@@ -1,13 +1,10 @@
-import { Association } from "../../entities/Asociation";
 import { Attribute } from "../../entities/Attribute";
 import { Class } from "../../entities/Class";
-import { Composition } from "../../entities/Composition";
 import { Model } from "../../entities/Model";
-import { Identifier } from "../../entities/Identifier";
 import { Method } from "../../entities/Method";
 import { Parameter } from "../../entities/Parameter";
-import { Use } from "../../entities/Use";
 import { OutputFormatter } from "../OutputFormatter";
+import { Relation } from "../../entities/Relation";
 
 export class PlantUmlOutputFormatter extends OutputFormatter {
 
@@ -103,7 +100,7 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
 
     protected formatCompositions(_class: Class) {
         _class.getCompositions().forEach(
-            (composition: Composition) => {
+            (composition: Relation) => {
                 composition.getClasses().forEach(
                     (compositionClass: Class) => {
                         this._outputForRelationsBetweenClasses += _class.name + " *--> ";
@@ -119,8 +116,8 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
 
     protected formatUses(_class: Class) {
         _class.getUses().forEach(
-            (use: Use) => {
-                use.classes.forEach(
+            (use: Relation) => {
+                use.getClasses().forEach(
                     (_useClass: Class) => {
                         this._outputForRelationsBetweenClasses += _class.name + " ..> " + _useClass.name + "\n";
                     }
@@ -131,8 +128,8 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
 
     protected formatAssociations(_class: Class) {
         _class.getAssociations().forEach(
-            (association: Association) => {
-                association.classes.forEach(
+            (association: Relation) => {
+                association.getClasses().forEach(
                     (_associationClass: Class) => {
                         this._outputForRelationsBetweenClasses += _class.name + " o--> ";
                         if (association.hasMultiplicityWith(_associationClass.name)) {

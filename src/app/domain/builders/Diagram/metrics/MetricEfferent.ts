@@ -1,30 +1,27 @@
 import { Metric } from "./Metric";
 import { Class } from '../../../entities/Class';
 import { Model } from "../../../entities/Model";
-import { Composition } from "../../../entities/Composition";
-import { Identifier } from "../../../entities/Identifier";
-import { Use } from "../../../entities/Use";
-import { Association } from "../../../entities/Asociation";
+import { Relation } from "src/app/domain/entities/Relation";
 
 export class MetricEfferent extends Metric {
 
     private _classesEfference: Map<string, string[]>;
 
-    constructor(_model: Model) {        
-        super(_model);        
+    constructor(_model: Model) {
+        super(_model);
         this._classesEfference = new Map<string, string[]>();
         this.calculate();
     }
 
-    calculate(): void {        
+    calculate(): void {
         this._model.getClasses().forEach(
-            (_class: Class) => {            
+            (_class: Class) => {
                 let _efferences: string[] = [];
                 _efferences.push(...this.getEfferentClassesOfInherit(_class));
                 _efferences.push(...this.getEfferentClassesOfCompositions(_class));
                 _efferences.push(...this.getEfferentClassesOfAssociations(_class));
                 _efferences.push(...this.getEfferentClassesOfUses(_class));
-                if (_efferences.length > 0) {                                 
+                if (_efferences.length > 0) {
                    this._classesEfference.set(_class.name, _efferences);
                 }
             }
@@ -48,7 +45,7 @@ export class MetricEfferent extends Metric {
     private getEfferentClassesOfCompositions(_class: Class): string[] {
        let _compositionsClasses: string[] = [];
        _class.getCompositions().forEach(
-         (_compositionClass: Composition) => {
+         (_compositionClass: Relation) => {
             _compositionClass.getClasses().forEach(
                 //(_identifier: Identifier) => {
                 (_class: Class) => {
@@ -63,8 +60,8 @@ export class MetricEfferent extends Metric {
     private getEfferentClassesOfUses(_class: Class): string[] {
        let _useClasses: string[] = [];
        _class.getUses().forEach(
-          (_useClass: Use) => {
-             _useClass.classes.forEach(
+          (_useClass: Relation) => {
+             _useClass.getClasses().forEach(
                // (_identifier: Identifier) => {
                 (_class: Class) => {
                     // _useClasses.push(_identifier.value);
@@ -72,14 +69,14 @@ export class MetricEfferent extends Metric {
              )
           }
        );
-       return _useClasses;  
+       return _useClasses;
     }
 
     private getEfferentClassesOfAssociations(_class: Class): string[] {
        let _associationClasses: string[] = [];
        _class.getAssociations().forEach(
-         (_associationClass: Association) => {
-            _associationClass.classes.forEach(
+         (_associationClass: Relation) => {
+            _associationClass.getClasses().forEach(
                 // (_identifier: Identifier) => {
                 (_class: Class) => {
                     // _associationClasses.push(_identifier.value);

@@ -33,7 +33,7 @@ export class GrammarTranslationController {
     console.log(javaModel);
     fs.writeFileSync(this._basePath + "domain/controllers/javaModel.txt", javaModel);
 
-    plantUmlModel = new DiagramBuilder(model, OutputFormatType.PlantUmlDecorator)
+    plantUmlModel = new DiagramBuilder(model, OutputFormatType.DiagramClassDecorator)
       .addClass("A1")
       //.addCoupling(new Axis(Direction.EFFERENT, RelationType.ALL))
       //.addCoupling(new Axis(Direction.AFFERENT, RelationType.ALL))

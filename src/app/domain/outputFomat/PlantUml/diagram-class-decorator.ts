@@ -11,6 +11,7 @@ export class DiagramClassDecorator extends PlantUmlOutputFormatter implements Ou
     this._model.getClasses().forEach(
       (_class: Class) => {
         if (i > 0) {
+           let _efferentClasses: Class[] = this._model.getEfferentHierarchyOf(_diagramClass);
            super.formatClass(_class);
         }
         i++;
@@ -20,7 +21,7 @@ export class DiagramClassDecorator extends PlantUmlOutputFormatter implements Ou
   }
 
   protected override formatClass(_class: Class) {
-    this._outputForClassesBody += "class " + _class.name + " #palegreen;line:green "
+    this._outputForClassesBody += "class " + _class.name + " #lightblue;line:blue "
     if (_class.hasInherit()) {
       this._outputForClassesBody += " extends "
       this.formatInherits(_class);

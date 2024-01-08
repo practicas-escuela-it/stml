@@ -12,7 +12,7 @@ class A1 inherits A0
 class A2 inherits A3
    attribute a2 void
    method run_a2()
-   composition A8 (1-n) , A7 (1-3)
+   composition A8 (1-n), A7 (1-3)
    association A5 (0-n)
 
 class A3

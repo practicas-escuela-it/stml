@@ -16,7 +16,7 @@ export class OutputFormatterFactory {
     instance(model: Model): OutputFormatter {
         if (this._formatType == OutputFormatType.PlantUml) {
           return new PlantUmlOutputFormatter(model);
-        } else if (this._formatType == OutputFormatType.PlantUmlDecorator) {
+        } else if (this._formatType == OutputFormatType.DiagramClassDecorator) {
           console.log("DECORATOR")
           return new DiagramClassDecorator(model);
         } else {

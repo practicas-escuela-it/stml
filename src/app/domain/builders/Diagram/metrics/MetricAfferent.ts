@@ -1,10 +1,9 @@
-import { Association } from "../../../entities/Asociation";
 import { Class } from "../../../entities/Class";
-import { Composition } from "../../../entities/Composition";
 import { Identifier } from "../../../entities/Identifier";
 import { Metric } from "./Metric";
 import { Model } from "../../../entities/Model";
-import { Use } from "../../../entities/Use";
+import { Relation } from "src/app/domain/entities/Relation";
+import * as EntityRelation from "../../../entities/Relation";
 
 export class MetricAfferent extends Metric {
 
@@ -50,8 +49,8 @@ export class MetricAfferent extends Metric {
             (_otherClass: Class) => {
                 if (_otherClass.name != _class.name) {
                     _otherClass.getCompositions().forEach(
-                        (_compositionClass: Composition) => {
-                            // _compositionClasses.push(...this.getAfferentIdentifiers(_compositionClass.getClasses(), _class, _otherClass));                            
+                        (_compositionClass: EntityRelation.Relation) => {
+                            // _compositionClasses.push(...this.getAfferentIdentifiers(_compositionClass.getClasses(), _class, _otherClass));
                         });
                 }
             });
@@ -65,7 +64,7 @@ export class MetricAfferent extends Metric {
                 if (_identifier.value == _class.name) {
                     classes.push(_otherClass.name);
                 }
-            });        
+            });
         return classes;
     }
 
@@ -75,12 +74,12 @@ export class MetricAfferent extends Metric {
             (_otherClass: Class) => {
                 if (_otherClass.name != _class.name) {
                     _otherClass.getAssociations().forEach(
-                        (_associationClass: Association) => {
-                            // _associationsClasses.push(...this.getAfferentIdentifiers(_associationClass.classes, _class, _otherClass));                            
+                        (_associationClass: Relation) => {
+                            // _associationsClasses.push(...this.getAfferentIdentifiers(_associationClass.classes, _class, _otherClass));
                         });
                 }
             });
-        return _associationsClasses;        
+        return _associationsClasses;
     }
 
     private getAfferentUsesOn(_class: Class): string[] {
@@ -89,8 +88,8 @@ export class MetricAfferent extends Metric {
             (_otherClass: Class) => {
                 if (_otherClass.name != _class.name) {
                     _otherClass.getUses().forEach(
-                        (_useClass: Use) => {
-                            // _useClasses.push(...this.getAfferentIdentifiers(_useClass.classes, _class, _otherClass));                            
+                        (_useClass: Relation) => {
+                            // _useClasses.push(...this.getAfferentIdentifiers(_useClass.classes, _class, _otherClass));
                         });
                 }
             });
