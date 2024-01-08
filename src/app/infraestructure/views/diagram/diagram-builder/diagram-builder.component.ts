@@ -7,7 +7,6 @@ import { Class } from 'src/app/domain/entities/Class';
 import { input1 } from 'src/app/domain/controllers/input1';
 import { OutputFormatter } from 'src/app/domain/outputFomat/OutputFormatter';
 import { OutputFormatterFactory } from 'src/app/domain/outputFomat/OuputFormatterFactory';
-import { ActionType } from 'src/app/domain/builders/Diagram/ActionType';
 import { Direction } from 'src/app/domain/builders/Diagram/types/Direction';
 import { RelationType } from 'src/app/domain/builders/Diagram/types/RelationType';
 import { Axis } from 'src/app/domain/builders/Diagram/relations/Axis';
@@ -54,7 +53,6 @@ export class DiagramBuilderComponent implements OnInit {
       let outputFormatter: OutputFormatter = new OutputFormatterFactory(OutputFormatType.PlantUml).instance(this._model);
       this.diagramUml = outputFormatter.format();
     } else {
-      console.log("aplicando")
       this.diagramBuilder.addAttribute().addMethod();
       this.diagramUml = this.diagramBuilder.build();
     }

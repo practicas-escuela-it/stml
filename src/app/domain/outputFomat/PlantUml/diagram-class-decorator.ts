@@ -10,7 +10,6 @@ export class DiagramClassDecorator extends PlantUmlOutputFormatter implements Ou
   override format(): string {
     let _diagramClass: Class = this._model.getClasses()[0];
     this._formatDiagramClass(_diagramClass);
-    let i = 0;
     this._formatEfferentClassesOf(_diagramClass);
     this._formatAfferentClassesOf(_diagramClass);
 
@@ -19,7 +18,6 @@ export class DiagramClassDecorator extends PlantUmlOutputFormatter implements Ou
         if (this._formattedClasses.find((_formattedClass: string) => _class.name == _formattedClass) == null) {
            super.formatClass(_class);
         }
-        i++;
       }
     );
     return "@startuml\n\n" + this._outputForClassesBody + this._outputForRelationsBetweenClasses + "\n@enduml\n";
