@@ -119,7 +119,11 @@ export class PlantUmlOutputFormatter extends OutputFormatter {
             (use: Relation) => {
                 use.getClasses().forEach(
                     (_useClass: Class) => {
-                        this._outputForRelationsBetweenClasses += _class.name + " ..> " + _useClass.name + "\n";
+                        this._outputForRelationsBetweenClasses += _class.name + " ..> ";
+                        if (use.hasMultiplicityWith(_useClass.name)) {
+                          this._outputForRelationsBetweenClasses += "\"" + use.getStartMultiplicity(_useClass.name) + ".." + use.getEndMultiplicity(_useClass.name) + "\" ";
+                        }
+                        this._outputForRelationsBetweenClasses += _useClass.name + "\n";
                     }
                 );
             }

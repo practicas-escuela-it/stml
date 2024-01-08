@@ -250,7 +250,7 @@ export class Model {
     }
     return _afferentClasses;
   }
-
+  
   hasAfferentHierarchyTo(_settedClass: Class, count: number): boolean {
     return this.getAfferentHierarchyTo(_settedClass).length == count;
   }
