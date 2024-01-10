@@ -42,8 +42,8 @@ describe("DiagramBuilder", () => {
   testCases2.forEach(test => {
     it(`Given model '$_model', when we request REMOVE '$_operation', then we get '$_expected'`, () => {
       let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(test._model).build(), OutputFormatType.PlantUml);
-      let diagram: string = diagramBuilder.addClass(test._modelClass, ActionType.REMOVE)
-        .coupling(test._direction, test._relationType)
+      let diagram: string = diagramBuilder.addClass(test._modelClass)
+        .removeCoupling(new Axis(test._direction, test._relationType))
         .build();
       diagram = new Strings().clearSpaces(diagram);
       expect(diagram.trim() == test._expected).toBeTruthy();
@@ -53,8 +53,8 @@ describe("DiagramBuilder", () => {
   it(`Given model, when we request remove attribute, then we get all right`, () => {
     let _model: string = "class Vehicle attribute door int, claxon int";
     let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(_model).build(), OutputFormatType.PlantUml);
-    let diagram: string = diagramBuilder.setClass("Vehicle", ActionType.REMOVE)
-      .attribute(["door"])
+    let diagram: string = diagramBuilder.addClass("Vehicle")
+      .removeAttribute(["door"])
       .build();
     diagram = new Strings().clearSpaces(diagram);
     expect(diagram.trim() == "@startuml class Vehicle { -claxon: int } @enduml").toBeTruthy();
@@ -64,8 +64,8 @@ describe("DiagramBuilder", () => {
   it(`Given model, when we request remove method, then we get all right`, () => {
     let _model: string = "class Vehicle method run(velocity int) method stop()";
     let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(_model).build(), OutputFormatType.PlantUml);
-    let diagram: string = diagramBuilder.setClass("Vehicle", ActionType.REMOVE)
-      .method(["run"])
+    let diagram: string = diagramBuilder.addClass("Vehicle")
+      .removeMethod(["run"])
       .build();
     diagram = new Strings().clearSpaces(diagram);
     expect(diagram.trim() == "@startuml class Vehicle { +stop() } @enduml").toBeTruthy();
@@ -74,7 +74,7 @@ describe("DiagramBuilder", () => {
   it('Given model, when we request Add without filter, then we get empty plantuml model', () => {
     let _model = "class Car inherits Vehicle attribute tipo int class Vehicle";
     let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(_model).build(), OutputFormatType.PlantUml);
-    let diagram: string = diagramBuilder.setClass("Car", ActionType.ADD)
+    let diagram: string = diagramBuilder.addClass("Car")
       .build();
     diagram = new Strings().clearSpaces(diagram);
     expect(diagram.trim() == "@startuml class Car { } @enduml").toBeTruthy();
@@ -93,8 +93,8 @@ describe("DiagramBuilder", () => {
   testCases3.forEach(test => {
     it(`Given model '$_model' for ADD, when we request ADD '$_operation', then we get '$_expected'`, () => {
       let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(test._model).build(), OutputFormatType.PlantUml);
-      let diagram: string = diagramBuilder.setClass(test._modelClass, ActionType.ADD)
-        .coupling(test._direction, test._relationType)
+      let diagram: string = diagramBuilder.addClass(test._modelClass)
+        .addCoupling(new Axis(test._direction, test._relationType))
         .build();
       diagram = new Strings().clearSpaces(diagram);
       console.log(diagram);
@@ -105,8 +105,8 @@ describe("DiagramBuilder", () => {
   it('Given model, when we request Add attribute, then we get plantuml model with attribute', () => {
     let _model = "class Car attribute tipo int, isStarted bool";
     let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(_model).build(), OutputFormatType.PlantUml);
-    let diagram: string = diagramBuilder.setClass("Car", ActionType.ADD)
-      .attribute(["isStarted"])
+    let diagram: string = diagramBuilder.addClass("Car")
+      .addAttribute(["isStarted"])
       .build();
     diagram = new Strings().clearSpaces(diagram);
     expect(diagram.trim() == "@startuml class Car { -isStarted: bool } @enduml").toBeTruthy();
@@ -115,8 +115,8 @@ describe("DiagramBuilder", () => {
   it('Given model, when we request Add method, then we get plantuml model with requested method', () => {
     let _model = new Strings().clearSpaces("class Car inherits Vehicle attribute tipo int, isStarted bool method run (velocity real, aceleration)");
     let diagramBuilder: DiagramBuilder = new DiagramBuilder(new ModelBuilder(_model).build(), OutputFormatType.PlantUml);
-    let diagram: string = diagramBuilder.setClass("Car", ActionType.ADD)
-      .method(["run"])
+    let diagram: string = diagramBuilder.addClass("Car")
+      .addMethod(["run"])
       .build();
     diagram = new Strings().clearSpaces(diagram);
     console.log(diagram)
