@@ -2,7 +2,7 @@ export let input1 = `
 class A0
    attribute a0_1 int, a0_2 string
    method m1()
-   method m2(tipo int)
+   method m2 (tipo int)
 
 class A1 inherits A0
    attribute a1 void, a1_1 void
@@ -12,9 +12,9 @@ class A1 inherits A0
 class A2 inherits A3
    attribute a2 void
    method run_a2()
-   composition A8 (1-n)
-   use A7(1-3)
-   association A5 (0-n)
+   composition A8(1,n)
+   use A7(1,3)
+   association A5 (0,n)
 
 class A3
   attribute a3 void

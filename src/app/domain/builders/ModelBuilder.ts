@@ -5,6 +5,7 @@ import { ClassManager } from "./ClassManager";
 import { Model } from "../entities/Model";
 import { Multiplicity } from "../entities/Multiplicity";
 import { Relation } from "../entities/Relation";
+import { Strings } from "../utils/strings";
 
 export class ModelBuilder {
 
@@ -22,15 +23,8 @@ export class ModelBuilder {
     // this.classes = [];
     this.input = input;
     this.inputPointer = 0;
-    this.clearSpaces();
+    this.input = new Strings().clearSpaces(this.input);
     ClassManager.getInstance().clear();
-  }
-
-  private clearSpaces() {
-    this.input = this.input.replace(/\s+/g, " ");
-    this.input = this.input.replace(/\s*\(\s*/g, "(");
-    this.input = this.input.replace(/\s*\)\s*/g, ") ");
-    this.input = this.input.replace(/\s*,\s*/g, ",");
   }
 
   build(): Model {
@@ -91,8 +85,8 @@ export class ModelBuilder {
 
   private _getMatchedMultiplicity(): Multiplicity {
     let multiplicity: Multiplicity = new Multiplicity();
-    if (/\(\d-[\d|n]\)\s*/.test(this.input.substring(this.inputPointer))) {
-      let matchedResult: RegExpExecArray | null = /\((\d)-([\d|n])\)\s*/.exec(this.input.substring(this.inputPointer));
+    if (/^\(\d,[\d|n]\)\s+/.test(this.input.substring(this.inputPointer))) {
+      let matchedResult: RegExpExecArray | null = /^\((\d),([\d|n])\)\s+/.exec(this.input.substring(this.inputPointer));
       if (matchedResult != null) {
         multiplicity = new Multiplicity(matchedResult[1], matchedResult[2]);
         this.advanceInputPointer(matchedResult[0]);
