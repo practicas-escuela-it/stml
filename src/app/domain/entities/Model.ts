@@ -3,10 +3,12 @@ import { Relation } from "./Relation";
 
 export class Model {
 
+  private _packages: Map<string, Class[]>;
   private _classes: Map<string, Class>;
 
   constructor() {
     this._classes = new Map<string, Class>();
+    this._packages = new Map<string, Class[]>();
   }
 
   getClasses(): Class[] {
