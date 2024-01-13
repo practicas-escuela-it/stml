@@ -93,7 +93,7 @@ export class Model {
     if (_refClass) {
       _refClass.getInherits().forEach(
         (_class: Class) => {
-          if (this.getAfferentHierarchyTo(_class).length == 0) {
+          if (this._onlyHasAfferenceWith(_settedClass, _class)) {
             _classesToRemove.push(...this._getClassesToRemove(_class));
           }
         }
@@ -111,7 +111,7 @@ export class Model {
         (_use: Relation) => {
           _use.getClasses().forEach(
             (_class: Class) => {
-              if (this.getAfferentHierarchyTo(_class).length == 0) {
+              if (this._onlyHasAfferenceWith(_settedClass, _class)) {
                 _classesToRemove.push(...this._getClassesToRemove(_class));
               }
             }
