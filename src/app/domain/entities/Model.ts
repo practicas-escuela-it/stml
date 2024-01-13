@@ -56,8 +56,7 @@ export class Model {
   }
 
    private _onlyHasAfferenceWith(_settedClass: Class, _class: Class): boolean {
-    let _afferentClasses: Class[] = this.getAfferentHierarchyTo(_class);
-    console.log(_afferentClasses);
+    let _afferentClasses: Class[] = this.getAfferentHierarchyTo(_class, 1, 0);
     return _afferentClasses.find((_afferentClass: Class) => _afferentClass.name != _settedClass.name) == null;
   }
 
@@ -77,7 +76,6 @@ export class Model {
           _composition.getClasses().forEach(
             (_class: Class) => {
               if (this._onlyHasAfferenceWith(_settedClass, _class)) {
-                console.log("AAAAAAAAAAAAAAAAAAAAAA")
                 _classesToRemove.push(...this._getClassesToRemove(_class));
               }
             }
@@ -248,7 +246,7 @@ export class Model {
     return _class.getInherits();
   }
 
-  getAfferentHierarchyTo(_settedClass: Class): Class[] {
+  getAfferentHierarchyTo(_settedClass: Class, depth: number = 0, countDepth: number = 0): Class[] {
     let _afferentClasses: Class[] = [];
     let _refClass: Class | undefined = this._classes.get(_settedClass.name);
     if (_refClass) {
@@ -258,7 +256,10 @@ export class Model {
             let _afferentClass: Class = new Class(_class.name);
             _afferentClass.copy(_class);
             _afferentClasses.push(_afferentClass);
-            _afferentClasses.push(...this.getAfferentHierarchyTo(_class));
+            countDepth++;
+            if (depth > 0 && countDepth < depth) {
+              _afferentClasses.push(...this.getAfferentHierarchyTo(_class));
+            }
           }
         }
       );
