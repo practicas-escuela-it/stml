@@ -43,7 +43,9 @@ export class Model {
         (_association: Relation) => {
           _association.getClasses().forEach(
             (_class: Class) => {
-              _classesToRemove.push(...this._getClassesToRemove(_class));
+              if (this._onlyHasAfferenceWith(_settedClass, _class)) {
+                _classesToRemove.push(...this._getClassesToRemove(_class));
+              }
             }
           );
         }
@@ -51,6 +53,12 @@ export class Model {
       _refClass.removeAssociations();
       this.removeClasses(_classesToRemove);
     }
+  }
+
+   private _onlyHasAfferenceWith(_settedClass: Class, _class: Class): boolean {
+    let _afferentClasses: Class[] = this.getAfferentHierarchyTo(_class);
+    console.log(_afferentClasses);
+    return _afferentClasses.find((_afferentClass: Class) => _afferentClass.name != _settedClass.name) == null;
   }
 
   private _getClassesToRemove(_class: Class): Class[] {
@@ -68,7 +76,10 @@ export class Model {
         (_composition: Relation) => {
           _composition.getClasses().forEach(
             (_class: Class) => {
+              if (this._onlyHasAfferenceWith(_settedClass, _class)) {
+                console.log("AAAAAAAAAAAAAAAAAAAAAA")
                 _classesToRemove.push(...this._getClassesToRemove(_class));
+              }
             }
           )
         }
@@ -84,7 +95,9 @@ export class Model {
     if (_refClass) {
       _refClass.getInherits().forEach(
         (_class: Class) => {
-          _classesToRemove.push(...this._getClassesToRemove(_class));
+          if (this.getAfferentHierarchyTo(_class).length == 0) {
+            _classesToRemove.push(...this._getClassesToRemove(_class));
+          }
         }
       );
       _refClass.removeInherits();
@@ -100,7 +113,9 @@ export class Model {
         (_use: Relation) => {
           _use.getClasses().forEach(
             (_class: Class) => {
+              if (this.getAfferentHierarchyTo(_class).length == 0) {
                 _classesToRemove.push(...this._getClassesToRemove(_class));
+              }
             }
           )
         }
@@ -233,13 +248,13 @@ export class Model {
     return _class.getInherits();
   }
 
-  getAfferentHierarchyTo(_diagramClass: Class): Class[] {
+  getAfferentHierarchyTo(_settedClass: Class): Class[] {
     let _afferentClasses: Class[] = [];
-    let _refClass: Class | undefined = this._classes.get(_diagramClass.name);
+    let _refClass: Class | undefined = this._classes.get(_settedClass.name);
     if (_refClass) {
       this._classes.forEach(
         (_class: Class) => {
-          if (_class.name != _diagramClass.name && _class.hasAnyRelationWith(_diagramClass)) {
+          if (_class.name != _settedClass.name && _class.hasAnyRelationWith(_settedClass)) {
             let _afferentClass: Class = new Class(_class.name);
             _afferentClass.copy(_class);
             _afferentClasses.push(_afferentClass);
@@ -250,7 +265,7 @@ export class Model {
     }
     return _afferentClasses;
   }
-  
+
   hasAfferentHierarchyTo(_settedClass: Class, count: number): boolean {
     return this.getAfferentHierarchyTo(_settedClass).length == count;
   }
@@ -266,7 +281,6 @@ export class Model {
   }
 
   removeClass(_class: Class): void {
-    let _index: number = 0;
     if (this._classes.has(_class.name)) {
       this._classes.delete(_class.name);
     }
@@ -275,7 +289,7 @@ export class Model {
   removeClasses(_classes: Class[]): void {
     _classes.forEach(
       (_class: Class) => {
-          this.removeClass(_class);
+        this.removeClass(_class);
       }
     );
   }

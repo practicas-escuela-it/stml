@@ -17,7 +17,7 @@ export class EfferentInheritRelation extends Relation {
         this._diagramModel.addClasses(this._getInheritEfferentClasses());
         this._diagramModel.getClasses().forEach(
           (_class: Class) => {
-            this._diagramModel.addEfferentHierarchyOf(_class);
+             this._diagramModel.addEfferentHierarchyOf(_class);
           }
         );
       } else {

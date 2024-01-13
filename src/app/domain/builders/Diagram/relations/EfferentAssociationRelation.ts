@@ -23,7 +23,7 @@ export class EfferentAssociationRelation extends Relation {
         }
       );
     } else {
-      this._diagramModel.removeAssociationsOf(this._diagramClass)
+     this._diagramModel.removeAssociationsOf(this._diagramClass)
     }
   }
 

@@ -358,6 +358,7 @@ export class Class {
     }
 
     private _copyInherits(inheritsToCopy: Class[]) {
+        this._inherists = [];
         inheritsToCopy.forEach(
             (_classToCopy: Class) => {
                 let _class = new Class(_classToCopy.name);
@@ -368,6 +369,7 @@ export class Class {
     }
 
     private _copyMethods(methods: Method[]) {
+        this._methods = [];
         methods.forEach(
             (_method: Method) => {
                 let method = new Method();
@@ -383,6 +385,7 @@ export class Class {
     }
 
     private _copyAttributes(attributes: Attribute[]) {
+      this._attributes = [];
         attributes.forEach(
             (attribute: Attribute) => {
                 let _attribute: Attribute = new Attribute();
@@ -393,6 +396,7 @@ export class Class {
     }
 
     private _copyAssociations(associationsToCopy: Relation[]) {
+      this._associations = [];
         associationsToCopy.forEach(
             (associationToCopy: Relation) => {
                 let _association: Relation = new Relation();
@@ -414,6 +418,7 @@ export class Class {
     }
 
     private _copyCompositions(compositions: Relation[]) {
+        this._compositions = [];
         compositions.forEach(
             (composition: Relation) => {
                 let _composition: Relation = new Relation();
@@ -435,6 +440,7 @@ export class Class {
     }
 
     private _copyUses(uses: Relation[]) {
+        this._uses = [];
         uses.forEach(
             (use: Relation) => {
                 let _use: Relation = new Relation();

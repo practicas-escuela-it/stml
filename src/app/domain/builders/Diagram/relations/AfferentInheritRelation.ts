@@ -27,7 +27,7 @@ export class AfferentInheritRelation extends Relation {
           let _copyClass: Class = new Class(_class.name);
           _copyClass.copy(_class);
           _classes.push(_copyClass);
-          _classes.push(...this._model.getAfferentHierarchyTo(_copyClass));
+          _classes.push(...this._model.getAfferentHierarchyTo(_class));
         }
       }
     );
