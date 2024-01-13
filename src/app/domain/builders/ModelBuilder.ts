@@ -16,6 +16,7 @@ export class ModelBuilder {
   private readonly KEYWORD_COMPOSITION: RegExp = new RegExp(/^composition\s+/);
   private readonly KEYWORD_USE: RegExp = new RegExp(/^use\s+/);
   private readonly KEYWORD_ASSOCIATION: RegExp = new RegExp(/^association\s+/);
+  private readonly KEYWORD_PACKAGE: RegExp = new RegExp(/package\s+/);
   private input: string;
   private inputPointer: number;
 
