@@ -15,6 +15,6 @@ describe("ClassManager", () => {
     it("Given empty classManager, when we request its instance, then it will have no classes", () => {
       let classManager: ClassManager = ClassManager.getInstance();
       ClassManager.getInstance().clear();
-      expect(classManager.getAllClasses().hasClasses()).toBeFalsy();
+      expect(classManager.getModel().hasClasses()).toBeFalsy();
    });
 });

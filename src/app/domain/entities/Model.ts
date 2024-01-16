@@ -1,14 +1,15 @@
 import { Class } from "./Class";
 import { Relation } from "./Relation";
+import { Package } from "./package";
 
 export class Model {
 
-  private _packages: Map<string, Class[]>;
+  private _packages: Map<string, Package>;
   private _classes: Map<string, Class>;
 
   constructor() {
     this._classes = new Map<string, Class>();
-    this._packages = new Map<string, Class[]>();
+    this._packages = new Map<string, Package>();
   }
 
   getClasses(): Class[] {
@@ -35,6 +36,16 @@ export class Model {
     if (!this._classes.has(_class.name)) {
       this._classes.set(_class.name, _class);
     }
+  }
+
+  addPackage(_package: Package): void {
+    if (!this._packages.has(_package.name)) {
+      this._packages.set(_package.name, _package);
+    }
+  }
+
+  getPackage(packageName: string): Package {
+    return this._packages.get(packageName) as Package;
   }
 
   removeAssociationsOf(_settedClass: Class): void {

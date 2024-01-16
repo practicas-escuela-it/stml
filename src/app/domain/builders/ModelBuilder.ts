@@ -16,7 +16,7 @@ export class ModelBuilder {
   private readonly KEYWORD_COMPOSITION: RegExp = new RegExp(/^composition\s+/);
   private readonly KEYWORD_USE: RegExp = new RegExp(/^use\s+/);
   private readonly KEYWORD_ASSOCIATION: RegExp = new RegExp(/^association\s+/);
-  private readonly KEYWORD_PACKAGE: RegExp = new RegExp(/package\s+/);
+  private readonly KEYWORD_PACKAGE: RegExp = new RegExp(/^\s*package\s+/);
   private input: string;
   private inputPointer: number;
 
@@ -29,10 +29,20 @@ export class ModelBuilder {
   }
 
   build(): Model {
-    while (this.matchWord(this.KEYWORD_CLASS)) {
-      this.analyzeClass();
+    while (this.matchWord(this.KEYWORD_PACKAGE)) {
+      this._analyzePackage();
+      while (this.matchWord(this.KEYWORD_CLASS)) {
+         this.analyzeClass();
+       }
     }
-    return ClassManager.getInstance().getAllClasses();
+    return ClassManager.getInstance().getModel();
+  }
+
+  private _analyzePackage(): void {
+    let identifier: string = this.getMatchedIdentifier();
+    if (identifier != "") {
+       ClassManager.getInstance().createPackage(identifier);
+    }
   }
 
   private analyzeClass(): void {
@@ -49,8 +59,9 @@ export class ModelBuilder {
 
   private matchWord(expReg: RegExp): boolean {
     let matchedWord = expReg.exec(this.input.substring(this.inputPointer));
-    if (matchedWord != null)
+    if (matchedWord != null) {
       this.inputPointer += matchedWord[0].length;
+    }
     return matchedWord != null;  //&& matchedWord[0].length > 0;
   }
 

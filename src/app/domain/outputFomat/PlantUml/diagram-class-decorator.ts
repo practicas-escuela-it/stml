@@ -3,7 +3,7 @@ import { Relation } from "../../entities/Relation";
 import { OutputFormatter } from "../OutputFormatter";
 import { PlantUmlOutputFormatter } from "./PlantUmlOutputFormatter";
 
-export class DiagramClassDecorator extends PlantUmlOutputFormatter implements OutputFormatter {
+export class DiagramClassDecorator extends PlantUmlOutputFormatter {
 
   private _formattedClasses: string[] = [];
 
@@ -12,10 +12,9 @@ export class DiagramClassDecorator extends PlantUmlOutputFormatter implements Ou
     this._formatDiagramClass(_diagramClass);
     this._formatEfferentClassesOf(_diagramClass);
     this._formatAfferentClassesOf(_diagramClass);
-
     this._model.getClasses().forEach(
       (_class: Class) => {
-        if (this._formattedClasses.find((_formattedClass: string) => _class.name == _formattedClass) == null) {
+        if (!this._isFormattedClass(_class)) {
            super.formatClass(_class);
         }
       }
@@ -110,5 +109,9 @@ export class DiagramClassDecorator extends PlantUmlOutputFormatter implements Ou
     this.formatCompositions(_class);
     this.formatUses(_class);
     this.formatAssociations(_class);
+  }
+
+  private _isFormattedClass(_class: Class): boolean {
+    return this._formattedClasses.find((_formattedClass: string) => _class.name == _formattedClass) != null;
   }
 }

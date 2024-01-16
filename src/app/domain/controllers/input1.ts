@@ -1,4 +1,6 @@
 export let input1 = `
+package main
+
 class A0
    attribute a0_1 int, a0_2 string
    method m1()
